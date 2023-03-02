@@ -1,0 +1,6 @@
+
+Showing All Messages
+No signing certificate "iOS Development" found: No "iOS Development" signing certificate matching team ID "ZXL7C6CP2D" with a private key was found.
+
+The operation couldn’t be completed. Unable to log in with account 'a.ueda0523@gmail.com'. The login details for account 'a.ueda0523@gmail.com' were rejected.
+

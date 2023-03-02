@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellId" id="IZ3-a2-Jcs" customClass="OtokuCollectionViewCell" customModule="RedMoon2021" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="H1s-LB-lZn">
+                <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="otoku" translatesAutoresizingMaskIntoConstraints="NO" id="4y8-zP-Tap">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <color key="backgroundColor" red="0.55294117649999996" green="0.70661826360000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="【毎月９日・１９日・２９日】ディッパーダンのクレープ全品330円" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="HD3-eC-IKn">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="400" id="LAY-gd-5sp"/>
+                            <constraint firstAttribute="width" constant="400" id="tsz-OY-Uea"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="4y8-zP-Tap" secondAttribute="trailing" id="623-lR-7r8"/>
+                    <constraint firstItem="4y8-zP-Tap" firstAttribute="leading" secondItem="H1s-LB-lZn" secondAttribute="leading" id="H31-61-ZqY"/>
+                    <constraint firstItem="4y8-zP-Tap" firstAttribute="top" secondItem="H1s-LB-lZn" secondAttribute="top" id="HPL-Yc-WiZ"/>
+                    <constraint firstItem="HD3-eC-IKn" firstAttribute="leading" secondItem="H1s-LB-lZn" secondAttribute="leading" id="P8G-o9-ffd"/>
+                    <constraint firstAttribute="bottom" secondItem="HD3-eC-IKn" secondAttribute="bottom" id="RKc-SW-kav"/>
+                    <constraint firstAttribute="trailing" secondItem="HD3-eC-IKn" secondAttribute="trailing" id="aeX-dZ-16P"/>
+                    <constraint firstItem="HD3-eC-IKn" firstAttribute="top" secondItem="H1s-LB-lZn" secondAttribute="top" id="kgW-Eu-F9u"/>
+                    <constraint firstAttribute="bottom" secondItem="4y8-zP-Tap" secondAttribute="bottom" id="mOx-A2-0r3"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="465" height="440"/>
+            <connections>
+                <outlet property="otokuImage" destination="4y8-zP-Tap" id="op8-xJ-n5d"/>
+                <outlet property="otokuLabel" destination="HD3-eC-IKn" id="Pmz-XQ-0Lf"/>
+            </connections>
+            <point key="canvasLocation" x="-184.05797101449278" y="129.24107142857142"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="otoku" width="150" height="150"/>
+    </resources>
+</document>
