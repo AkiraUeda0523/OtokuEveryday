@@ -242,6 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				0640D957298BB4E800E28E87 /* CalendarModel.swift */,
+				0640D95B2992299000E28E87 /* MapModel.swift */,
 				06D2C3AD26EF4F0300EECA89 /* OtokuModel.swift */,
 				0639AE06275E3A280058DDAE /* SlideShowModel.swift */,
 				06858985273414A300CB4AA8 /* GetDateModel.swift */,
@@ -250,7 +251,6 @@
 				0679C3C628CA162100BDA3BA /* DBRegisterModel.swift */,
 				06BFD29729644677002DCF84 /* SetAdMobModel.swift */,
 				0640D9592990BF1800E28E87 /* DBContentPrintDisplayModel.swift */,
-				0640D95B2992299000E28E87 /* MapModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -288,9 +288,9 @@
 			isa = PBXGroup;
 			children = (
 				06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */,
+				067ACF1328D3F506006EF4C9 /* MapViewModel.swift */,
 				06D2C3B626F4483300EECA89 /* DayHandlingModel.swift */,
 				06BDD45F280292FF00775830 /* DataConstructionModel.swift */,
-				067ACF1328D3F506006EF4C9 /* MapViewModel.swift */,
 				062083282912648C00CECF13 /* Alert.swift */,
 				065AF7FE291398B80011CD88 /* MapStateManagementModel .swift */,
 				06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */,
