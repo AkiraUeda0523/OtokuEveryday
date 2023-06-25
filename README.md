@@ -7,6 +7,15 @@
 飲食店やレジャー施設などの実店舗、ショッピングサイト、ポイ活に最適なアプリなどのお得情報をご紹介しています。
  
 ![完成版6 5インチ修正ラスト？ 001](https://user-images.githubusercontent.com/78495222/233771373-bb67a410-37c7-4bdc-a8a8-55ce6de0ae2e.png)
+## アプリ内使用技術でのプロポーザル申し込み履歴 
+### ・iOSDC Japan 2023
+<img width="400" alt="スクリーンショット 2023-06-25 18 18 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/1d38f95d-5b1b-4a19-88a5-e70629c5c020">
+<img width="400" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
+
+### ・iOSDC Japan 2022(残念ながら落選)
+<img width="400" alt="スクリーンショット 2023-06-25 18 20 29" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/170fd570-4bf3-49d9-8f27-a7a1e7fc81d8">
+<img width="400" alt="スクリーンショット 2023-06-25 18 15 14" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/ef6d8d45-81b6-4e19-b6e8-908bffb966fb">
+
 ## 環境
 
 - Language：Swift
@@ -29,9 +38,11 @@
 
 
 
-### 
-CoreLocation 内のCLGeocoderクラスを使い倒す
+### ・CoreLocation 内のCLGeocoderクラスを使い倒す
 ```swift
+ ViewModel.swift
+
+
  modelBoxObservable
             .map { boxs in
                 boxs.filter { $0.address.longitude == nil || $0.address.latitude == nil }
@@ -65,7 +76,13 @@ CoreLocation 内のCLGeocoderクラスを使い倒す
             })
             .disposed(by: disposeBag)
 ```
+
+
 ```swift
+ ViewModel.swift
+
+
+
  private func moveModelBoxFirstIfNeeded() {
         if self.addAnnotationRetryCount < 500 && self.selectSegmentIndexType == 0{
             self.addAnnotationRetryCount += 1
@@ -86,7 +103,81 @@ CoreLocation 内のCLGeocoderクラスを使い倒す
         }
     }
 ```
+・map操作 : ボックスのリストから、経度または緯度が`nil`のボックスをフィルタリングします。これは、地理座標情報がまだ設定されていないボックスのみを取得します。
+
+・compactMap操作 : フィルタリングされたボックスのリストの最初の要素（存在する場合）を取得します。
+
+・subscribe(onNext:)操作 : ここで、フィルタリングされたリストの最初のボックスが`nil`でないか、また、そのボックスのアドレス内容が空でないことをチェックします。これらの条件が満たされない場合、`moveModelBoxFirstIfNeeded`メソッドが呼び出されます。
+
+`moveModelBoxFirstIfNeeded`メソッドは、条件により、現在のアノテーションモデルから特定の要素を削除する役割を果たします。
+経度がnilの最初のアノテーションが削除されます。これはリトライメカニズムの一部として機能します。
+
 このように、`moveModelBoxFirstIfNeeded()`を使用することでGeocoderの制約を交わしつつ限界まで使い回すことができる。
+
+
+### ・Compositional LayoutにおけるUISegmentedControlの活用
+```swift
+func makeLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (section: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            if GALLERY_SECTION.contains(section) {
+                let sectionLayout = LayoutBuilder.rectangleHorizonContinuousWithFooterSection(collectionViewBounds: self.collectionView.bounds)
+                sectionLayout.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, _ in
+                    guard let self = self else { return }
+                    guard !visibleItems.isEmpty else { return }
+                    // Find the item that is closest to the center of the screen
+                    let centerOffset = offset.x + self.collectionView.bounds.width / 2
+                    var smallestDistance = CGFloat.infinity
+                    var closestIndex = 0
+                    for item in visibleItems {
+                        let distance = abs(item.frame.midX - centerOffset)
+                        if distance < smallestDistance {
+                            smallestDistance = distance
+                            closestIndex = item.indexPath.item
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        let footer = self.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section)) as? FooterView
+                        footer?.pageControl.currentPage = closestIndex
+                    }
+                }
+                return sectionLayout
+            } else if TEXT_SECTION.contains(section) {
+                return LayoutBuilder.buildTextSectionLayout()
+            } else if LIST_SECTION.contains(section) {
+                let sectionLayout = LayoutBuilder.buildHorizontalTableSectionLayout(collectionViewBounds: self.collectionView.bounds)
+                sectionLayout.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, _ in
+                    guard let self = self else { return }
+                    guard !visibleItems.isEmpty else { return }
+                    // Find the item that is closest to the center of the screen
+                    let centerOffset = offset.x + self.collectionView.bounds.width / 2
+                    var smallestDistance = CGFloat.infinity
+                    var closestIndex = 0
+                    for item in visibleItems {
+                        let distance = abs(item.frame.midX - centerOffset)
+                        if distance < smallestDistance {
+                            smallestDistance = distance
+                            closestIndex = item.indexPath.item
+                        }
+                    }
+                    let closestGroupIndex = closestIndex / 3
+                    DispatchQueue.main.async {
+                        let footer = self.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section)) as? FooterView
+                        footer?.pageControl.currentPage = closestGroupIndex
+                    }
+                }
+                return sectionLayout
+            }
+            return LayoutBuilder.buildHorizontalTableSectionLayout(collectionViewBounds: self.collectionView.bounds)
+        }
+        return layout
+    }
+```
+UISegmentedControlの動作判定には`visibleItemsInvalidationHandler`を利用しました。
+`UICollectionView`のセクションで現在表示されているアイテム（セル）に関する情報を取得し、それを用いて特定の操作を実行するためのハンドラーです。
+
+スクロール中のセクションで画面中央に最も近いアイテムを特定し、そのアイテムのインデックス情報を取得し、セクションのフッタービューに配置されたページコントロールの現在のページを更新します。
+これにより、ユーザーは自分が何ページ目を見ているのかを判断できます。
+この操作は、ユーザーがスクロールしたときに動的に行われます。
 
 ## 使用ライブラリ一覧
 Alamofire,RxSwift,
