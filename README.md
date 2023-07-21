@@ -35,8 +35,7 @@
 - AdMob
 ---
  ## このプロジェクトの開発において、工夫した点など
-
-
+### ・MapKitのstatus紛失時の挙動を制御する
 
 ### ・CoreLocation 内のCLGeocoderクラスを使い倒す
 ```swift
