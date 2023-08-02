@@ -60,7 +60,6 @@
         calendarViewModel
             .output
             .showableInfosObservable
-            .debug("流れてくる")
             .observe(on: MainScheduler.instance)
             .bind(to: otokuCollectionView.rx.items(cellIdentifier: cellId, cellType: OtokuCollectionViewCell.self)) { row, element, cell in
                 cell.otokuLabel.text = element.article_title
@@ -195,7 +194,6 @@ func makeLayout() -> UICollectionViewLayout {
                 sectionLayout.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, _ in
                     guard let self = self else { return }
                     guard !visibleItems.isEmpty else { return }
-                    // Find the item that is closest to the center of the screen
                     let centerOffset = offset.x + self.collectionView.bounds.width / 2
                     var smallestDistance = CGFloat.infinity
                     var closestIndex = 0
