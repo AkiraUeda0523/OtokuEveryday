@@ -44,7 +44,36 @@
 ４.　　ただ今回はセグメント数が２つと少ない為、単純に2画面方式（セグメント切り替えでisHidden）に落ち着く。
 ただ今後仮に切り替え数が増えると画面だらけになって大変だと感じる為今回の様な状態には適していると感じる。
 
-### ・
+### ・RxSwiftとRxCocoaのバインディングを使用して、UICollectionViewにデータを表示
+```swift
+ ViewController.swift
+
+ private func collectionViewObserveList() {
+        otokuCollectionView.delegate = nil
+        otokuCollectionView.dataSource = nil
+        calendarViewModel
+            .output
+            .showableInfosObservable
+            .debug("流れてくる")
+            .observe(on: MainScheduler.instance)
+            .bind(to: otokuCollectionView.rx.items(cellIdentifier: cellId, cellType: OtokuCollectionViewCell.self)) { row, element, cell in
+                cell.otokuLabel.text = element.article_title
+                let url = URL(string: element.collectionView_image_url) ?? URL(string: self.defaultImageUrl)!
+                if url.absoluteString == self.defaultImageUrl {
+                    cell.otokuImage.contentMode = .scaleAspectFit
+                } else {
+                    cell.otokuImage.contentMode = .scaleAspectFill
+                }
+                cell.otokuImage.af.setImage(withURL: url, imageTransition: .crossDissolve(0.5))
+            }
+            .disposed(by: disposeBag)
+    }
+
+```
+
+・bind(to: otokuCollectionView.rx.items(cellIdentifier: cellId, cellType: OtokuCollectionViewCell.self)) { row, element, cell in ... } (データソースメソッドで言うところのcellForItemAt)
+・セクション数が明示的に定義していないため、デフォルトのセクション数1（データソースメソッドで言うところのnumberOfSections(in:)）
+・observe(on: MainScheduler.instance).bind(to: otokuCollectionView.rx.items(...))（Observableが発行するアイテムの数が、セクション内のアイテム数に対応。データソースメソッドで言うところのnumberOfItemsInSection）
 ### ・
 ### ・
 
