@@ -8,7 +8,7 @@
  
 ![完成版6 5インチ修正ラスト？ 001](https://user-images.githubusercontent.com/78495222/233771373-bb67a410-37c7-4bdc-a8a8-55ce6de0ae2e.png)
 ## アプリ内使用技術でのプロポーザル申し込み履歴 
-### ・iOSDC Japan 2023
+### ・iOSDC Japan 2023（採択戴きました！）
 <img width="400" alt="スクリーンショット 2023-06-25 18 18 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/1d38f95d-5b1b-4a19-88a5-e70629c5c020">
 <img width="400" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
 
