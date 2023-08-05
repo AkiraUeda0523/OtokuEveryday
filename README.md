@@ -36,6 +36,7 @@
 - Firebase/InAppMessaging
 - RealmSwift
 - AdMob
+- Swinject
 ---
  ## このプロジェクトの開発において、工夫した点など
 ### ・MapKitのstatus紛失時の挙動を制御する
@@ -245,7 +246,7 @@ Alamofire,RxSwift,
   RealmSwift,
   Nuke, 
   RxTest,
-  RxBlocking
+  RxBlocking,Swinject
 ## 機能一覧
 - 匿名認証
 - 位置情報検索機能
