@@ -166,7 +166,7 @@
 このように、`moveModelBoxFirstIfNeeded()`を使用することでGeocoderの制約を交わしつつ限界まで使い回すことができる。
 
 
-### ・Compositional LayoutにおけるUISegmentedControlの活用
+### ・Compositional LayoutにおけるUIPageControlの活用
 ```swift
 func makeLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (section: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
@@ -222,7 +222,7 @@ func makeLayout() -> UICollectionViewLayout {
         return layout
     }
 ```
-UISegmentedControlの動作判定には`visibleItemsInvalidationHandler`を利用しました。
+UIPageControlの動作判定には`visibleItemsInvalidationHandler`を利用しました。
 `UICollectionView`のセクションで現在表示されているアイテム（セル）に関する情報を取得し、それを用いて特定の操作を実行するためのハンドラーです。
 
 スクロール中のセクションで画面中央に最も近いアイテムを特定し、そのアイテムのインデックス情報を取得し、セクションのフッタービューに配置されたページコントロールの現在のページを更新します。
@@ -253,12 +253,11 @@ Alamofire,RxSwift,
   RxBlocking,Swinject
 ## 機能一覧
 - 匿名認証
+
 - 位置情報検索機能
 
 ## テスト
 - 単体テスト(model)
-- 
-- 
  
 ## 注意点
  
