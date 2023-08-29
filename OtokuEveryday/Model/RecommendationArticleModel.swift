@@ -27,8 +27,8 @@ struct  RecommendModel:Hashable{
     var article_sub_title:String
     var blog_web_url:String
     var collectionView_image_url:String
-    var type:Int//intへ変更⚠️
-    var month:Int//intへ変更⚠️
+    var type:Int
+    var month:Int
     var name:String
 }
 struct RecomendTitleModel:Hashable{

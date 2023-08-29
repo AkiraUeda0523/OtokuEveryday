@@ -1,8 +1,6 @@
 
 
 import UIKit
-import RxSwift
-import RxCocoa
 import Firebase
 
 struct ScrollModel {

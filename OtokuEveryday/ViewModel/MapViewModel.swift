@@ -310,7 +310,7 @@ extension MapViewModel: MapViewModelOutput{
                 article.address_ids.compactMap {  id -> OtokuAddressModel? in
                     address.first(where: { $0.address_id == id })
                 }
-                .convertOtokuMapModel2(article: article)
+                .convertOtokuMapModel(article: article)
             }
         }
     }
@@ -343,7 +343,7 @@ extension MapViewModel: MapViewModelOutput{
 }
 //MARK: -
 extension Array where Element == OtokuAddressModel {
-    func convertOtokuMapModel2(article: OtokuDataModel) -> [OtokuMapModel] {
+    func convertOtokuMapModel(article: OtokuDataModel) -> [OtokuMapModel] {
         map { address in
             OtokuMapModel(
                 address: address,

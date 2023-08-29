@@ -49,17 +49,3 @@ struct OtokuAddressModel: Equatable ,Codable{
     let latitude:Double?
     let longitude:Double?
 }
-
-//MARK: -
-extension Array where Element == OtokuAddressModel {
-    func convertOtokuMapModel(article: OtokuDataModel) -> [OtokuMapModel] {
-        map { address in
-            OtokuMapModel(
-                address: address,
-                article_title: article.article_title,
-                blog_web_url: article.blog_web_url,
-                id: address.address_id
-            )
-        }
-    }
-}
