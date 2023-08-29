@@ -5,6 +5,9 @@
       location = "group:/Users/uedaakira/Documents/OtokuEveryday/OtokuEveryday.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:File.swift">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>
