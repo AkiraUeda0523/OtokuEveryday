@@ -12,7 +12,6 @@ import RxCocoa
 import RealmSwift
 import Swinject
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let container = Container()
