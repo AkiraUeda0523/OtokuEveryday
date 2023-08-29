@@ -10,9 +10,7 @@ import UIKit
 final class Alert {
     static func okAlert(vc: UIViewController,title: String, message: String, handler: ((UIAlertAction) -> Void)? = nil) {
         let okAlertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        // キャンセルボタン
         let cancelAction: UIAlertAction = UIAlertAction(title: "閉じる", style: UIAlertAction.Style.cancel, handler:{
-        // ボタンが押された時の処理を書く（クロージャ実装）
             (action: UIAlertAction!) -> Void in
         })
         okAlertVC.addAction(cancelAction)

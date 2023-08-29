@@ -16,9 +16,6 @@ public class RecommendTitleText: UICollectionViewCell {
     }()
     var recommendLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.shadowColor = UIColor.lightGray
-        label.layer.shadowOpacity = 0.3
-        label.shadowOffset = CGSize(width: 2, height: 2)
         label.textAlignment = NSTextAlignment.center
         var font = UIFont(name: "ヒラギノ丸ゴ ProN", size: 20)
         font = UIFont.boldSystemFont(ofSize: 20)
@@ -27,7 +24,6 @@ public class RecommendTitleText: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.addSubview(self.container)

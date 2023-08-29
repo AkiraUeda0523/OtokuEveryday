@@ -1,32 +1,27 @@
-//
-//  MapViewModel.swift
-//  RedMoon2021
-//
-//  Created by 上田晃 on 2023/01/10.
-//
-
+////
+////  MapViewModel.swift
+////  RedMoon2021
+////
+////  Created by 上田晃 on 2022/09/16.
+////
 import Foundation
 import RxSwift
 import RxRelay
 import MapKit
+import GoogleMobileAds
 import FirebaseFirestore
 
 protocol MapViewModelInput {
     var articleObserver: AnyObserver<[OtokuDataModel]> { get }
     var addressObserver: AnyObserver<[OtokuAddressModel]> { get }
-    var currentSegmente: BehaviorRelay<MapViewController.SegmentedType> { get }//注
-    //--------------------------------------------------------------------------------
+    var currentSegmente: BehaviorRelay<MapViewController.SegmentedType> { get }
     var foregroundJudgeRelay: BehaviorSubject<Bool> { get }
-    var currentlyDisplayedVCRelay: BehaviorSubject<Bool>{ get }
     var userLocationStatusRelay: PublishSubject<CLAuthorizationStatus>{ get }
-    var didEnterBackgroundSubject: BehaviorSubject<Bool>{ get }
-    var willEnterForegroundSubject: BehaviorSubject<Bool>{ get }
-
     var foregroundJudge: Observable<Bool> { get }
-    var currentlyDisplayed: Observable<Bool> { get }
     var LocationStatus: Observable<CLAuthorizationStatus> { get }
-    var didEnterBackground:Observable<Bool> { get }
-    var willEnterForeground:Observable<Bool> { get }
+    var viewWidthSizeObserver: AnyObserver<SetAdMobModelData> { get }
+    var slideShowCollectionViewSelectedIndexPathObserver: AnyObserver<IndexPath> { get }
+    var fetchMapAllDataTriggerObserver:AnyObserver<Void> { get }
 }
 //-------------------------------------------------------------------------------
 protocol MapViewModelOutput {
@@ -34,6 +29,9 @@ protocol MapViewModelOutput {
     var mapModelsObservable:Observable<[OtokuMapModel]> { get }
     var todayInfosObservable: Observable<[OtokuDataModel]> { get }
     var modelBoxObservable: Observable<[OtokuMapModel]> { get }
+    var SetAdMobModelObservable: Observable<GADBannerView> { get }
+    var otokuSpecialtyObservable: Observable<[SlideShowModel]> { get }
+    var slideShowCollectionViewSelectedUrlObservavable: Observable<String> { get }
 }
 protocol MapViewModelType {
     var input: MapViewModelInput { get }
@@ -45,44 +43,72 @@ enum SegmentedType: Int {
 }
 // MARK: -
 final class MapViewModel{
-    //--------------------------------------------------------------------------
     var foregroundJudgeRelay = BehaviorSubject<Bool>(value: true)
-    var currentlyDisplayedVCRelay = BehaviorSubject<Bool>(value: false)
     var userLocationStatusRelay = PublishSubject<CLAuthorizationStatus>()
-    var didEnterBackgroundSubject = BehaviorSubject<Bool>(value: false)
-    var willEnterForegroundSubject = BehaviorSubject<Bool>(value: true)
-    //--------------------------------------------------------------------------
-
+    var SetAdMobModelRelay = PublishRelay<GADBannerView>()
+    var viewWidthSizeSubject = PublishSubject<SetAdMobModelData>()
     private var addAnnotationRetryCount = 0
     private var selectSegmentIndexType:Int = 0
-
     private let addressGeocoder = CLGeocoder()
     private var status = CLLocationManager.authorizationStatus()
     private var db = Firestore.firestore()
-
-    private let allDaysAnnotationModel = BehaviorRelay<[OtokuMapModel]>(value: [])//⭐️
+    private let allDaysAnnotationModel = BehaviorRelay<[OtokuMapModel]>(value: [])
     private let todaysAnnotationModel = BehaviorRelay<[OtokuMapModel]>(value: [])
     //input
     let articlesSubject = BehaviorSubject<[OtokuDataModel]>(value: [])
     let addressSubject = BehaviorSubject<[OtokuAddressModel]>(value: [])
     let currentSegmente = BehaviorRelay<MapViewController.SegmentedType>(value: .today)
+    let slideShowCollectionViewSelectedIndexPathSubject = PublishSubject<IndexPath>()
+    var fetchMapAllDataTrigger = PublishSubject<Void>()
     //output
     let todayRelay = BehaviorRelay<String>(value: "")
     let modelBoxRelay = BehaviorRelay<[OtokuMapModel]>(value: [])
-
+    let otokuSpecialtySubject = BehaviorSubject<[SlideShowModel]>(value: [])
+    let slideShowCollectionViewSelectedUrlSubject = PublishSubject<String>()
+    let todayDateModel: FetchTodayDateModelType
     let mapModel: MapModelType
+    let setAdMobModel: SetAdMobModelType
+    let CommonDataModel: FetchCommonDataModelType
     let disposeBag = DisposeBag()
-
-    // Initializer
-    init(model: MapModelType) {
-
+    
+    init(model: MapModelType, adMobModel: SetAdMobModelType, fetchTodayDateModel: FetchTodayDateModelType, commonDataModel: FetchCommonDataModelType) {
+        todayDateModel = fetchTodayDateModel
         mapModel = model
-        mapModel.input.fetchAllOtokuDataFromRealTimeDB()
-        mapModel.input.fetchAddressDataFromRealTimeDB()
-
-        let today = GetDateModel.gatToday()
-        todayRelay.accept(today)
-
+        setAdMobModel = adMobModel
+        CommonDataModel = commonDataModel
+        
+        viewWidthSizeSubject
+            .subscribe { [self] size in
+                setAdMobModel.setAdMob(viewWidthSize: size.element?.size ?? 0, Self: size.element!.VC)
+            }
+            .disposed(by: disposeBag)
+        
+        setAdMobModel
+            .output
+            .SetAdMobModelObservable
+            .subscribe { [self] setAdMob in
+                SetAdMobModelRelay.accept(setAdMob)
+            }
+            .disposed(by: disposeBag)
+        
+        fetchMapAllDataTrigger
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                mapModel.input.fetchOtokuSpecialtyData()
+                mapModel.input.fetchAddressDataFromRealTimeDB()
+                todayRelay.accept(todayDateModel.input.fetchTodayDate())
+            })
+            .disposed(by: disposeBag)
+        
+        mapModel
+            .output
+            .otokuSpecialtyObservable
+            .subscribe { [self] data in
+                otokuSpecialtySubject
+                    .onNext(data)
+            }
+            .disposed(by: disposeBag)
+        
         mapModel
             .output
             .AddressDataObservable
@@ -90,48 +116,47 @@ final class MapViewModel{
                 addressSubject.onNext(address)
             }
             .disposed(by: disposeBag)
-
-        mapModel
+        
+        CommonDataModel
             .output
-            .AllOtokuDataObservable
+            .fetchCommonDataModelObservable
             .subscribe{[self] data in
                 articlesSubject.onNext(data)
             }
             .disposed(by: disposeBag)
-
+        
         let modelBoxObservable = currentSegmente
             .withUnretained(self)
             .flatMap { weakSelf, type -> Observable<[OtokuMapModel]> in
                 switch type {
-
+                    
                 case .today:
                     self.addAnnotationRetryCount = 0
                     return weakSelf.mapTodaysModelObservable.asObservable()
-
+                    
                 case .all:
                     self.addAnnotationRetryCount = 0
                     return weakSelf.mapModelsObservable.asObservable()
                 }
             }
-            .share(replay: 1)//Hot変換
-
+            .share(replay: 1)
+        
         mapTodaysModelObservable
             .subscribe(onNext: { [weak self] todayArticle in
                 self?.todaysAnnotationModel.accept(todayArticle)
             })
             .disposed(by: disposeBag)
-
+        
         mapModelsObservable
             .subscribe(onNext: { [weak self] todayArticle in
                 self?.allDaysAnnotationModel.accept(todayArticle)
             })
             .disposed(by: disposeBag)
-        // MARK: -VM
+        // MARK: -
         modelBoxObservable
             .map { boxs in
                 boxs.filter { $0.address.longitude == nil || $0.address.latitude == nil }
             }
-            .debug("デバッグ")
             .compactMap(\.first)
             .subscribe(onNext: { [weak self] box in
                 guard let content = box.address.content, !content.isEmpty else {
@@ -141,9 +166,6 @@ final class MapViewModel{
                 sleep(5)
                 self?.addressGeocoder.geocodeAddressString(content) { [weak self] placemarks, error in
                     guard error == nil, let coordinate = placemarks?.first?.location?.coordinate else {
-                        var testBox = []
-                        let errorID = box.id
-                        testBox.append(errorID)
                         self?.moveModelBoxFirstIfNeeded()
                         return
                     }
@@ -163,9 +185,9 @@ final class MapViewModel{
                 }
             })
             .disposed(by: disposeBag)
-        // MARK: -VM
-        modelBoxObservable//共通表示用
-            .map { boxs in//型推論省略
+        // MARK: -
+        modelBoxObservable
+            .map { boxs in
                 boxs.filter { $0.address.longitude != nil && $0.address.latitude != nil }
             }
             .filter{models in
@@ -176,13 +198,14 @@ final class MapViewModel{
                 modelBoxRelay.accept(boxs)
             })
             .disposed(by: disposeBag)
-
-        let foregroundJudge = Observable.of(didEnterBackgroundSubject, willEnterForegroundSubject).merge().startWith(true)
-    }
-    var isShow: Observable<Bool> {
-        return Observable.combineLatest(foregroundJudge,currentlyDisplayedVCRelay) {
-            $0 == true && $1 == true
-        }
+        
+        slideShowCollectionViewSelectedIndexPathSubject
+            .withLatestFrom(otokuSpecialtySubject) { indexPath, data in
+                let selectedUrl = data[indexPath.row].webUrl
+                return selectedUrl
+            }
+            .bind(to: slideShowCollectionViewSelectedUrlSubject)
+            .disposed(by: disposeBag)
     }
     private func moveModelBoxFirstIfNeeded() {
         if self.addAnnotationRetryCount < 500 && self.selectSegmentIndexType == 0{
@@ -203,18 +226,15 @@ final class MapViewModel{
             allDaysAnnotationModel.accept(result)
         }
     }
-    // MARK: -ステイト関係
-    private func bindInput() {// status
-        NotificationCenter.default.rx.notification(UIApplication.willResignActiveNotification)
+    internal func bindInput(with notificationCenter: NotificationCenter = NotificationCenter.default) {
+        notificationCenter.rx.notification(UIApplication.willResignActiveNotification)
             .subscribe(onNext: { [unowned self] _ in
-                // アプリがアクティブではなくなる時
                 foregroundJudgeRelay.onNext(false)
             })
             .disposed(by: disposeBag)
-
-        NotificationCenter.default.rx.notification(UIApplication.didBecomeActiveNotification)
+        
+        notificationCenter.rx.notification(UIApplication.didBecomeActiveNotification)
             .subscribe(onNext: { [unowned self] _ in
-                // アプリがアクティブになった時
                 foregroundJudgeRelay.onNext(true)
             })
             .disposed(by: disposeBag)
@@ -227,18 +247,24 @@ extension MapViewModel: MapViewModelType {
 }
 //MARK: -extension　Input
 extension MapViewModel: MapViewModelInput{
+    var fetchMapAllDataTriggerObserver: RxSwift.AnyObserver<Void> {
+        fetchMapAllDataTrigger.asObserver()
+    }
+    var slideShowCollectionViewSelectedIndexPathObserver: AnyObserver<IndexPath> {
+        return slideShowCollectionViewSelectedIndexPathSubject.asObserver()
+    }
     var articleObserver: AnyObserver<[OtokuDataModel]> {
         return articlesSubject.asObserver()
     }
     var addressObserver: AnyObserver<[OtokuAddressModel]> {
         return  addressSubject.asObserver()
     }
+    var viewWidthSizeObserver: RxSwift.AnyObserver<SetAdMobModelData> {
+        return viewWidthSizeSubject.asObserver()
+    }
     //MARK: -ステイト
     var foregroundJudge: Observable<Bool> {
         return  foregroundJudgeRelay.asObservable()
-    }
-    var currentlyDisplayed: Observable<Bool> {
-        return currentlyDisplayedVCRelay.asObservable()
     }
     var LocationStatus: Observable<CLAuthorizationStatus> {
         return userLocationStatusRelay.asObservable()
@@ -254,7 +280,16 @@ extension MapViewModel: MapViewModelInput{
 }
 //MARK: -extension　Output
 extension MapViewModel: MapViewModelOutput{
-    var modelBoxObservable: RxSwift.Observable<[OtokuMapModel]> {
+    var slideShowCollectionViewSelectedUrlObservavable: Observable<String> {
+        return slideShowCollectionViewSelectedUrlSubject.asObservable()
+    }
+    var otokuSpecialtyObservable: Observable<[SlideShowModel]> {
+        return otokuSpecialtySubject.asObservable()
+    }
+    var SetAdMobModelObservable: Observable<GADBannerView> {
+        return SetAdMobModelRelay.asObservable()
+    }
+    var modelBoxObservable: Observable<[OtokuMapModel]> {
         return modelBoxRelay.asObservable()
     }
     var todayInfosObservable: Observable<[OtokuDataModel]> {

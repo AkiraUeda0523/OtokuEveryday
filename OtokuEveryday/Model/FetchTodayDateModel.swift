@@ -6,22 +6,21 @@
 //
 
 import Foundation
-
-class GetDateModel {
-    static func getTodayDate(slash:Bool)->String {
+protocol FetchTodayDateModelInput{
+    func fetchTodayDate() -> String
+}
+protocol FetchTodayDateModelType {
+    var input: FetchTodayDateModelInput { get }
+}
+class FetchTodayDateModel: FetchTodayDateModelInput {
+    func fetchTodayDate() ->String {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .none
         dateFormatter.dateStyle = .full
-        if slash == true{
-            dateFormatter.dateFormat = "yyyy/MM/dd"
-        }
+        dateFormatter.dateFormat = "yyyy/MM/dd"
         dateFormatter.locale = Locale(identifier: "ja_JP")
         let now = Date()
-        return dateFormatter.string(from: now)
-    }
-    //MARK: -
-   static func gatToday() -> String {
-        var today = GetDateModel.getTodayDate(slash: true)
+        var today = dateFormatter.string(from: now)
         for _ in 0...1{
             if let slash  = today.range(of: "/"){
                 today.replaceSubrange(slash, with: "")
@@ -32,3 +31,10 @@ class GetDateModel {
         return addZeroToday
     }
 }
+
+extension FetchTodayDateModel:FetchTodayDateModelType{
+    //MARK: -
+    var input: FetchTodayDateModelInput {return self}
+}
+
+

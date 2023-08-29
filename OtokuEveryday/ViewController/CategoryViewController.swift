@@ -1,20 +1,16 @@
 //
-//  OtherOtokuViewController.swift
+//  CategoryViewController.swift
 //  RedMoon2021
 //
 //  Created by 上田晃 on 2021/11/18.
-//
-
-//xib作る 背景クリア
 
 import UIKit
 import ViewAnimator
 import AudioToolbox
 import SafariServices
 
-class CategoryViewController: UIViewController,TabBarDelegate {
-
-    private let mapStateManagementModel = MapStateManagementModel.shared
+class CategoryViewController: UIViewController {
+    
     @IBOutlet weak var otherOtokuTableView: UITableView!
     var otokuArray = ["新着記事","フード","レジャー","ビューティ","サブスク","ビジネス","エブ子のお得日記"]
     var imageArray = ["0","1","2","3","4","5","6"]
@@ -32,10 +28,6 @@ class CategoryViewController: UIViewController,TabBarDelegate {
         UIView.animate(views: otherOtokuTableView.visibleCells, animations: animation, completion:nil)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //        mapStateManagementModel.fetchVC()
-    }
 }
 // MARK: -
 extension CategoryViewController:UITableViewDelegate,UITableViewDataSource {
@@ -47,7 +39,6 @@ extension CategoryViewController:UITableViewDelegate,UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! OtherOtokuCustomCell
-        //        タグ管理解消
         cell.otherOtokuImage.image = UIImage(named: imageArray[indexPath.row])
         cell.otherOtokuLabel.text = otokuArray[indexPath.row]
         return cell
@@ -57,7 +48,7 @@ extension CategoryViewController:UITableViewDelegate,UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         AudioServicesPlaySystemSound(1519)
-
+        
         switch indexPath.row {
         case 0:
             let url = URL(string:"https://otoku-everyday.com/category/new/")
@@ -92,9 +83,6 @@ extension CategoryViewController:UITableViewDelegate,UITableViewDataSource {
             let safariView = SFSafariViewController(url: url!)
             present(safariView, animated: true)
         }
-    }
-    func didSelectTab(tabBarController: BaseTabBarController) {
-        AudioServicesPlaySystemSound(1519)
     }
 }
 

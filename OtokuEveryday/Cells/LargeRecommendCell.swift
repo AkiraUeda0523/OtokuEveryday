@@ -6,12 +6,9 @@
 //
 
 import UIKit
-import SDWebImage
 import AlamofireImage
 
-
 public class LargeRecommendCell: UICollectionViewCell {
-
     var container: UIView = {
         let view = UIView()
         view.layer.shadowColor = UIColor.black.cgColor
@@ -23,7 +20,7 @@ public class LargeRecommendCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     var titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .headline).withSize(26)
@@ -31,7 +28,7 @@ public class LargeRecommendCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     var subtitleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .subheadline)
@@ -39,10 +36,10 @@ public class LargeRecommendCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
+    
     var imageView: UIImageView = {
         let view: UIImageView = UIImageView()
-        view.image = UIImage(named: "MAP")
+        view.image = UIImage(named: "nowloading")
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.3
         view.layer.shadowRadius = 10
@@ -54,27 +51,27 @@ public class LargeRecommendCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.addSubview(self.container)
         self.container.addSubview(self.imageView)
         self.container.addSubview(self.subtitleLabel)
-
+        
         NSLayoutConstraint.activate([
             self.container.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             self.container.leftAnchor.constraint(equalTo: self.contentView.leftAnchor),
             self.container.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
             self.container.rightAnchor.constraint(equalTo: self.contentView.rightAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
             self.imageView.topAnchor.constraint(equalTo: self.container.topAnchor, constant: 0),
             self.imageView.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: 0),
             self.imageView.rightAnchor.constraint(equalTo: self.container.rightAnchor, constant: 0),
             self.imageView.bottomAnchor.constraint(equalTo: self.container.bottomAnchor, constant: -50),
         ])
-
+        
         NSLayoutConstraint.activate([
             self.subtitleLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: 0),
             self.subtitleLabel.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: 0),
@@ -82,16 +79,16 @@ public class LargeRecommendCell: UICollectionViewCell {
             self.subtitleLabel.rightAnchor.constraint(equalTo: self.container.rightAnchor, constant: 0)
         ])
     }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    public func setup(title: String, subtitle: String,image:String) {
+    public func setup(title: String, subtitle: String, image: String) {
         self.subtitleLabel.text = subtitle
-        self.imageView.sd_setImage(with: URL(string: image), completed: nil)
+        let placeholderImage = UIImage(named: "placeholder")
+        if let imageURL = URL(string: image) {
+            self.imageView.af.setImage(withURL: imageURL, placeholderImage: placeholderImage)
+        } else {
+            self.imageView.image = placeholderImage
+        }
     }
 }
-
-
-

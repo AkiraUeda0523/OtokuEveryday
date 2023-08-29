@@ -1,8 +1,19 @@
 
 
 import UIKit
+import RxSwift
+import RxCocoa
+import Firebase
 
-final class AutoScrollLabel: UIView {
+struct ScrollModel {
+    var title:String
+}
+
+final class AutoScrollModel: UIView {
+    
+    private let autoScrollLabelLayoutArrangeSubject = PublishSubject<AutoScrollModel>()
+    private let scrollTitleRelay = BehaviorRelay<[ScrollModel]>(value: [])
+    
     private enum AutoScrollDirection {
         case right
         case left
@@ -16,14 +27,11 @@ final class AutoScrollLabel: UIView {
     private var labelBufferSpace: CGFloat {
         return self.bounds.size.width
     }
-    // Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
     private var scrolling = false
-    // Only applies when not auto-scrolling
     private var textAlignment: NSTextAlignment = .left
     private var animationOptions: UIView.AnimationOptions = .curveLinear
     private let scrollDirection: AutoScrollDirection = .left
     private let isScrolling = true
-    
     // UILabel properties
     internal var text: String? {
         get {
@@ -101,7 +109,6 @@ final class AutoScrollLabel: UIView {
     override var intrinsicContentSize: CGSize {
         return CGSize(width: 0.0, height: mainLabel.intrinsicContentSize.height)
     }
-    
     // Views
     private var labels: [UILabel] = {
         var labels = [UILabel]()
@@ -134,7 +141,6 @@ final class AutoScrollLabel: UIView {
     
     private func commonInit() {
         addSubview(scrollView)
-        
         // Create the labels
         for index in 0 ..< Const.labelCount {
             labels[index].backgroundColor = .clear
@@ -187,49 +193,38 @@ final class AutoScrollLabel: UIView {
     private func scrollLabelIfNeededAction() {
         let labelWidth = mainLabel.bounds.width
         guard labelWidth > bounds.width else { return }
-        
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: .scrollLabelIfNeeded, object: nil)
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: .enableShadow, object: nil)
-        
         scrollView.layer.removeAllAnimations()
-        
         let doScrollLeft = scrollDirection == .left
         scrollView.contentOffset = doScrollLeft ? .zero : CGPoint(x: labelWidth + labelBufferSpace, y: 0)
-        
         self.perform(.enableShadow, with: nil, afterDelay: Const.pauseTime)
-        
         // Animate the scrolling
         let duration = Double(labelWidth) / Const.pixelsPerSecond
-        
         UIView.animate(withDuration: duration,
                        delay: Const.pauseTime,
                        options: [self.animationOptions, UIView.AnimationOptions.allowUserInteraction],
                        animations: { [weak self] () -> Void in
             guard let self = self else { return }
-            // Adjust offset
             self.scrollView.contentOffset = doScrollLeft ? CGPoint(x: labelWidth + self.labelBufferSpace, y: 0) : .zero
         }, completion: { [weak self] finished in
             guard let self = self else { return }
             self.scrolling = false
-            
             // Remove the left shadow
             self.applyGradientMaskForFadeLength(fadeLengthIn: Const.fadeLength, enableFade: false)
-            
             // Setup pause delay/loop
             if finished {
-                self.performSelector(inBackground: #selector(AutoScrollLabel.scrollLabelIfNeeded), with: nil)
+                self.performSelector(inBackground: #selector(AutoScrollModel.scrollLabelIfNeeded), with: nil)
             }
         })
     }
     
     private func applyGradientMaskForFadeLength(fadeLengthIn: CGFloat, enableFade fade: Bool) {
         var fadeLength = fadeLengthIn
-        
         let labelWidth = mainLabel.bounds.width
         if labelWidth <= self.bounds.width {
             fadeLength = 0
         }
-        
         if fadeLength != 0 {
             gradientMaskFade(fade: fade)
         } else {
@@ -238,9 +233,7 @@ final class AutoScrollLabel: UIView {
     }
     
     func gradientMaskFade(fade: Bool) {
-        // Recreate gradient mask with new fade length
         let gradientMask = CAGradientLayer()
-        
         gradientMask.apply { this in
             this.bounds = self.layer.bounds
             this.position = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
@@ -253,7 +246,6 @@ final class AutoScrollLabel: UIView {
             let opaque = UIColor.black.cgColor
             this.colors = [transparent, opaque, opaque, transparent]
         }
-        
         // Calcluate fade
         let fadePoint = Const.fadeLength / self.bounds.width
         var leftFadePoint = fadePoint
@@ -276,16 +268,6 @@ final class AutoScrollLabel: UIView {
         self.layer.mask = gradientMask
         CATransaction.commit()
     }
-
-    func autoScrollLabelLayoutArrange(scrollLabel:AutoScrollLabel,scrollBaseView:UIView){
-        scrollLabel.frame = scrollBaseView.bounds
-        scrollLabel.backgroundColor = .white
-        scrollLabel.textColor = .black
-        scrollLabel.font = .systemFont(ofSize: 25)
-        scrollLabel.observeApplicationNotifications()
-
-    }
-
     
     private func onUIApplicationDidChangeStatusBarOrientationNotification(notification: NSNotification) {
         // Delay to have it re-calculate on next runloop
@@ -294,11 +276,8 @@ final class AutoScrollLabel: UIView {
     }
 }
 
-private extension AutoScrollLabel {
-
-
-
-
+private extension AutoScrollModel {
+    
     @objc func scrollLabelIfNeeded() {
         guard text != nil && text?.count != 0 else { return }
         DispatchQueue.main.async { [weak self] in
@@ -308,7 +287,6 @@ private extension AutoScrollLabel {
     
     @objc func refreshLabels() {
         var offset: CGFloat = 0
-        
         labels.forEach {
             $0.sizeToFit()
             var frame = $0.frame
@@ -321,19 +299,16 @@ private extension AutoScrollLabel {
         }
         scrollView.contentOffset = .zero
         scrollView.layer.removeAllAnimations()
-        
         // If the label is bigger than the space allocated, then it should scroll
         if mainLabel.bounds.width > bounds.width {
             var size = CGSize(width: 0, height: 0)
             size.width = mainLabel.bounds.width + bounds.width + labelBufferSpace
             size.height = bounds.height
             scrollView.contentSize = size
-            
             applyGradientMaskForFadeLength(fadeLengthIn: Const.fadeLength, enableFade: scrolling)
             scrollLabelIfNeeded()
         } else {
             labels.forEach { $0.isHidden = $0 != mainLabel }
-            
             // Adjust the scroll view and main label
             scrollView.contentSize = bounds.size
             mainLabel.apply { this in
@@ -341,7 +316,6 @@ private extension AutoScrollLabel {
                 this.isHidden = false
                 this.textAlignment = textAlignment
             }
-            
             // Cleanup animation
             scrollView.layer.removeAllAnimations()
             applyGradientMaskForFadeLength(fadeLengthIn: 0, enableFade: false)
@@ -355,9 +329,9 @@ private extension AutoScrollLabel {
 }
 
 private extension Selector {
-    static let scrollLabelIfNeeded = #selector(AutoScrollLabel.scrollLabelIfNeeded)
-    static let refreshLabels = #selector(AutoScrollLabel.refreshLabels)
-    static let enableShadow = #selector(AutoScrollLabel.enableShadow)
+    static let scrollLabelIfNeeded = #selector(AutoScrollModel.scrollLabelIfNeeded)
+    static let refreshLabels = #selector(AutoScrollModel.refreshLabels)
+    static let enableShadow = #selector(AutoScrollModel.enableShadow)
 }
 
 private extension NSNotification.Name {
@@ -373,5 +347,27 @@ extension Appliable {
         return self
     }
 }
-
 extension NSObject: Appliable {}
+
+//---------------------------------------------------------------------------------------------------------
+protocol AutoScrollModelInput{
+    func autoScrollLabelLayoutArrange(scrollLabel:AutoScrollModel,scrollBaseViewsBounds:CGRect)->AutoScrollModel
+}
+protocol AutoScrollModelType {
+    var input: AutoScrollModelInput { get }
+}
+extension AutoScrollModel:AutoScrollModelInput{
+    func autoScrollLabelLayoutArrange(scrollLabel:AutoScrollModel,scrollBaseViewsBounds:CGRect)->AutoScrollModel{
+        scrollLabel.frame = scrollBaseViewsBounds
+        scrollLabel.backgroundColor = .white
+        scrollLabel.textColor = .black
+        scrollLabel.font = .systemFont(ofSize: 25)
+        scrollLabel.observeApplicationNotifications()
+        return scrollLabel
+    }
+}
+extension AutoScrollModel:AutoScrollModelType{
+    var input: AutoScrollModelInput {
+        return self
+    }
+}

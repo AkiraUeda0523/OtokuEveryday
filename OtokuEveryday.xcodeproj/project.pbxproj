@@ -8,25 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		062083292912648C00CECF13 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062083282912648C00CECF13 /* Alert.swift */; };
-		0639AE07275E3A280058DDAE /* SlideShowModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0639AE06275E3A280058DDAE /* SlideShowModel.swift */; };
+		06242F2C2A9E3E9D00C399C6 /* FetchCommonDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */; };
+		0639AE07275E3A280058DDAE /* AutoScrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0639AE06275E3A280058DDAE /* AutoScrollModel.swift */; };
 		063EB85927468A0500BA2C7E /* OtherOtoku.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */; };
 		063EB85D27468AEC00BA2C7E /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */; };
-		063F46D9275F3DFC00F6B818 /* LoadDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F46D8275F3DFC00F6B818 /* LoadDBModel.swift */; };
 		063F46DD2762048200F6B818 /* OtherOtokuCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */; };
 		063F46DF2763429F00F6B818 /* LaunchScreenAnimation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063F46DE2763429F00F6B818 /* LaunchScreenAnimation.storyboard */; };
 		063F46E1276342DD00F6B818 /* LaunchScreenAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F46E0276342DD00F6B818 /* LaunchScreenAnimationViewController.swift */; };
 		0640D958298BB4E800E28E87 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D957298BB4E800E28E87 /* CalendarModel.swift */; };
-		0640D95A2990BF1800E28E87 /* DBContentPrintDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D9592990BF1800E28E87 /* DBContentPrintDisplayModel.swift */; };
 		0640D95C2992299000E28E87 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D95B2992299000E28E87 /* MapModel.swift */; };
-		0640D95F299289E600E28E87 /* CalenderColectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D95E299289E600E28E87 /* CalenderColectionViewLayout.swift */; };
 		064518A327AE6887000E66DE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064518A227AE6887000E66DE /* SplashViewController.swift */; };
 		065A2EEC26F71A9A00966665 /* Uiimage-Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A2EEB26F71A9A00966665 /* Uiimage-Extention.swift */; };
-		065AF7FF291398B80011CD88 /* MapStateManagementModel .swift in Sources */ = {isa = PBXBuildFile; fileRef = 065AF7FE291398B80011CD88 /* MapStateManagementModel .swift */; };
-		066960A829056DB800A36552 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 066960A729056DB800A36552 /* AppStore.swift */; };
-		0679C3C728CA162100BDA3BA /* DBRegisterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0679C3C628CA162100BDA3BA /* DBRegisterModel.swift */; };
 		067ACF1428D3F506006EF4C9 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067ACF1328D3F506006EF4C9 /* MapViewModel.swift */; };
-		06858986273414A300CB4AA8 /* GetDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06858985273414A300CB4AA8 /* GetDateModel.swift */; };
-		06858992274243EC00CB4AA8 /* ScrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06858991274243EC00CB4AA8 /* ScrollModel.swift */; };
+		06858986273414A300CB4AA8 /* FetchTodayDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */; };
+		06858992274243EC00CB4AA8 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06858991274243EC00CB4AA8 /* AppStore.swift */; };
 		0697180D2934F7560035B982 /* RecommendTitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0697180C2934F7560035B982 /* RecommendTitleText.swift */; };
 		0697180F2934F76C0035B982 /* SmallRecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0697180E2934F76C0035B982 /* SmallRecommendCell.swift */; };
 		069718112934F7880035B982 /* LargeRecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069718102934F7880035B982 /* LargeRecommendCell.swift */; };
@@ -37,53 +32,43 @@
 		069BB01026E9F6A700F4E00D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069BB00E26E9F6A700F4E00D /* Main.storyboard */; };
 		069BB01226E9F6A800F4E00D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069BB01126E9F6A800F4E00D /* Assets.xcassets */; };
 		069BB01526E9F6A800F4E00D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */; };
-		06A1A13927C09FEC005F314A /* TabBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06A1A13827C09FEC005F314A /* TabBarDelegate.swift */; };
 		06B868DB292FB97300A3800C /* RecommendationArticle.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */; };
 		06B868DD292FBA2C00A3800C /* RecommendationArticleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */; };
 		06BDD460280292FF00775830 /* DataConstructionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BDD45F280292FF00775830 /* DataConstructionModel.swift */; };
 		06BFD29829644677002DCF84 /* SetAdMobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29729644677002DCF84 /* SetAdMobModel.swift */; };
-		06BFD29B2964507C002DCF84 /* CalendarsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29A2964507C002DCF84 /* CalendarsLayout.swift */; };
 		06BFD29D296D4060002DCF84 /* RecommendationArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */; };
 		06BFD29F296D40DD002DCF84 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */; };
-		06C4138E26EB409D004A3A1B /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C4138D26EB409D004A3A1B /* WebViewController.swift */; };
 		06C4139026EB47CA004A3A1B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */; };
 		06D2C3A826EDEFD700EECA89 /* OtokuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06D2C3A726EDEFD700EECA89 /* OtokuCollectionViewCell.xib */; };
 		06D2C3AB26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3AA26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift */; };
-		06D2C3AE26EF4F0300EECA89 /* OtokuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3AD26EF4F0300EECA89 /* OtokuModel.swift */; };
+		06D2C3AE26EF4F0300EECA89 /* RecommendationArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */; };
 		06D2C3B026EF77D100EECA89 /* BaseTabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D2C3AF26EF77D100EECA89 /* BaseTabBar.storyboard */; };
 		06D2C3B426EF7CE500EECA89 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */; };
-		06D2C3B726F4483300EECA89 /* DayHandlingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3B626F4483300EECA89 /* DayHandlingModel.swift */; };
 		06F2659F274F922A009E55DD /* SliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F2659D274F922A009E55DD /* SliderCell.swift */; };
 		06F265A0274F922A009E55DD /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06F2659E274F922A009E55DD /* SliderCell.xib */; };
 		06F5EAA827005DAE00B62316 /* map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06F5EAA727005DAE00B62316 /* map.storyboard */; };
 		06F5EAAA27005F9E00B62316 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5EAA927005F9E00B62316 /* MapViewController.swift */; };
-		06FF0E542733EFE100D2D17A /* AutoScrollLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06FF0E532733EFE100D2D17A /* AutoScrollLabel.swift */; };
 		4A795C6279E16AF2733199A6 /* Pods_RedMoon2021.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BCBBFDE6DADC00ABCE930B /* Pods_RedMoon2021.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		062083282912648C00CECF13 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCommonDataModel.swift; sourceTree = "<group>"; };
 		062F81F7292FDB7B002C00F4 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0639AE06275E3A280058DDAE /* SlideShowModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideShowModel.swift; sourceTree = "<group>"; };
+		0639AE06275E3A280058DDAE /* AutoScrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollModel.swift; sourceTree = "<group>"; };
 		063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OtherOtoku.storyboard; sourceTree = "<group>"; };
 		063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
-		063F46D8275F3DFC00F6B818 /* LoadDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadDBModel.swift; sourceTree = "<group>"; };
 		063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherOtokuCustomCell.swift; sourceTree = "<group>"; };
 		063F46DE2763429F00F6B818 /* LaunchScreenAnimation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreenAnimation.storyboard; sourceTree = "<group>"; };
 		063F46E0276342DD00F6B818 /* LaunchScreenAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenAnimationViewController.swift; sourceTree = "<group>"; };
 		0640D957298BB4E800E28E87 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
-		0640D9592990BF1800E28E87 /* DBContentPrintDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBContentPrintDisplayModel.swift; sourceTree = "<group>"; };
 		0640D95B2992299000E28E87 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
-		0640D95E299289E600E28E87 /* CalenderColectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderColectionViewLayout.swift; sourceTree = "<group>"; };
 		064518A127A19968000E66DE /* OtokuEveryday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OtokuEveryday.entitlements; sourceTree = "<group>"; };
 		064518A227AE6887000E66DE /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		065A2EEB26F71A9A00966665 /* Uiimage-Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Uiimage-Extention.swift"; sourceTree = "<group>"; };
-		065AF7FE291398B80011CD88 /* MapStateManagementModel .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapStateManagementModel .swift"; sourceTree = "<group>"; };
-		066960A729056DB800A36552 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
-		0679C3C628CA162100BDA3BA /* DBRegisterModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBRegisterModel.swift; sourceTree = "<group>"; };
 		067ACF1328D3F506006EF4C9 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		06858985273414A300CB4AA8 /* GetDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetDateModel.swift; sourceTree = "<group>"; };
-		06858991274243EC00CB4AA8 /* ScrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollModel.swift; sourceTree = "<group>"; };
+		06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTodayDateModel.swift; sourceTree = "<group>"; };
+		06858991274243EC00CB4AA8 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
 		0697180C2934F7560035B982 /* RecommendTitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTitleText.swift; sourceTree = "<group>"; };
 		0697180E2934F76C0035B982 /* SmallRecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallRecommendCell.swift; sourceTree = "<group>"; };
 		069718102934F7880035B982 /* LargeRecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeRecommendCell.swift; sourceTree = "<group>"; };
@@ -95,27 +80,22 @@
 		069BB00F26E9F6A700F4E00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		069BB01126E9F6A800F4E00D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		069BB01426E9F6A800F4E00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		06A1A13827C09FEC005F314A /* TabBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarDelegate.swift; sourceTree = "<group>"; };
 		06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecommendationArticle.storyboard; sourceTree = "<group>"; };
 		06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleController.swift; sourceTree = "<group>"; };
 		06BDD45F280292FF00775830 /* DataConstructionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstructionModel.swift; sourceTree = "<group>"; };
 		06BFD29729644677002DCF84 /* SetAdMobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAdMobModel.swift; sourceTree = "<group>"; };
-		06BFD29A2964507C002DCF84 /* CalendarsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarsLayout.swift; sourceTree = "<group>"; };
 		06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleViewModel.swift; sourceTree = "<group>"; };
 		06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		06C4138D26EB409D004A3A1B /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		06D2C3A726EDEFD700EECA89 /* OtokuCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OtokuCollectionViewCell.xib; sourceTree = "<group>"; };
 		06D2C3AA26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtokuCollectionViewCell.swift; sourceTree = "<group>"; };
-		06D2C3AD26EF4F0300EECA89 /* OtokuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtokuModel.swift; sourceTree = "<group>"; };
+		06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleModel.swift; sourceTree = "<group>"; };
 		06D2C3AF26EF77D100EECA89 /* BaseTabBar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BaseTabBar.storyboard; sourceTree = "<group>"; };
 		06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
-		06D2C3B626F4483300EECA89 /* DayHandlingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayHandlingModel.swift; sourceTree = "<group>"; };
 		06F2659D274F922A009E55DD /* SliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderCell.swift; sourceTree = "<group>"; };
 		06F2659E274F922A009E55DD /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
 		06F5EAA727005DAE00B62316 /* map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = map.storyboard; sourceTree = "<group>"; };
 		06F5EAA927005F9E00B62316 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		06FF0E532733EFE100D2D17A /* AutoScrollLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollLabel.swift; sourceTree = "<group>"; };
 		69BCBBFDE6DADC00ABCE930B /* Pods_RedMoon2021.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RedMoon2021.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F755B2A63F2185C6476F8B /* Pods-RedMoon2021.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedMoon2021.debug.xcconfig"; path = "Target Support Files/Pods-RedMoon2021/Pods-RedMoon2021.debug.xcconfig"; sourceTree = "<group>"; };
 		E3416715B6B02577B8D1E2AC /* Pods-RedMoon2021.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedMoon2021.release.xcconfig"; path = "Target Support Files/Pods-RedMoon2021/Pods-RedMoon2021.release.xcconfig"; sourceTree = "<group>"; };
@@ -141,14 +121,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		066960A629056D1C00A36552 /* AlertUpdate */ = {
-			isa = PBXGroup;
-			children = (
-				066960A729056DB800A36552 /* AppStore.swift */,
-			);
-			path = AlertUpdate;
-			sourceTree = "<group>";
-		};
 		069BAFFC26E9F6A700F4E00D = {
 			isa = PBXGroup;
 			children = (
@@ -171,15 +143,11 @@
 			isa = PBXGroup;
 			children = (
 				064518A127A19968000E66DE /* OtokuEveryday.entitlements */,
-				066960A629056D1C00A36552 /* AlertUpdate */,
-				06A1A13727C09FAC005F314A /* Protocol */,
-				06FF0E522733EFC500D2D17A /* Views */,
+				06D2C3AC26EF4EE000EECA89 /* Model */,
+				06D2C3B126EF7C8900EECA89 /* ViewController */,
 				06D2C3B826F448E500EECA89 /* ViewModel */,
-				06D2C3AC26EF4EE000EECA89 /* Models */,
-				06D2C3B126EF7C8900EECA89 /* ViewControllers */,
 				06D2C3A926EDFBEA00EECA89 /* Cells */,
 				06D2C3A426EDE19900EECA89 /* Xibs */,
-				06C4138826EB3F32004A3A1B /* Controller */,
 				06D2C3B526F1D7C200EECA89 /* Storyboards */,
 				065A2EEA26F71A3E00966665 /* Extensions */,
 				069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */,
@@ -188,32 +156,6 @@
 				069BB00826E9F6A700F4E00D /* AppDelegate.swift */,
 			);
 			path = OtokuEveryday;
-			sourceTree = "<group>";
-		};
-		06A1A13727C09FAC005F314A /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				06A1A13827C09FEC005F314A /* TabBarDelegate.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		06BFD29929644FE1002DCF84 /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				06FF0E532733EFE100D2D17A /* AutoScrollLabel.swift */,
-				06BFD29A2964507C002DCF84 /* CalendarsLayout.swift */,
-				0640D95E299289E600E28E87 /* CalenderColectionViewLayout.swift */,
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
-		06C4138826EB3F32004A3A1B /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */,
-			);
-			path = Controller;
 			sourceTree = "<group>";
 		};
 		06D2C3A426EDE19900EECA89 /* Xibs */ = {
@@ -230,45 +172,43 @@
 			children = (
 				06D2C3AA26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift */,
 				06F2659D274F922A009E55DD /* SliderCell.swift */,
-				063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */,
+				069718142934F8380035B982 /* LayoutBuilder.swift */,
+				069718122934F8130035B982 /* CellBuilder.swift */,
 				0697180C2934F7560035B982 /* RecommendTitleText.swift */,
 				0697180E2934F76C0035B982 /* SmallRecommendCell.swift */,
 				069718102934F7880035B982 /* LargeRecommendCell.swift */,
+				063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		06D2C3AC26EF4EE000EECA89 /* Models */ = {
+		06D2C3AC26EF4EE000EECA89 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */,
 				0640D957298BB4E800E28E87 /* CalendarModel.swift */,
 				0640D95B2992299000E28E87 /* MapModel.swift */,
-				06D2C3AD26EF4F0300EECA89 /* OtokuModel.swift */,
-				0639AE06275E3A280058DDAE /* SlideShowModel.swift */,
-				06858985273414A300CB4AA8 /* GetDateModel.swift */,
-				06858991274243EC00CB4AA8 /* ScrollModel.swift */,
-				063F46D8275F3DFC00F6B818 /* LoadDBModel.swift */,
-				0679C3C628CA162100BDA3BA /* DBRegisterModel.swift */,
+				06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */,
+				0639AE06275E3A280058DDAE /* AutoScrollModel.swift */,
+				06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */,
+				06858991274243EC00CB4AA8 /* AppStore.swift */,
 				06BFD29729644677002DCF84 /* SetAdMobModel.swift */,
-				0640D9592990BF1800E28E87 /* DBContentPrintDisplayModel.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
-		06D2C3B126EF7C8900EECA89 /* ViewControllers */ = {
+		06D2C3B126EF7C8900EECA89 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */,
 				06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */,
 				06F5EAA927005F9E00B62316 /* MapViewController.swift */,
+				06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */,
 				063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */,
-				06C4138D26EB409D004A3A1B /* WebViewController.swift */,
 				063F46E0276342DD00F6B818 /* LaunchScreenAnimationViewController.swift */,
 				064518A227AE6887000E66DE /* SplashViewController.swift */,
-				06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */,
-				069718122934F8130035B982 /* CellBuilder.swift */,
-				069718142934F8380035B982 /* LayoutBuilder.swift */,
 			);
-			path = ViewControllers;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		06D2C3B526F1D7C200EECA89 /* Storyboards */ = {
@@ -289,21 +229,11 @@
 			children = (
 				06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */,
 				067ACF1328D3F506006EF4C9 /* MapViewModel.swift */,
-				06D2C3B626F4483300EECA89 /* DayHandlingModel.swift */,
+				06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */,
 				06BDD45F280292FF00775830 /* DataConstructionModel.swift */,
 				062083282912648C00CECF13 /* Alert.swift */,
-				065AF7FE291398B80011CD88 /* MapStateManagementModel .swift */,
-				06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		06FF0E522733EFC500D2D17A /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				06BFD29929644FE1002DCF84 /* Calendar */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		3C9A52F6A751DC41FA5B8F3D /* Pods */ = {
@@ -445,46 +375,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06BFD29B2964507C002DCF84 /* CalendarsLayout.swift in Sources */,
 				063F46DD2762048200F6B818 /* OtherOtokuCustomCell.swift in Sources */,
-				0639AE07275E3A280058DDAE /* SlideShowModel.swift in Sources */,
+				0639AE07275E3A280058DDAE /* AutoScrollModel.swift in Sources */,
 				06BFD29F296D40DD002DCF84 /* CalendarViewModel.swift in Sources */,
 				06BFD29829644677002DCF84 /* SetAdMobModel.swift in Sources */,
 				065A2EEC26F71A9A00966665 /* Uiimage-Extention.swift in Sources */,
 				06D2C3B426EF7CE500EECA89 /* BaseTabBarController.swift in Sources */,
-				0679C3C728CA162100BDA3BA /* DBRegisterModel.swift in Sources */,
-				0640D95F299289E600E28E87 /* CalenderColectionViewLayout.swift in Sources */,
 				069BB00926E9F6A700F4E00D /* AppDelegate.swift in Sources */,
 				067ACF1428D3F506006EF4C9 /* MapViewModel.swift in Sources */,
-				06FF0E542733EFE100D2D17A /* AutoScrollLabel.swift in Sources */,
 				06F2659F274F922A009E55DD /* SliderCell.swift in Sources */,
 				0697180D2934F7560035B982 /* RecommendTitleText.swift in Sources */,
 				06F5EAAA27005F9E00B62316 /* MapViewController.swift in Sources */,
-				06D2C3AE26EF4F0300EECA89 /* OtokuModel.swift in Sources */,
-				06C4138E26EB409D004A3A1B /* WebViewController.swift in Sources */,
+				06D2C3AE26EF4F0300EECA89 /* RecommendationArticleModel.swift in Sources */,
 				0640D95C2992299000E28E87 /* MapModel.swift in Sources */,
 				06BDD460280292FF00775830 /* DataConstructionModel.swift in Sources */,
-				06D2C3B726F4483300EECA89 /* DayHandlingModel.swift in Sources */,
 				06C4139026EB47CA004A3A1B /* CalendarViewController.swift in Sources */,
 				062083292912648C00CECF13 /* Alert.swift in Sources */,
+				06242F2C2A9E3E9D00C399C6 /* FetchCommonDataModel.swift in Sources */,
 				06B868DD292FBA2C00A3800C /* RecommendationArticleController.swift in Sources */,
 				069BB00B26E9F6A700F4E00D /* SceneDelegate.swift in Sources */,
-				06858986273414A300CB4AA8 /* GetDateModel.swift in Sources */,
+				06858986273414A300CB4AA8 /* FetchTodayDateModel.swift in Sources */,
 				064518A327AE6887000E66DE /* SplashViewController.swift in Sources */,
 				063F46E1276342DD00F6B818 /* LaunchScreenAnimationViewController.swift in Sources */,
 				063EB85D27468AEC00BA2C7E /* CategoryViewController.swift in Sources */,
-				06858992274243EC00CB4AA8 /* ScrollModel.swift in Sources */,
-				06A1A13927C09FEC005F314A /* TabBarDelegate.swift in Sources */,
-				066960A829056DB800A36552 /* AppStore.swift in Sources */,
+				06858992274243EC00CB4AA8 /* AppStore.swift in Sources */,
 				06D2C3AB26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift in Sources */,
-				0640D95A2990BF1800E28E87 /* DBContentPrintDisplayModel.swift in Sources */,
 				069718132934F8130035B982 /* CellBuilder.swift in Sources */,
-				065AF7FF291398B80011CD88 /* MapStateManagementModel .swift in Sources */,
 				069718112934F7880035B982 /* LargeRecommendCell.swift in Sources */,
 				0640D958298BB4E800E28E87 /* CalendarModel.swift in Sources */,
 				06BFD29D296D4060002DCF84 /* RecommendationArticleViewModel.swift in Sources */,
 				069718152934F8380035B982 /* LayoutBuilder.swift in Sources */,
-				063F46D9275F3DFC00F6B818 /* LoadDBModel.swift in Sources */,
 				0697180F2934F76C0035B982 /* SmallRecommendCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

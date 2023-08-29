@@ -21,6 +21,7 @@ public class SmallRecommendCell: UICollectionViewCell {
     }()
     var smallRecommendView: UIImageView = {
         let view = UIImageView()
+        view.image = UIImage(named: "nowloading")
         view.backgroundColor = UIColor.white
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.cornerRadius = 5
@@ -54,14 +55,14 @@ public class SmallRecommendCell: UICollectionViewCell {
         self.container.addSubview(self.smallRecommendView)
         self.container.addSubview(self.smallRecommendTitleLabel)
         self.container.addSubview(self.smallRecommendSubTitleLabel)
-
+        
         NSLayoutConstraint.activate([
             self.container.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             self.container.leftAnchor.constraint(equalTo: self.contentView.leftAnchor,constant: 10),
             self.container.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: 10),
             self.container.rightAnchor.constraint(equalTo: self.contentView.rightAnchor,constant: 10)
         ])
-
+        
         NSLayoutConstraint.activate([
             self.smallRecommendView.topAnchor.constraint(equalTo: self.container.topAnchor, constant: 10),
             self.smallRecommendView.leftAnchor.constraint(equalTo: self.container.leftAnchor, constant: 10),
@@ -69,14 +70,14 @@ public class SmallRecommendCell: UICollectionViewCell {
             self.smallRecommendView.widthAnchor.constraint(equalToConstant: contentView.frame.width / 3),
             self.smallRecommendView.heightAnchor.constraint(equalToConstant: 70)
         ])
-
+        
         NSLayoutConstraint.activate([
             self.smallRecommendTitleLabel.topAnchor.constraint(equalTo: self.container.topAnchor),
             self.smallRecommendTitleLabel.leftAnchor.constraint(equalTo: self.smallRecommendView.rightAnchor,constant:10),
             self.smallRecommendTitleLabel.rightAnchor.constraint(equalTo: self.container.rightAnchor,constant:-10),
             self.smallRecommendTitleLabel.heightAnchor.constraint(equalToConstant: contentView.frame.height / 2)
         ])
-
+        
         NSLayoutConstraint.activate([
             self.smallRecommendSubTitleLabel.topAnchor.constraint(equalTo: self.smallRecommendTitleLabel.bottomAnchor),
             self.smallRecommendSubTitleLabel.leftAnchor.constraint(equalTo: self.smallRecommendView.rightAnchor, constant: 10),
@@ -88,5 +89,3 @@ public class SmallRecommendCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
-
