@@ -35,27 +35,112 @@
 
 ## 使用技術
 - RxSwift
+- Swinject
+- UICollectionViewCompositionalLayout
 - Firebase/Firestore
 - Firebase/Realtime Database
 - Firebase/InAppMessaging
 - RealmSwift
 - AdMob
-- Swinject
+
 ---
  ## このプロジェクトの開発において、工夫した点など
+### ・機能実装は基本的にRxSwiftを使用しています。
+### ・データベースのバージョンを管理し、必要に応じて更新
+```swift
+ if UserDefaults.standard.value(forKey: "storedVersion") == nil {
+            UserDefaults.standard.set(0, forKey: "storedVersion")
+        }
+        let config = Realm.Configuration(
+            schemaVersion: 2, // 現在のスキーマのバージョン
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 2 {
+                    // スキーマのバージョンが 0 の場合、プライマリーキーを追加
+                    migration.enumerateObjects(ofType: OtokuDataRealmModel.className()) { oldObject, newObject in
+                        let id = UUID().uuidString
+                        newObject!["id"] = id
+                    }
+                }
+            })
+        let currentSchemaVersion = config.schemaVersion
+        print("Current schema version: \(currentSchemaVersion)")
+        // デフォルトの Realm を設定する
+        Realm.Configuration.defaultConfiguration = config
+        do {
+            let realm = try Realm()
+            print("Realm path: \(realm.configuration.fileURL?.absoluteString ?? "")")
+        } catch let error as NSError {
+            print("Error opening realm: \(error.localizedDescription)")
+        }
+```
+### ・匿名ユーザー認証
+```swift
+
+ func authState() {
+        _authStatus.accept(.retrying) // show HUD
+        var handle: AuthStateDidChangeListenerHandle?
+        handle = Auth.auth().addStateDidChangeListener({  [weak self] (auth, user) in
+            guard let self = self else { return }
+            if let currentUser = user, currentUser.isAnonymous {
+                self._authStatus.accept(.anonymous)
+                if let handle = handle {
+                    Auth.auth().removeStateDidChangeListener(handle)
+                }
+            } else {
+                self.retrySignInAnonymously()
+            }
+        })
+    }
+    
+    func retrySignInAnonymously() {
+        if retryCount < maxRetryCount {
+            retryCount += 1
+            let delay = Double(pow(2.0, Double(retryCount)))
+            let workItem = DispatchWorkItem { [weak self] in
+                Auth.auth().signInAnonymously { (authResult, error) in
+                    guard let self = self else { return }
+                    if let user = authResult?.user, error == nil {
+                        print("匿名サインインに成功しました", user.uid)
+                        self._authStatus.accept(.anonymous)
+                    } else {
+                        print("匿名サインインに失敗しました:" ,error!.localizedDescription)
+                        if self.retryCount == self.maxRetryCount {
+                            self._authStatus.accept(.error("リトライ回数を超えました。匿名サインインに失敗しました: \(error!.localizedDescription)"))
+                        } else {
+                            self._authStatus.accept(.retrying) // show HUD
+                            self.retrySignInAnonymously()
+                        }
+                    }
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+        }
+    }
+```
+・Firebase Authを使用して現在のユーザー認証状態を確認
+・すでに匿名ユーザーとしてログインしているかをチェック
+・初回の認証が失敗した場合や、ログインしていない場合に匿名ユーザーとしての再認証を試みる
+・リトライの回数制限や、指数バックオフを用いた遅延リトライを行う
+認証状態のUI反映:
+・認証状態に応じてUIの状態（HUDの表示やエラーメッセージ）を更新
+### ・FireBaseの選別
+・データ数が３０００以上あるため、FireStoreではなくRealTimeDataBaseを採用しました。
+　　
 ### ・MapKitのstatus紛失時の挙動を制御する
 バックグラウンドでの位置情報更新を有効にしていない場合、アプリがバックグラウンドに移行すると位置情報の更新が停止します。
+
 ### ・Map切り替え時の動作のもっさり感解消へ
-１. セグメントごとにアノテーションを管理選別はinit内で既にできている
+・セグメントごとにアノテーションを管理選別はinit内で既にできている
 
-２.　　という事は単純にピンの数が多いので差し替え作業に時間を要している。
+・ピンの数が多いので差し替え作業に時間を要している。
 
-３. ピンの再利用、ピンが削除され、再作成されるのではなく、既存のピンを再利用することも検討。
+・ピンの再利用、ピンが削除され、再作成されるのではなく、既存のピンを再利用することも検討。
 
-４.　　ただ今回はセグメント数が２つと少ない為、単純に2画面方式（セグメント切り替えでisHidden）に落ち着く。
+・今回はセグメント数が２つと少ない為、単純に2画面方式（セグメント切り替えでisHidden）に落ち着く。
+
 ただ今後仮に切り替え数が増えると画面だらけになって大変だと感じる為今回の様な状態には適していると感じる。
 
-### ・RxSwiftとRxCocoaのバインディングを使用して、UICollectionViewにデータを表示
+### ・データバインディング
 ```swift
  ViewController.swift
 
@@ -86,8 +171,121 @@
 ・セクション数が明示的に定義していないため、デフォルトのセクション数1（データソースメソッドで言うところのnumberOfSections(in:)）
 
 ・observe(on: MainScheduler.instance).bind(to: otokuCollectionView.rx.items(...))（Observableが発行するアイテムの数が、セクション内のアイテム数に対応。データソースメソッドで言うところのnumberOfItemsInSection）
-### ・
-### ・
+### ・AdMob広告を表示しています
+```swift
+
+extension SetAdMobModel: SetAdMobModelInput{
+    func setAdMob(viewWidthSize:CGFloat,Self:UIViewController) {
+        let AdMobID = ""
+        var admobView = GADBannerView()
+        admobView = GADBannerView(adSize:GADAdSizeBanner)
+        admobView.frame.size = CGSize(width:viewWidthSize, height:admobView.frame.height)
+        admobView.adUnitID = AdMobID
+        admobView.rootViewController = Self
+        admobView.load(GADRequest())
+        self.SetAdMobModelRelay.accept(admobView)
+    }
+}
+```
+### ・アップデートを促す
+```swift
+
+static func checkVersion(completion: @escaping (_ isOlder: Bool) -> Void) {
+        let lastDate = UserDefaults.standard.integer(forKey: lastCheckVersionDateKey)
+        let now = currentDate
+        // 日付が変わるまでスキップ
+        guard lastDate < now else { return }
+        UserDefaults.standard.set(now, forKey: lastCheckVersionDateKey)
+        lookUp { (result: Result<LookUpResult, AppStoreError>) in
+            do {
+                let lookUpResult = try result.get()
+                if let storeVersion = lookUpResult["version"] as? String {
+                    let storeVerInt = versionToInt(storeVersion)
+                    let currentVerInt = versionToInt(Bundle.version)
+                    completion(storeVerInt > currentVerInt)
+                }
+            }
+            catch {
+                completion(false)
+            }
+        }
+    }
+```
+・自動アップデートを設定されていない方向けに新しいバージョンが配信された際通知を出します
+
+### ・データ同期とUI更新の制御
+```swift
+func bindFetchData() {
+        let realm = try! Realm()
+        let otokuDataBox = realm.objects(OtokuDataRealmModel.self)
+        
+        if otokuDataBox.isEmpty {
+            fetchDataFromFirebaseAndUpdate()
+        } else {
+            let versionRef = Database.database().reference().child("version")
+            let timeoutSeconds = 5.0
+            DispatchQueue.global().asyncAfter(deadline: .now() + timeoutSeconds) { [weak self] in
+                if !(self?.isUIUpdated ?? false) {
+                    self?.updateUIFromRealmData()
+                }
+            }
+            versionRef.observeSingleEvent(of: .value) { [weak self] snapshot in
+                guard let self = self else { return }
+                if let currentVersion = snapshot.value as? Int,
+                   let storedVersion = UserDefaults.standard.value(forKey: "storedVersion") as? Int,
+                   storedVersion < currentVersion {
+                    self.fetchDataFromFirebaseAndUpdate()
+                } else if !self.isUIUpdated {
+                    self.updateUIFromRealmData()
+                }
+            }
+        }
+    }
+    func fetchDataFromFirebaseAndUpdate() {
+        DispatchQueue.global().async { 
+            let ref = Database.database().reference().child("OtokuDataModelsObject")
+            ref.observeSingleEvent(of: .value) { [weak self] snapshot in
+                guard let self = self, let otokuData = snapshot.value as? [Any] else { return }
+                let realm = try! Realm()
+                try! realm.write {
+                    realm.delete(realm.objects(OtokuDataRealmModel.self))
+                    var otokuDataModels = [OtokuDataRealmModel]()
+                    for element in otokuData {
+                        if element is NSNull { continue }
+                        guard let i = element as? [String: Any] else { continue }
+                        if let otokuDataModel = OtokuDataRealmModel.from(dictionary: i) {
+                            otokuDataModels.append(otokuDataModel)
+                        }
+                    }
+                    realm.add(otokuDataModels, update: .modified)
+                }
+                
+                let versionRef = Database.database().reference().child("version")
+                versionRef.observeSingleEvent(of: .value) { snapshot in
+                    if let currentVersion = snapshot.value as? Int {
+                        UserDefaults.standard.set(currentVersion, forKey: "storedVersion")
+                    }
+                    DispatchQueue.main.async {
+                        self.updateUIFromRealmData()
+                    }
+                }
+            }
+        }
+    }
+    func updateUIFromRealmData() {
+        DispatchQueue.main.async { // メインスレッド
+            let otokuDataList = self.mapOtokuDataFromRealm()
+            self.calendarModel.accept(otokuDataList)
+            self.isUIUpdated = true
+        }
+```
+・データの同期:Realmデータベースからのデータの取得
+Firebaseからの新しいデータの取得とRealmデータベースへのアップデート
+
+・バージョン管理を通じたデータの新鮮さの確認:保存されているバージョンとFirebaseのバージョンを比較
+新しいバージョンのデータがあればデータを更新
+
+・UIの更新:Realmデータベースから取得したデータをもとにUIを更新
 
 ### ・CoreLocation 内のCLGeocoderクラスを使い倒す
 ```swift
@@ -166,7 +364,7 @@
 このように、`moveModelBoxFirstIfNeeded()`を使用することでGeocoderの制約を交わしつつ限界まで使い回すことができる。
 
 
-### ・Compositional LayoutにおけるUISegmentedControlの活用
+### ・Compositional LayoutにおけるUIPageControlの活用
 ```swift
 func makeLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (section: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
@@ -222,7 +420,7 @@ func makeLayout() -> UICollectionViewLayout {
         return layout
     }
 ```
-UISegmentedControlの動作判定には`visibleItemsInvalidationHandler`を利用しました。
+UIPageControlの動作判定には`visibleItemsInvalidationHandler`を利用しました。
 `UICollectionView`のセクションで現在表示されているアイテム（セル）に関する情報を取得し、それを用いて特定の操作を実行するためのハンドラーです。
 
 スクロール中のセクションで画面中央に最も近いアイテムを特定し、そのアイテムのインデックス情報を取得し、セクションのフッタービューに配置されたページコントロールの現在のページを更新します。
@@ -253,15 +451,14 @@ Alamofire,RxSwift,
   RxBlocking,Swinject
 ## 機能一覧
 - 匿名認証
+- AdMob広告
 - 位置情報検索機能
 
 ## テスト
 - 単体テスト(model)
-- 
-- 
  
 ## 注意点
- 
+ こちらのリポジトリはビルドは通りません
 
  
 
