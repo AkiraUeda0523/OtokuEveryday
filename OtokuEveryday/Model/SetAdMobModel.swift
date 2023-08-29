@@ -28,7 +28,7 @@ class SetAdMobModel{
 }
 extension SetAdMobModel: SetAdMobModelInput{
     func setAdMob(viewWidthSize:CGFloat,Self:UIViewController) {
-        let AdMobID = "ca-app-pub-6401379776966995/5061322972"
+        let AdMobID = ""
         var admobView = GADBannerView()
         admobView = GADBannerView(adSize:GADAdSizeBanner)
         admobView.frame.size = CGSize(width:viewWidthSize, height:admobView.frame.height)

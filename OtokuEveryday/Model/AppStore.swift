@@ -3,7 +3,7 @@
 //  RedMoon2021
 //
 //  Created by 上田晃 on 2022/10/23.
-//https://apps.apple.com/jp/app/%E3%81%8A%E5%BE%97%E3%82%A8%E3%83%96%E3%83%AA%E3%83%87%E3%82%A4/id1601815598
+//
 
 import Foundation
 import Alamofire
@@ -61,7 +61,7 @@ class AppStore {
 private extension AppStore {
     
     static var iTunesID: String {
-        "1601815598"
+        ""
     }
     static var storeURLString: String {
         "https://apps.apple.com/jp/app/%E3%81%8A%E5%BE%97%E3%82%A8%E3%83%96%E3%83%AA%E3%83%87%E3%82%A4/id"

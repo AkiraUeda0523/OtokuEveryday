@@ -37,7 +37,6 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
     private var adMobBannerView = GADBannerView()
     private var status = CLLocationManager.authorizationStatus()
     private let addressGeocoder = CLGeocoder()
-    private let adMobId = "ca-app-pub-6401379776966995/5061322972"
     private let disposeBag = DisposeBag()
     private let currentLocationButtonsPicture = UIImage(named: "icon3")
     private let mapViewModel: MapViewModelType

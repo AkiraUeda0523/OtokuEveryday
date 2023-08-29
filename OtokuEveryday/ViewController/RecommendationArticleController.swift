@@ -46,7 +46,7 @@ class RecommendationArticleController: UIViewController, UICollectionViewDelegat
         RecommendTitleRelay.asObservable()
     }
     private var adMobBannerView = GADBannerView()
-    private let adMobId = "ca-app-pub-6401379776966995/5061322972"
+    private let adMobId = ""
     
     @IBOutlet weak var recommendEmptyView: UIView!
     @IBOutlet weak var bannerView: UIView!
