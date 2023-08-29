@@ -3,56 +3,51 @@
 //
 //  Created by 上田晃 on 2021/09/09.
 //
+
 import UIKit
 import Firebase
-import FirebaseAuth
 import GoogleMobileAds
-import SVGKit
-import FirebaseCore
-import FirebaseFirestore
-import FirebaseAuth
 import RxSwift
 import RxCocoa
 import RealmSwift
 import Swinject
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     let container = Container()
-    let tabIndexRelay = BehaviorRelay<Int>(value: 0)
+    private let tabIndexRelay = BehaviorRelay<Int>(value: 0)
     private let disposeBag = DisposeBag()
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
         container.register(CalendarModelType.self) { _ in CalendarModel() }
+        container.register(MapModelType.self) { _ in MapModel() }
         container.register(SetAdMobModelType.self) { _ in SetAdMobModel() }
         container.register(FetchTodayDateModelType.self) { _ in FetchTodayDateModel() }
         container.register(AutoScrollModelType.self) { _ in AutoScrollModel() }
         container.register(FetchCommonDataModelType.self) { _ in FetchCommonDataModel() }
             .inObjectScope(.container)
+
         container.register(CalendarViewModel.self) { resolver in
-            let calendarModel = resolver.resolve(CalendarModelType.self)!
-            let adMobModel = resolver.resolve(SetAdMobModelType.self)!
-            let todayDateModel = resolver.resolve(FetchTodayDateModelType.self)!
-            let autoScrollModel = resolver.resolve(AutoScrollModelType.self)!
-            let commonDataModel = resolver.resolve(FetchCommonDataModelType.self)!
-            return CalendarViewModel(
-                calendarViewModel: calendarModel,
-                adMobModel: adMobModel,
-                fetchTodayDateModel: todayDateModel,
-                autoScrollModel: autoScrollModel,
-                fetchCommonDataModel: commonDataModel
+            CalendarViewModel(
+                calendarViewModel: resolver.resolve(CalendarModelType.self)!,
+                adMobModel: resolver.resolve(SetAdMobModelType.self)!,
+                fetchTodayDateModel: resolver.resolve(FetchTodayDateModelType.self)!,
+                autoScrollModel: resolver.resolve(AutoScrollModelType.self)!,
+                fetchCommonDataModel: resolver.resolve(FetchCommonDataModelType.self)!
             )!
         }
-        container.register(MapModelType.self) { _ in MapModel() }
-        container.register(SetAdMobModelType.self) { _ in SetAdMobModel() }
-        container.register(FetchTodayDateModelType.self) { _ in FetchTodayDateModel() }
+
         container.register(MapViewModel.self) { resolver in
-            let model = resolver.resolve(MapModelType.self)!
-            let adMobModel = resolver.resolve(SetAdMobModelType.self)!
-            let todayDateModel = resolver.resolve(FetchTodayDateModelType.self)!
-            let commonDataModel = resolver.resolve(FetchCommonDataModelType.self)!
-            return MapViewModel(model: model, adMobModel: adMobModel, fetchTodayDateModel: todayDateModel, commonDataModel: commonDataModel)
+            MapViewModel(
+                model: resolver.resolve(MapModelType.self)!,
+                adMobModel: resolver.resolve(SetAdMobModelType.self)!,
+                fetchTodayDateModel: resolver.resolve(FetchTodayDateModelType.self)!,
+                commonDataModel: resolver.resolve(FetchCommonDataModelType.self)!
+            )
         }
+
         FirebaseApp.configure()
         if UserDefaults.standard.value(forKey: "storedVersion") == nil {
             UserDefaults.standard.set(0, forKey: "storedVersion")
@@ -122,11 +117,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-    }
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        if let viewController = UIApplication.shared.windows.first?.rootViewController {
-            // 現在表示しているUIViewControllerを取得する
-            print("現在表示しているViewController: \(viewController)")
-        }
     }
 }
