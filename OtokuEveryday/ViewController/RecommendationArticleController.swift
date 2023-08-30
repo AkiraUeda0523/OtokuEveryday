@@ -46,7 +46,7 @@ class RecommendationArticleController: UIViewController, UICollectionViewDelegat
         RecommendTitleRelay.asObservable()
     }
     private var adMobBannerView = GADBannerView()
-    private let adMobId = ""
+    private let adMobId = "ca-app-pub-6401379776966995/5061322972"
     
     @IBOutlet weak var recommendEmptyView: UIView!
     @IBOutlet weak var bannerView: UIView!
@@ -198,18 +198,13 @@ class RecommendationArticleController: UIViewController, UICollectionViewDelegat
                     let centerOffset = offset.x + self.collectionView.bounds.width / 2
                     var smallestDistance = CGFloat.infinity
                     var closestIndex = 0
-                    for item in visibleItems {
-                        let distance = abs(item.frame.midX - centerOffset)
-                        
-                        if distance < smallestDistance {
-                            smallestDistance = distance
-                            closestIndex = item.indexPath.item
-                        }
+                    if let closestItem = visibleItems.min(by: {
+                        return abs($0.frame.midX - centerOffset) < abs($1.frame.midX - centerOffset)
+                    }) {
+                        closestIndex = closestItem.indexPath.item
                     }
-                    DispatchQueue.main.async {
-                        let footer = self.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section)) as? FooterView
-                        footer?.pageControl.currentPage = closestIndex
-                    }
+                    let footer = self.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionFooter, at: IndexPath(item: 0, section: section)) as? FooterView
+                    footer?.pageControl.currentPage = closestIndex
                 }
                 return sectionLayout
             }
