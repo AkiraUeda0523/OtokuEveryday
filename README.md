@@ -1,5 +1,7 @@
 
-![おとく裏](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/6af6b651-3513-4307-a03d-56297db2e216)
+
+![名称未設定 (1)](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/b7616f77-8787-4b88-b497-f81fdcc14120)
+
 
 ![お得表](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/82c5f1b8-3998-469c-9751-21ada15d24b5)
 
