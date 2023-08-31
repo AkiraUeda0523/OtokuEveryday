@@ -4,14 +4,116 @@
 //
 //  Created by 上田晃 on 2023/02/02.
 //
+
 import Foundation
 import RxSwift
 import Firebase
 import RxCocoa
 import RealmSwift
-import AlamofireImage
-import Swinject
 
+enum FirebaseFetcherError: Error {
+    case invalidVersionData
+    case invalidOtokuData
+}
+// プロトコルの定義
+protocol DataFetcher {
+    func fetchVersion(completion: @escaping (Result<Int, Error>) -> Void)
+    func fetchData(completion: @escaping (Result<[Any], Error>) -> Void)
+}
+protocol DataStorage {
+    func saveData(_ data: [Any], completion: @escaping (Result<Void, Error>) -> Void)
+    func retrieveData() -> [Any]
+    func isEmpty() -> Bool
+}
+protocol VersionManager {
+    var storedVersion: Int? { get set }
+}
+// 具体的なFirebaseの実装
+class FirebaseFetcher: DataFetcher {
+    
+    func fetchVersion(completion: @escaping (Result<Int, Error>) -> Void) {
+        let versionRef = Database.database().reference().child(Constants.versionKey)
+        versionRef.observeSingleEvent(of: .value) { snapshot in
+            guard let version = snapshot.value as? Int else {
+                completion(.failure(FirebaseFetcherError.invalidVersionData))
+                return
+            }
+            completion(.success(version))
+        }
+    }
+    func fetchData(completion: @escaping (Result<[Any], Error>) -> Void) {
+        let ref = Database.database().reference().child("OtokuDataModelsObject")
+        ref.observeSingleEvent(of: .value) { snapshot in
+            guard let data = snapshot.value as? [Any] else {
+                completion(.failure(FirebaseFetcherError.invalidOtokuData))
+                return
+            }
+            completion(.success(data))
+        }
+    }
+}
+// 具体的なRealmの実装
+class RealmStorage: DataStorage {
+    // データを保存する
+    func saveData(_ data: [Any], completion: @escaping (Result<Void, Error>) -> Void) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                for item in data {
+                    if let otokuData = item as? OtokuDataModel {
+                        let otokuDataDictionary = otokuData.toDictionary() // OtokuDataModel がこのメソッドを持っていると仮定
+                        if let otokuRealmModel = OtokuDataRealmModel.from(dictionary: otokuDataDictionary) {
+                            realm.add(otokuRealmModel)
+                        }
+                    }
+                }
+                completion(.success(()))
+            }
+        } catch {
+            completion(.failure(error))
+        }
+    }
+    // データを取得する
+    func retrieveData() -> [Any] {
+        let realm: Realm
+        do {
+            realm = try Realm()
+            let otokuDataBox = realm.objects(OtokuDataRealmModel.self)
+            return otokuDataBox.map(OtokuDataModel.from)
+        } catch {
+            print("Error initializing Realm: \(error.localizedDescription)")
+            return []
+        }
+    }
+    // Realmのデータが空かどうかを確認する
+    func isEmpty() -> Bool {
+        do {
+            let realm = try Realm()
+            let otokuDataBox = realm.objects(OtokuDataRealmModel.self)
+            return otokuDataBox.isEmpty
+        } catch {
+            print("Error initializing Realm: \(error.localizedDescription)")
+            return true // エラーが発生した場合は、データが空であるとみなす
+        }
+    }
+}
+// UserDefaultsによるバージョン管理の実装
+class UserDefaultsVersionManager: VersionManager {
+    var storedVersion: Int? {
+        get {
+            return UserDefaults.standard.value(forKey: Constants.storedVersionKey) as? Int
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Constants.storedVersionKey)
+        }
+    }
+}
+// MARK: -
+private enum Constants {
+    static let versionKey = "version"
+    static let storedVersionKey = "storedVersion"
+    static let timeoutSeconds: Double = 5.0
+}
 protocol FetchCommonDataModelInput {
     func bindFetchData()
     func updateUIFromRealmData()
@@ -27,67 +129,70 @@ protocol FetchCommonDataModelType {
 final class FetchCommonDataModel {
     private let calendarModel = BehaviorRelay<[OtokuDataModel]>(value: [])
     private var isUIUpdated = false
-    private let imageCache = AutoPurgingImageCache()
-    var retryCount = 0
-    let maxRetryCount = 3
+    private let dataFetcher: DataFetcher
+    private let dataStorage: DataStorage
+    private var versionManager: VersionManager
+    
+    init(dataFetcher: DataFetcher, dataStorage: DataStorage, versionManager: VersionManager) {
+        self.dataFetcher = dataFetcher
+        self.dataStorage = dataStorage
+        self.versionManager = versionManager
+    }
 }
 //MARK: - CalendarModel Extension
 extension FetchCommonDataModel:FetchCommonDataModelInput{
-    //-----------------------------------------------------------------------４つの関数が繋がっている
     func bindFetchData() {
-        let realm = try! Realm()
-        let otokuDataBox = realm.objects(OtokuDataRealmModel.self)
-        
-        if otokuDataBox.isEmpty {
+        if dataStorage.isEmpty() {
             fetchDataFromFirebaseAndUpdate()
         } else {
-            let versionRef = Database.database().reference().child("version")
-            // タイムアウト時間を設定
-            let timeoutSeconds = 5.0
-            DispatchQueue.global().asyncAfter(deadline: .now() + timeoutSeconds) { [weak self] in
-                // タイムアウト時の処理
-                if !(self?.isUIUpdated ?? false) {
-                    self?.updateUIFromRealmData()
-                }
-            }
-            versionRef.observeSingleEvent(of: .value) { [weak self] snapshot in
+            dataFetcher.fetchVersion { [weak self] result in
                 guard let self = self else { return }
-                if let currentVersion = snapshot.value as? Int,
-                   let storedVersion = UserDefaults.standard.value(forKey: "storedVersion") as? Int,
-                   storedVersion < currentVersion {
-                    self.fetchDataFromFirebaseAndUpdate()
-                } else if !self.isUIUpdated {
-                    self.updateUIFromRealmData()
+                switch result {
+                case .success(let currentVersion):
+                    if self.versionManager.storedVersion ?? 0 < currentVersion {
+                        self.fetchDataFromFirebaseAndUpdate()
+                    } else if !self.isUIUpdated {
+                        self.updateUIFromRealmData()
+                    }
+                case .failure:
+                    // タイムアウト時の処理
+                    DispatchQueue.global().asyncAfter(deadline: .now() + Constants.timeoutSeconds) {
+                        if !(self.isUIUpdated) {
+                            self.updateUIFromRealmData()
+                        }
+                    }
                 }
             }
         }
     }
-    
-    func fetchDataFromFirebaseAndUpdate() {//エラーハンドリング
-        DispatchQueue.global().async { // 新たなスレッドで実行
+    func fetchDataFromFirebaseAndUpdate() {
+        DispatchQueue.global().async {
             let ref = Database.database().reference().child("OtokuDataModelsObject")
             ref.observeSingleEvent(of: .value) { [weak self] snapshot in
-                guard let self = self, let otokuData = snapshot.value as? [Any] else { return }
-                let realm = try! Realm()
-                try! realm.write {
-                    realm.delete(realm.objects(OtokuDataRealmModel.self))
-                    var otokuDataModels = [OtokuDataRealmModel]()
-                    for element in otokuData {
-                        if element is NSNull { continue }
-                        guard let i = element as? [String: Any] else { continue }
-                        if let otokuDataModel = OtokuDataRealmModel.from(dictionary: i) {
-                            otokuDataModels.append(otokuDataModel)
-                        }
-                    }
-                    realm.add(otokuDataModels, update: .modified)
+                guard let self = self else {
+                    print("Self has been deallocated.")
+                    return
                 }
-                
-                let versionRef = Database.database().reference().child("version")
-                versionRef.observeSingleEvent(of: .value) { snapshot in
-                    if let currentVersion = snapshot.value as? Int {
-                        UserDefaults.standard.set(currentVersion, forKey: "storedVersion")
+                guard let otokuData = snapshot.value as? [Any] else {
+                    print("Error retrieving otoku data from Firebase.")
+                    return
+                }
+                self.dataStorage.saveData(otokuData) { result in
+                    switch result {
+                    case .success:
+                        print("Data saved successfully.")
+                    case .failure(let error):
+                        print("Error saving data: \(error.localizedDescription)")
                     }
-                    DispatchQueue.main.async { // メインスレッド
+                }
+                let versionRef = Database.database().reference().child(Constants.versionKey)
+                versionRef.observeSingleEvent(of: .value) { snapshot in
+                    guard let currentVersion = snapshot.value as? Int else {
+                        print("Error retrieving current version from Firebase.")
+                        return
+                    }
+                    self.versionManager.storedVersion = currentVersion
+                    DispatchQueue.main.async {
                         self.updateUIFromRealmData()
                     }
                 }
@@ -96,16 +201,11 @@ extension FetchCommonDataModel:FetchCommonDataModelInput{
     }
     
     func updateUIFromRealmData() {
-        DispatchQueue.main.async { // メインスレッド
-            let otokuDataList = self.mapOtokuDataFromRealm()
+        let otokuDataList = dataStorage.retrieveData() as? [OtokuDataModel] ?? []
+        DispatchQueue.main.async { // メインスレッドでのUIの更新
             self.calendarModel.accept(otokuDataList)
             self.isUIUpdated = true
         }
-    }
-    private func mapOtokuDataFromRealm() -> [OtokuDataModel] {
-        let realm = try! Realm()
-        let otokuDataBox = realm.objects(OtokuDataRealmModel.self)
-        return otokuDataBox.map(OtokuDataModel.from)
     }
 }
 extension FetchCommonDataModel: FetchCommonDataModelOutput {
@@ -117,7 +217,7 @@ extension FetchCommonDataModel: FetchCommonDataModelType {
     var input: FetchCommonDataModelInput { return self }
     var output: FetchCommonDataModelOutput { return self }
 }
-//-------------------------------------------------------------------------------------Realm用model
+//Realm用model
 @objcMembers class OtokuDataRealmModel: Object {
     dynamic var id = UUID().uuidString // プライマリキーを追加
     var address_ids = List<String>()
@@ -136,5 +236,16 @@ extension FetchCommonDataModel: FetchCommonDataModelType {
         otokuDataModel.collectionView_image_url = dictionary["collectionView_image_url"] as? String ?? ""
         otokuDataModel.enabled_dates.append(objectsIn: dictionary["enabled_dates"] as? [String] ?? [])
         return otokuDataModel
+    }
+}
+extension OtokuDataModel {
+    func toDictionary() -> [String: Any] {
+        return [
+            "address_ids": self.address_ids,
+            "article_title": self.article_title,
+            "blog_web_url": self.blog_web_url,
+            "collectionView_image_url": self.collectionView_image_url,
+            "enabled_dates": self.enabled_dates
+        ]
     }
 }
