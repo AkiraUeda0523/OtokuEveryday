@@ -55,7 +55,7 @@
 
 <img width="400" alt="スクリーンショット 2023-10-22 23 40 55" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/31cbbec3-3861-4ce5-9e68-cbeb2e48f020">
 
-### [↑上記、参加ブログを書きました。](https://note.com/ojioji0523/n/nd7c511dedc97)
+### [↑上記の内容で参加ブログを書いています。](https://note.com/ojioji0523/n/nd7c511dedc97)
 
 ---
 ### ・iOSDC Japan 2022(残念ながら落選)
