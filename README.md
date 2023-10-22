@@ -1,5 +1,4 @@
 
-
 ![名称未設定 (1)](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/b7616f77-8787-4b88-b497-f81fdcc14120)
 
 
@@ -54,6 +53,11 @@
 <img width="400" alt="スクリーンショット 2023-06-25 18 18 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/1d38f95d-5b1b-4a19-88a5-e70629c5c020">
 <img width="400" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
 
+<img width="400" alt="スクリーンショット 2023-10-22 23 40 55" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/31cbbec3-3861-4ce5-9e68-cbeb2e48f020">
+
+### [↑上記、参加ブログを書きました。](https://note.com/ojioji0523/n/nd7c511dedc97)
+
+---
 ### ・iOSDC Japan 2022(残念ながら落選)
 <img width="400" alt="スクリーンショット 2023-06-25 18 20 29" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/170fd570-4bf3-49d9-8f27-a7a1e7fc81d8">
 <img width="400" alt="スクリーンショット 2023-06-25 18 15 14" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/ef6d8d45-81b6-4e19-b6e8-908bffb966fb">
@@ -81,6 +85,7 @@
 ---
  ## このプロジェクトの開発において、工夫した点など
 ### ・機能実装は基本的にRxSwiftを使用しています。
+---
 ### ・データベースのバージョンを管理し、必要に応じて更新
 ```swift
  if UserDefaults.standard.value(forKey: "storedVersion") == nil {
@@ -108,6 +113,7 @@
             print("Error opening realm: \(error.localizedDescription)")
         }
 ```
+---
 ### ・匿名ユーザー認証
 ```swift
 
@@ -158,12 +164,16 @@
 ・リトライの回数制限や、指数バックオフを用いた遅延リトライを行う
 認証状態のUI反映:
 ・認証状態に応じてUIの状態（HUDの表示やエラーメッセージ）を更新
+
+---
 ### ・FireBaseの選別
 ・データ数が３０００以上あるため、FireStoreではなくRealTimeDataBaseを採用しました。
-　　
+
+---
 ### ・MapKitのstatus紛失時の挙動を制御する
 バックグラウンドでの位置情報更新を有効にしていない場合、アプリがバックグラウンドに移行すると位置情報の更新が停止します。
 
+---
 ### ・Map切り替え時の動作のもっさり感解消へ
 ・セグメントごとにアノテーションを管理選別はinit内で既にできている
 
@@ -175,6 +185,7 @@
 
 ただ今後仮に切り替え数が増えると画面だらけになって大変だと感じる為今回の様な状態には適していると感じる。
 
+---
 ### ・データバインディング
 ```swift
  ViewController.swift
@@ -206,6 +217,8 @@
 ・セクション数が明示的に定義していないため、デフォルトのセクション数1（データソースメソッドで言うところのnumberOfSections(in:)）
 
 ・observe(on: MainScheduler.instance).bind(to: otokuCollectionView.rx.items(...))（Observableが発行するアイテムの数が、セクション内のアイテム数に対応。データソースメソッドで言うところのnumberOfItemsInSection）
+
+---
 ### ・AdMob広告を表示しています
 ```swift
 
@@ -222,6 +235,7 @@ extension SetAdMobModel: SetAdMobModelInput{
     }
 }
 ```
+---
 ### ・アップデートを促す
 ```swift
 
@@ -247,6 +261,8 @@ static func checkVersion(completion: @escaping (_ isOlder: Bool) -> Void) {
     }
 ```
 ・自動アップデートを設定されていない方向けに新しいバージョンが配信された際通知を出します
+
+---
 
 ### ・データ同期とUI更新の制御
 ```swift
@@ -321,6 +337,8 @@ Firebaseからの新しいデータの取得とRealmデータベースへのア�
 新しいバージョンのデータがあればデータを更新
 
 ・UIの更新:Realmデータベースから取得したデータをもとにUIを更新
+
+---
 
 ### ・CoreLocation 内のCLGeocoderクラスを使い倒す
 ```swift
@@ -398,7 +416,7 @@ Firebaseからの新しいデータの取得とRealmデータベースへのア�
 
 このように、`moveModelBoxFirstIfNeeded()`を使用することでGeocoderの制約を交わしつつ限界まで使い回すことができる。
 
-
+---
 ### ・Compositional LayoutにおけるUIPageControlの活用
 ```swift
 func makeLayout() -> UICollectionViewLayout {
@@ -462,6 +480,7 @@ UIPageControlの動作判定には`visibleItemsInvalidationHandler`を利用し�
 これにより、ユーザーは自分が何ページ目を見ているのかを判断できます。
 この操作は、ユーザーがスクロールしたときに動的に行われます。
 
+---
 
 ### ・ネットワークの状態によってのデータ取得方法の分岐
 
@@ -528,6 +547,7 @@ UIPageControlの動作判定には`visibleItemsInvalidationHandler`を利用し�
 ```
 ネットワークの接続状態を確認し、それに基づいて最新のデータを取得するか、ローカルのデータを使用してUIを更新するかを決定する。
 
+---
 ## 使用ライブラリ一覧
 Alamofire,RxSwift,
   RxCocoa,
@@ -550,6 +570,8 @@ Alamofire,RxSwift,
   Nuke, 
   RxTest,
   RxBlocking,Swinject
+
+---
 ## 機能一覧
 - 匿名認証
 - AdMob広告
