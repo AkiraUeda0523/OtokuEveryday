@@ -462,6 +462,72 @@ UIPageControlの動作判定には`visibleItemsInvalidationHandler`を利用し�
 これにより、ユーザーは自分が何ページ目を見ているのかを判断できます。
 この操作は、ユーザーがスクロールしたときに動的に行われます。
 
+
+### ・ネットワークの状態によってのデータ取得方法の分岐
+
+```swift
+ FetchCommonDataModel.swift
+
+ func bindFetchData() {
+        print("bindFetchData called")
+        isConnectedToNetwork { [weak self] isConnected in
+            guard let self = self else { return }
+            
+            if isConnected {
+                self.handleNetworkConnected()
+            } else {
+                self.updateUIFromRealmData() // If no network connectivity, use local data.
+            }
+        }
+    }
+
+    private func handleNetworkConnected() {
+        if dataStorage.isEmpty() {
+            fetchDataFromFirebaseAndUpdate()
+            return
+        }
+
+        dataFetcher.fetchVersion()
+            .subscribe(onNext: { [weak self] currentVersion in
+                self?.handleVersionFetched(currentVersion: currentVersion)
+            }, onError: { [weak self] _ in
+                self?.updateUIFromRealmData() // In case of an error, use local data.
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func handleVersionFetched(currentVersion: Int) {
+        guard let storedVersion = versionManager.storedVersion else {
+            updateUIFromRealmData()
+            return
+        }
+
+        if storedVersion < currentVersion {
+            fetchDataFromFirebaseAndUpdate()
+            shouldUpdateData.accept(true)
+        } else {
+            updateUIFromRealmData()
+        }
+    }
+
+
+    func isConnectedToNetwork(completion: @escaping (Bool) -> Void) {
+        let monitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                completion(true)
+            } else {
+                completion(false)
+            }
+            monitor.cancel() // Once we get the status, we can stop the monitor.
+        }
+        monitor.start(queue: queue)
+    }
+ 
+```
+ネットワークの接続状態を確認し、それに基づいて最新のデータを取得するか、ローカルのデータを使用してUIを更新するかを決定する。
+
 ## 使用ライブラリ一覧
 Alamofire,RxSwift,
   RxCocoa,
