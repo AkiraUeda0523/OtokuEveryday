@@ -51,7 +51,7 @@
 ## アプリ内使用技術でのプロポーザル申し込み履歴 
 ### ・iOSDC Japan 2023（採択戴きました！）
 <img width="400" alt="スクリーンショット 2023-06-25 18 18 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/1d38f95d-5b1b-4a19-88a5-e70629c5c020">
-<img width="400" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
+<img width="500" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
 
 
 ---
@@ -65,7 +65,7 @@
 ---
 ### ・iOSDC Japan 2022(残念ながら落選)
 <img width="400" alt="スクリーンショット 2023-06-25 18 20 29" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/170fd570-4bf3-49d9-8f27-a7a1e7fc81d8">
-<img width="400" alt="スクリーンショット 2023-06-25 18 15 14" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/ef6d8d45-81b6-4e19-b6e8-908bffb966fb">
+<img width="370" alt="スクリーンショット 2023-06-25 18 15 14" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/ef6d8d45-81b6-4e19-b6e8-908bffb966fb">
 
 ## 環境
 
@@ -79,8 +79,11 @@
 
 ## 使用技術
 - RxSwift
+- bitrise
+- Swift Concurrency
 - Swinject
 - UICollectionViewCompositionalLayout
+- Unit Test
 - Firebase/Firestore
 - Firebase/Realtime Database
 - Firebase/InAppMessaging
@@ -583,7 +586,7 @@ Alamofire,RxSwift,
 - 位置情報
 
 ## テスト
-- 単体テスト(model層)
+- 単体テスト(主要ViewModel層)
  
 ## 注意点
  こちらのリポジトリはビルドは通りません
