@@ -1,17 +1,18 @@
 
-
 ![名称未設定 (1)](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/b7616f77-8787-4b88-b497-f81fdcc14120)
 
 
 ![お得表](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/82c5f1b8-3998-469c-9751-21ada15d24b5)
 ## 志望理由<br><br>
-### ・これまで学習してきた事を実践投入して社会のサービスの向上に貢献したい<br><br>
-### ・業務を通じて個人開発では実感しづらい設計や仕組みの旨味の部分を体感したい<br><br>
-### ・普段の勉強会への参加などを通じてIT業界の雰囲気を心地よく感じる<br><br>
-### ・何よりSwiftへの興味が尽きない<br><br>
+### ・これまで学習してきた事を実践投入して社会のサービスの向上に貢献したい為<br><br>
+### ・業務を通じて個人開発では実感しづらい設計や仕組みの旨味の部分を体感したい為<br><br>
+### ・普段の勉強会への参加などを通じてIT業界の雰囲気を心地よく感じる為<br><br>
+### ・Swiftへの興味が尽きない為<br><br>
 ## 以上４つの理由により現在iOSエンジニアを志望しています。<br><br>
 
 <br>
+
+### ・父親がエンジニアでしたのでプログラムに興味は持っていました。
 
 ### ・１９８４年生まれの39歳です。プログラムを書き出して2年程経ちます。奈良県在住で既婚です。かなりスタートに遅れを取っていることは承知しております。<br><br>
 ### ・営業チームのリーダーをしておりましたので、顧客折衝が得意です。<br><br>
@@ -50,11 +51,21 @@
 ## アプリ内使用技術でのプロポーザル申し込み履歴 
 ### ・iOSDC Japan 2023（採択戴きました！）
 <img width="400" alt="スクリーンショット 2023-06-25 18 18 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/1d38f95d-5b1b-4a19-88a5-e70629c5c020">
-<img width="400" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
+<img width="500" alt="スクリーンショット 2023-06-25 18 20 44" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/0acbe12b-6d74-4251-8125-159d4eac6d7c">
 
+
+---
+
+
+
+<img width="400" alt="スクリーンショット 2023-10-22 23 40 55" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/31cbbec3-3861-4ce5-9e68-cbeb2e48f020">
+
+### [↑上記の内容で参加ブログを書いています。](https://note.com/ojioji0523/n/nd7c511dedc97)
+
+---
 ### ・iOSDC Japan 2022(残念ながら落選)
 <img width="400" alt="スクリーンショット 2023-06-25 18 20 29" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/170fd570-4bf3-49d9-8f27-a7a1e7fc81d8">
-<img width="400" alt="スクリーンショット 2023-06-25 18 15 14" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/ef6d8d45-81b6-4e19-b6e8-908bffb966fb">
+<img width="370" alt="スクリーンショット 2023-06-25 18 15 14" src="https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/ef6d8d45-81b6-4e19-b6e8-908bffb966fb">
 
 ## 環境
 
@@ -68,8 +79,11 @@
 
 ## 使用技術
 - RxSwift
+- bitrise
+- Swift Concurrency
 - Swinject
 - UICollectionViewCompositionalLayout
+- Unit Test
 - Firebase/Firestore
 - Firebase/Realtime Database
 - Firebase/InAppMessaging
@@ -79,6 +93,7 @@
 ---
  ## このプロジェクトの開発において、工夫した点など
 ### ・機能実装は基本的にRxSwiftを使用しています。
+---
 ### ・データベースのバージョンを管理し、必要に応じて更新
 ```swift
  if UserDefaults.standard.value(forKey: "storedVersion") == nil {
@@ -106,6 +121,7 @@
             print("Error opening realm: \(error.localizedDescription)")
         }
 ```
+---
 ### ・匿名ユーザー認証
 ```swift
 
@@ -156,12 +172,16 @@
 ・リトライの回数制限や、指数バックオフを用いた遅延リトライを行う
 認証状態のUI反映:
 ・認証状態に応じてUIの状態（HUDの表示やエラーメッセージ）を更新
+
+---
 ### ・FireBaseの選別
 ・データ数が３０００以上あるため、FireStoreではなくRealTimeDataBaseを採用しました。
-　　
+
+---
 ### ・MapKitのstatus紛失時の挙動を制御する
 バックグラウンドでの位置情報更新を有効にしていない場合、アプリがバックグラウンドに移行すると位置情報の更新が停止します。
 
+---
 ### ・Map切り替え時の動作のもっさり感解消へ
 ・セグメントごとにアノテーションを管理選別はinit内で既にできている
 
@@ -173,6 +193,7 @@
 
 ただ今後仮に切り替え数が増えると画面だらけになって大変だと感じる為今回の様な状態には適していると感じる。
 
+---
 ### ・データバインディング
 ```swift
  ViewController.swift
@@ -204,6 +225,8 @@
 ・セクション数が明示的に定義していないため、デフォルトのセクション数1（データソースメソッドで言うところのnumberOfSections(in:)）
 
 ・observe(on: MainScheduler.instance).bind(to: otokuCollectionView.rx.items(...))（Observableが発行するアイテムの数が、セクション内のアイテム数に対応。データソースメソッドで言うところのnumberOfItemsInSection）
+
+---
 ### ・AdMob広告を表示しています
 ```swift
 
@@ -220,6 +243,7 @@ extension SetAdMobModel: SetAdMobModelInput{
     }
 }
 ```
+---
 ### ・アップデートを促す
 ```swift
 
@@ -245,6 +269,8 @@ static func checkVersion(completion: @escaping (_ isOlder: Bool) -> Void) {
     }
 ```
 ・自動アップデートを設定されていない方向けに新しいバージョンが配信された際通知を出します
+
+---
 
 ### ・データ同期とUI更新の制御
 ```swift
@@ -319,6 +345,8 @@ Firebaseからの新しいデータの取得とRealmデータベースへのア�
 新しいバージョンのデータがあればデータを更新
 
 ・UIの更新:Realmデータベースから取得したデータをもとにUIを更新
+
+---
 
 ### ・CoreLocation 内のCLGeocoderクラスを使い倒す
 ```swift
@@ -396,7 +424,7 @@ Firebaseからの新しいデータの取得とRealmデータベースへのア�
 
 このように、`moveModelBoxFirstIfNeeded()`を使用することでGeocoderの制約を交わしつつ限界まで使い回すことができる。
 
-
+---
 ### ・Compositional LayoutにおけるUIPageControlの活用
 ```swift
 func makeLayout() -> UICollectionViewLayout {
@@ -460,6 +488,74 @@ UIPageControlの動作判定には`visibleItemsInvalidationHandler`を利用し�
 これにより、ユーザーは自分が何ページ目を見ているのかを判断できます。
 この操作は、ユーザーがスクロールしたときに動的に行われます。
 
+---
+
+### ・ネットワークの状態によってのデータ取得方法の分岐
+
+```swift
+ FetchCommonDataModel.swift
+
+ func bindFetchData() {
+        print("bindFetchData called")
+        isConnectedToNetwork { [weak self] isConnected in
+            guard let self = self else { return }
+            
+            if isConnected {
+                self.handleNetworkConnected()
+            } else {
+                self.updateUIFromRealmData() // If no network connectivity, use local data.
+            }
+        }
+    }
+
+    private func handleNetworkConnected() {
+        if dataStorage.isEmpty() {
+            fetchDataFromFirebaseAndUpdate()
+            return
+        }
+
+        dataFetcher.fetchVersion()
+            .subscribe(onNext: { [weak self] currentVersion in
+                self?.handleVersionFetched(currentVersion: currentVersion)
+            }, onError: { [weak self] _ in
+                self?.updateUIFromRealmData() // In case of an error, use local data.
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func handleVersionFetched(currentVersion: Int) {
+        guard let storedVersion = versionManager.storedVersion else {
+            updateUIFromRealmData()
+            return
+        }
+
+        if storedVersion < currentVersion {
+            fetchDataFromFirebaseAndUpdate()
+            shouldUpdateData.accept(true)
+        } else {
+            updateUIFromRealmData()
+        }
+    }
+
+
+    func isConnectedToNetwork(completion: @escaping (Bool) -> Void) {
+        let monitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                completion(true)
+            } else {
+                completion(false)
+            }
+            monitor.cancel() // Once we get the status, we can stop the monitor.
+        }
+        monitor.start(queue: queue)
+    }
+ 
+```
+ネットワークの接続状態を確認し、それに基づいて最新のデータを取得するか、ローカルのデータを使用してUIを更新するかを決定する。
+
+---
 ## 使用ライブラリ一覧
 Alamofire,RxSwift,
   RxCocoa,
@@ -482,13 +578,15 @@ Alamofire,RxSwift,
   Nuke, 
   RxTest,
   RxBlocking,Swinject
+
+---
 ## 機能一覧
 - 匿名認証
 - AdMob広告
 - 位置情報
 
 ## テスト
-- 単体テスト(model層)
+- 単体テスト(主要ViewModel層)
  
 ## 注意点
  こちらのリポジトリはビルドは通りません
