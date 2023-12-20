@@ -85,7 +85,3 @@ extension CategoryViewController:UITableViewDelegate,UITableViewDataSource {
         }
     }
 }
-
-
-
-

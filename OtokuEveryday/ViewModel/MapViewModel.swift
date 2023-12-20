@@ -23,7 +23,7 @@ protocol MapViewModelInput {
     var slideShowCollectionViewSelectedIndexPathObserver: AnyObserver<IndexPath> { get }
     var fetchMapAllDataTriggerObserver:AnyObserver<Void> { get }
 }
-//-------------------------------------------------------------------------------
+
 protocol MapViewModelOutput {
     var mapTodaysModelObservable:Observable<[OtokuMapModel]> { get }
     var mapModelsObservable:Observable<[OtokuMapModel]> { get }
@@ -33,14 +33,17 @@ protocol MapViewModelOutput {
     var otokuSpecialtyObservable: Observable<[SlideShowModel]> { get }
     var slideShowCollectionViewSelectedUrlObservavable: Observable<String> { get }
 }
+
 protocol MapViewModelType {
     var input: MapViewModelInput { get }
     var output: MapViewModelOutput { get }
 }
+
 enum SegmentedType: Int {
     case today
     case all
 }
+
 // MARK: -
 final class MapViewModel{
     var foregroundJudgeRelay = BehaviorSubject<Bool>(value: true)
@@ -49,9 +52,9 @@ final class MapViewModel{
     var viewWidthSizeSubject = PublishSubject<SetAdMobModelData>()
     private var addAnnotationRetryCount = 0
     private var selectSegmentIndexType:Int = 0
-    private let addressGeocoder = CLGeocoder()
+    internal var addressGeocoder: AddressGeocoder = CLGeocoder()
     private var status = CLLocationManager.authorizationStatus()
-    private var db = Firestore.firestore()
+    internal var db:FirestoreProtocol = Firestore.firestore()
     private let allDaysAnnotationModel = BehaviorRelay<[OtokuMapModel]>(value: [])
     private let todaysAnnotationModel = BehaviorRelay<[OtokuMapModel]>(value: [])
     //input
@@ -79,26 +82,21 @@ final class MapViewModel{
         
         viewWidthSizeSubject
             .subscribe { [self] size in
-                setAdMobModel.setAdMob(viewWidthSize: size.element?.size ?? 0, Self: size.element!.VC)
+                setAdMobModel.setAdMob(bannerWidthSize: size.element?.bannerWidth ?? 0, bannerHight: size.element?.bannerHight ?? 0, viewController: size.element!.VC)
             }
             .disposed(by: disposeBag)
         
         setAdMobModel
             .output
             .SetAdMobModelObservable
-            .subscribe { [self] setAdMob in
-                SetAdMobModelRelay.accept(setAdMob)
+            .subscribe { [self] (setAdMob: AdBannerView) in
+                SetAdMobModelRelay.accept(setAdMob as! GADBannerView)
             }
             .disposed(by: disposeBag)
         
-        fetchMapAllDataTrigger
-            .subscribe(onNext: { [weak self] _ in
-                guard let self = self else { return }
-                mapModel.input.fetchOtokuSpecialtyData()
-                mapModel.input.fetchAddressDataFromRealTimeDB()
-                todayRelay.accept(todayDateModel.input.fetchTodayDate())
-            })
-            .disposed(by: disposeBag)
+        mapModel.input.fetchOtokuSpecialtyData()
+        mapModel.input.fetchAddressDataFromRealTimeDB()
+        todayRelay.accept(todayDateModel.input.fetchTodayDate())
         
         mapModel
             .output
@@ -125,7 +123,27 @@ final class MapViewModel{
             }
             .disposed(by: disposeBag)
         
-        let modelBoxObservable = currentSegmente
+        CommonDataModel
+            .output
+            .shouldUpdateDataObservable
+            .subscribe { [self] judge in
+                mapModel.input.shouldUpdateDataJudgeObserver.onNext(judge)
+            }
+            .disposed(by: disposeBag)
+        
+        mapTodaysModelObservable
+            .subscribe(onNext: { [weak self] todayArticle in
+                self?.todaysAnnotationModel.accept(todayArticle)
+            })
+            .disposed(by: disposeBag)
+        
+        mapModelsObservable
+            .subscribe(onNext: { [weak self] allArticle in
+                self?.allDaysAnnotationModel.accept(allArticle)
+            })
+            .disposed(by: disposeBag)
+        // MARK: -
+        let  modelBoxObservableFromSegment = currentSegmente
             .withUnretained(self)
             .flatMap { weakSelf, type -> Observable<[OtokuMapModel]> in
                 switch type {
@@ -141,64 +159,26 @@ final class MapViewModel{
             }
             .share(replay: 1)
         
-        mapTodaysModelObservable
-            .subscribe(onNext: { [weak self] todayArticle in
-                self?.todaysAnnotationModel.accept(todayArticle)
-            })
-            .disposed(by: disposeBag)
-        
-        mapModelsObservable
-            .subscribe(onNext: { [weak self] todayArticle in
-                self?.allDaysAnnotationModel.accept(todayArticle)
-            })
-            .disposed(by: disposeBag)
-        // MARK: -
-        modelBoxObservable
-            .map { boxs in
-                boxs.filter { $0.address.longitude == nil || $0.address.latitude == nil }
+        modelBoxObservableFromSegment
+            .map { mapModels in
+                mapModels.filter { $0.address.longitude == nil || $0.address.latitude == nil }
             }
             .compactMap(\.first)
-            .subscribe(onNext: { [weak self] box in
-                guard let content = box.address.content, !content.isEmpty else {
-                    self?.moveModelBoxFirstIfNeeded()
-                    return
-                }
-                sleep(5)
-                self?.addressGeocoder.geocodeAddressString(content) { [weak self] placemarks, error in
-                    guard error == nil, let coordinate = placemarks?.first?.location?.coordinate else {
-                        self?.moveModelBoxFirstIfNeeded()
-                        return
-                    }
-                    self?.db.collection("map_ addresses")
-                        .document(box.id)
-                        .setData(
-                            [
-                                "latitude": coordinate.latitude as Any,
-                                "longitude": coordinate.longitude as Any
-                            ],
-                            merge: true
-                        ) { err in
-                            if err != nil {
-                                self?.moveModelBoxFirstIfNeeded()
-                            }
-                        }
-                }
-            })
-            .disposed(by: disposeBag)
-        // MARK: -
-        modelBoxObservable
-            .map { boxs in
-                boxs.filter { $0.address.longitude != nil && $0.address.latitude != nil }
-            }
-            .filter{models in
-                let adresses = models.map(\.address.longitude)
-                return !adresses.contains(where: {$0 == nil})
-            }
-            .subscribe(onNext: { [self] boxs in
-                modelBoxRelay.accept(boxs)
+            .subscribe(onNext: { [weak self] incompleteCoordinates in
+                self?.processBox(incompleteCoordinates)
             })
             .disposed(by: disposeBag)
         
+        modelBoxObservableFromSegment
+            .map { mapModels in
+                mapModels.filter { $0.address.longitude != nil && $0.address.latitude != nil }
+            }
+            .subscribe(onNext: { [self] validCoordinates in
+                modelBoxRelay.accept(validCoordinates)
+            })
+            .disposed(by: disposeBag)
+        
+        // MARK: -
         slideShowCollectionViewSelectedIndexPathSubject
             .withLatestFrom(otokuSpecialtySubject) { indexPath, data in
                 let selectedUrl = data[indexPath.row].webUrl
@@ -207,6 +187,41 @@ final class MapViewModel{
             .bind(to: slideShowCollectionViewSelectedUrlSubject)
             .disposed(by: disposeBag)
     }
+    
+    // MARK: -functions
+    
+    func processBox(_ box: OtokuMapModel) {
+        guard let content = box.address.content, !content.isEmpty else {
+            moveModelBoxFirstIfNeeded()
+            return
+        }
+        sleep(5)
+        
+        addressGeocoder.geocodeAddressString(content) { [weak self] placemarks, error in
+            self?.handleGeocodingResult(placemarks, error: error, forBox: box)
+        }
+    }
+    
+    func handleGeocodingResult(_ placemarks: [CLPlacemark]?, error: Error?, forBox box: OtokuMapModel) {
+        guard error == nil, let coordinate = placemarks?.first?.location?.coordinate else {
+            moveModelBoxFirstIfNeeded()
+            return
+        }
+        db.collectionPath("map_ addresses")
+            .documentPath(box.id)
+            .setData(
+                [
+                    "latitude": coordinate.latitude as Any,
+                    "longitude": coordinate.longitude as Any
+                ],
+                merge: true
+            ) { [weak self] (err: Error?) in
+                if err != nil {
+                    self?.moveModelBoxFirstIfNeeded()
+                }
+            }
+    }
+    
     private func moveModelBoxFirstIfNeeded() {
         if self.addAnnotationRetryCount < 500 && self.selectSegmentIndexType == 0{
             self.addAnnotationRetryCount += 1
@@ -226,18 +241,27 @@ final class MapViewModel{
             allDaysAnnotationModel.accept(result)
         }
     }
-    internal func bindInput(with notificationCenter: NotificationCenter = NotificationCenter.default) {
-        notificationCenter.rx.notification(UIApplication.willResignActiveNotification)
-            .subscribe(onNext: { [unowned self] _ in
-                foregroundJudgeRelay.onNext(false)
-            })
-            .disposed(by: disposeBag)
-        
-        notificationCenter.rx.notification(UIApplication.didBecomeActiveNotification)
-            .subscribe(onNext: { [unowned self] _ in
-                foregroundJudgeRelay.onNext(true)
-            })
-            .disposed(by: disposeBag)
+    func setupTestDataForTest(addAnnotationRetryCount: Int, selectSegmentIndexType: Int, todaysAnnotationModel: [OtokuMapModel]) {
+        self.addAnnotationRetryCount = addAnnotationRetryCount
+        self.selectSegmentIndexType = selectSegmentIndexType
+        self.todaysAnnotationModel.accept(todaysAnnotationModel)
+    }
+    
+    func moveModelBoxFirstIfNeededForTest() {
+        self.moveModelBoxFirstIfNeeded()
+    }
+    
+    func getTodaysAnnotationModelForTest() -> [OtokuMapModel] {
+        return self.todaysAnnotationModel.value
+    }
+    func setupTestDataForAllDaysAnnotationModelTest(addAnnotationRetryCount: Int, selectSegmentIndexType: Int, allDaysAnnotationModel: [OtokuMapModel]) {
+        self.addAnnotationRetryCount = addAnnotationRetryCount
+        self.selectSegmentIndexType = selectSegmentIndexType
+        self.allDaysAnnotationModel.accept(allDaysAnnotationModel)
+    }
+    
+    func getAllDaysAnnotationModelForTest() -> [OtokuMapModel] {
+        return self.allDaysAnnotationModel.value
     }
 }
 //MARK: -extension　Type
@@ -262,7 +286,7 @@ extension MapViewModel: MapViewModelInput{
     var viewWidthSizeObserver: RxSwift.AnyObserver<SetAdMobModelData> {
         return viewWidthSizeSubject.asObserver()
     }
-    //MARK: -ステイト
+    
     var foregroundJudge: Observable<Bool> {
         return  foregroundJudgeRelay.asObservable()
     }
@@ -305,15 +329,16 @@ extension MapViewModel: MapViewModelOutput{
             addressSubject,
             todayInfosObservable
         )
-        .map { address, info -> [OtokuMapModel] in
+        .map { address, info -> [OtokuMapModel] in info[OtokuDataModel]
             info.flatMap { article -> [OtokuMapModel] in
-                article.address_ids.compactMap {  id -> OtokuAddressModel? in
-                    address.first(where: { $0.address_id == id })
+                article.address_ids.compactMap {  id -> OtokuAddressModel? ing
+                    address.first(where: { $0.address_id == id })/
                 }
                 .convertOtokuMapModel(article: article)
             }
         }
     }
+    
     var mapModelsObservable:Observable<[OtokuMapModel]>{
         Observable.combineLatest(
             addressSubject,
@@ -354,3 +379,28 @@ extension Array where Element == OtokuAddressModel {
         }
     }
 }
+
+//MARK: -
+extension Firestore: FirestoreProtocol {
+    func collectionPath(_ path: String) -> FirestoreProtocol {
+        
+        return self // 一時的な実装として
+    }
+    
+    func documentPath(_ path: String) -> DocumentReferenceProtocol {
+        // Firestoreのdocumentメソッドを使用してDocumentReferenceを取得し、適切にキャストする。
+        return self.document(path) as DocumentReferenceProtocol
+    }
+    
+    func actualSetData(_ data: [String : Any], merge: Bool, completion: ((Error?) -> Void)?) {
+    }//現状使っていない
+}
+
+extension DocumentReference: DocumentReferenceProtocol {
+    func setData(_ documentData: [String : Any], merge: Bool, completion: ((Error?) -> Void)?) {
+        self.setData(documentData, merge: merge, completion: completion)
+    }
+}
+
+extension CLGeocoder: AddressGeocoder {}
+

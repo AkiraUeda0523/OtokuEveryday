@@ -31,7 +31,6 @@ class FetchTodayDateModel: FetchTodayDateModelInput {
         return addZeroToday
     }
 }
-
 extension FetchTodayDateModel:FetchTodayDateModelType{
     //MARK: -
     var input: FetchTodayDateModelInput {return self}

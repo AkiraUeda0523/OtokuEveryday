@@ -59,15 +59,15 @@ final class  RecommendationArticleViewModel{
     }
 }
 extension RecommendationArticleViewModel: RecommendationArticleViewModelOutput {
-    var RecommendationArticleViewModelObservable: RxSwift.Observable<[RecommendModel]> {
+    var RecommendationArticleViewModelObservable: Observable<[RecommendModel]> {
         RecommendationArticleViewModelRelay.asObservable()
     }
-    var RecommendationArticleViewModelTitleObservable: RxSwift.Observable<[RecomendTitleModel]> {
+    var RecommendationArticleViewModelTitleObservable: Observable<[RecomendTitleModel]> {
         RecommendationArticleViewModelTitleRelay.asObservable()
     }
 }
 extension RecommendationArticleViewModel: RecommendationArticleViewModelInput {
-    var fetchRecommendDataTitleTriggerObserver: RxSwift.AnyObserver<Void> {
+    var fetchRecommendDataTitleTriggerObserver: AnyObserver<Void> {
         fetchRecommendDataTitleTrigger.asObserver()
     }
 }

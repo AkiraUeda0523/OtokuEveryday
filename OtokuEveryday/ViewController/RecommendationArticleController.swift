@@ -106,6 +106,8 @@ class RecommendationArticleController: UIViewController, UICollectionViewDelegat
         
         collectionView.backgroundView?.addSubview(collectionViewBackGroundView)
         
+        collectionView.isPagingEnabled = false
+        
         let backgroundImage = UIImage(named: "back6")!
         collectionView.backgroundColor = UIColor(patternImage: backgroundImage)
         
@@ -160,6 +162,9 @@ class RecommendationArticleController: UIViewController, UICollectionViewDelegat
         switch kind {
         case UICollectionView.elementKindSectionFooter:
             let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "Footer", for: indexPath) as! FooterView
+            footer.collectionView = collectionView
+            footer.sectionIndex = indexPath.section
+            
             if GALLERY_SECTION.contains(indexPath.section) || LIST_SECTION.contains(indexPath.section) {
                 footer.pageControl.isHidden = false
                 if LIST_SECTION.contains(indexPath.section) {
@@ -190,14 +195,13 @@ class RecommendationArticleController: UIViewController, UICollectionViewDelegat
         let layout = UICollectionViewCompositionalLayout { (section: Int, environment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             if GALLERY_SECTION.contains(section) {
                 
-                
                 let sectionLayout = LayoutBuilder.rectangleHorizonContinuousWithFooterSection(collectionViewBounds: self.collectionView.bounds)
                 sectionLayout.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, _ in
                     guard let self = self else { return }
                     guard !visibleItems.isEmpty else { return }
                     let centerOffset = offset.x + self.collectionView.bounds.width / 2
-                    var smallestDistance = CGFloat.infinity
                     var closestIndex = 0
+                    
                     if let closestItem = visibleItems.min(by: {
                         return abs($0.frame.midX - centerOffset) < abs($1.frame.midX - centerOffset)
                     }) {
@@ -293,6 +297,10 @@ extension UIColor {
     }
 }
 class FooterView: UICollectionReusableView {
+    var collectionView: UICollectionView?
+    var sectionIndex: Int?
+    private var isScrubbing: Bool = false
+    
     let pageControl: UIPageControl = {
         let control = UIPageControl()
         control.currentPageIndicatorTintColor = .systemRed.withAlphaComponent(0.8)
@@ -313,8 +321,30 @@ class FooterView: UICollectionReusableView {
             pageControl.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             pageControl.topAnchor.constraint(equalTo: self.topAnchor)
         ])
+        
+        pageControl.addTarget(self, action: #selector(pageControlValueChanged(sender:)), for: .valueChanged)
+        pageControl.addTarget(self, action: #selector(pageControlDragEnded(sender:)), for: [.touchUpInside, .touchUpOutside])
+        pageControl.addTarget(self, action: #selector(pageControlTouchDown(sender:)), for: .touchDown)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func pageControlValueChanged(sender: UIPageControl) {
+        guard let collectionView = collectionView, let sectionIndex = sectionIndex else { return }
+        
+        let itemIndex = LIST_SECTION.contains(sectionIndex) ? sender.currentPage * 3 : sender.currentPage
+        let targetIndexPath = IndexPath(item: itemIndex, section: sectionIndex)
+        // isScrubbing フラグに基づいてアニメーションの有無を切り替え
+        collectionView.scrollToItem(at: targetIndexPath, at: .centeredHorizontally, animated: !isScrubbing)
+    }
+    
+    @objc func pageControlTouchDown(sender: UIPageControl) {
+        isScrubbing = true
+    }
+    
+    @objc func pageControlDragEnded(sender: UIPageControl) {
+        isScrubbing = false
     }
 }

@@ -9,11 +9,13 @@ import RxSwift
 import RxCocoa
 import Firebase
 import RealmSwift
+import Network
+
 
 protocol MapModelInput {
     func fetchAddressDataFromRealTimeDB()
-    func fetchAllOtokuDataFromRealTimeDB()
     func fetchOtokuSpecialtyData()
+    var shouldUpdateDataJudgeObserver: AnyObserver<Bool> { get }
 }
 protocol MapModelOutput {
     var AddressDataObservable: Observable<[OtokuAddressModel]> { get }
@@ -46,65 +48,91 @@ struct SlideShowModel {
         self.comment = comment
     }
 }
+extension SlideShowModel: Equatable {
+    static func == (lhs: SlideShowModel, rhs: SlideShowModel) -> Bool {
+        return lhs.image == rhs.image &&
+        lhs.webUrl == rhs.webUrl &&
+        lhs.title == rhs.title &&
+        lhs.address == rhs.address &&
+        lhs.comment == rhs.comment
+    }
+}
+
 //MARK: -
 final class MapModel{
     private let addressDataRelay = BehaviorRelay<[OtokuAddressModel]>(value: [])
     private let otokuDataRelay = BehaviorRelay<[OtokuDataModel]>(value: [])
     private let otokuSpecialtyRelay = BehaviorRelay<[SlideShowModel]>(value: [])
+    private let shouldUpdateDataJudge = PublishSubject<Bool>()
+    let disposeBag = DisposeBag()
 }
 //MARK: -extension　Input
 extension MapModel:MapModelInput{
     
+    var shouldUpdateDataJudgeObserver: AnyObserver<Bool> {
+        return shouldUpdateDataJudge.asObserver()
+    }
     func fetchAddressDataFromRealTimeDB() {
         let realm = try! Realm()
         let otokuAddressBox = realm.objects(OtokuAddressRealmModel.self)
-        if !otokuAddressBox.isEmpty {
-            self.addressDataRelay.accept(otokuAddressBox.map { $0.toModel() })
-        } else {
-            let ref = Database.database().reference()
-            ref.child("OtokuAddressModelsObject").observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
-                guard let strongSelf = self else { return }
-                guard let data = snapshot.value as? [Any] else { return }
-                var otokuAddressBox: [OtokuAddressModel] = []
-                for element in data {
-                    // Check if the element is NSNull
-                    if element is NSNull { continue }
-                    // Cast the element as [String: Any]
-                    guard let i = element as? [String: Any] else { continue }
-                    if let content = i["content"] as? String,
-                       let latitude = i["latitude"] as? Double,
-                       let longitude = i["longitude"] as? Double,
-                       let addressId = i["address_id"] as? String {
-                        let otokuAddressModel = OtokuAddressModel(address_id: addressId, content: content, latitude: latitude, longitude: longitude)
-                        otokuAddressBox.append(otokuAddressModel)
-                        let realmModel = OtokuAddressRealmModel.from(otokuAddressModel)
-                        try! realm.write {
-                            realm.add(realmModel, update: .modified)
-                        }
-                    }
-                }
-                strongSelf.addressDataRelay.accept(otokuAddressBox)
-            })
-        }
-    }
-    //  全て情報データ
-    func fetchAllOtokuDataFromRealTimeDB(){
-        var otokuDataBox:[OtokuDataModel] = []
-        let ref = Database.database().reference()
-        ref.child("OtokuDataModelsObject").observeSingleEvent(of: .value, with:{(snapshot) in
-            guard let otokuData = snapshot.value as? [Any] else { return } // Cast snapshot value as [Any]
-            for element in  otokuData{
-                if element is NSNull { continue }
-                guard let i = element as? [String: Any] else { continue }
+        
+        isConnectedToNetwork { [weak self] isConnected in
+            DispatchQueue.main.async { [self] in
+                guard let self = self else { return }
                 
-                if let addressId = i["address_ids"] ,let articleTitle = i["article_title"],let blogWebUrl = i["blog_web_url"],let collectionViewImageUrl = i["collectionView_image_url"],let enabledDates = i["enabled_dates"]{
-                    let otokuDataModel = OtokuDataModel(address_ids: addressId as! [String], article_title: articleTitle as! String, blog_web_url: blogWebUrl as! String, collectionView_image_url: collectionViewImageUrl as! String, enabled_dates: enabledDates as! [String])
-                    otokuDataBox.append(otokuDataModel)
+                if !isConnected {
+                    // ネットワークに接続されていない場合、すぐにRealmデータを使用する
+                    self.addressDataRelay.accept(otokuAddressBox.map { $0.toModel() })
+                    return
+                }
+                // ここからはネットワークに接続されている場合の処理
+                if otokuAddressBox.isEmpty {
+                    self.fetchDataFromFirebaseAndSaveToRealm()
+                } else {
+                    self.shouldUpdateDataJudge.asObservable()
+                        .take(1)
+                        .subscribe(onNext: { shouldUpdate in
+                            if shouldUpdate {
+                                
+                                self.fetchDataFromFirebaseAndSaveToRealm()
+                            } else {
+                                self.addressDataRelay.accept(otokuAddressBox.map { $0.toModel() })
+                            }
+                        })
+                        .disposed(by: self.disposeBag )
                 }
             }
-            self.otokuDataRelay.accept(otokuDataBox)
+        }
+    }
+    
+    func fetchDataFromFirebaseAndSaveToRealm() {
+        let ref = Database.database().reference()
+        ref.child("OtokuAddressModelsObject").observeSingleEvent(of: .value, with: { [weak self] (snapshot) in
+            guard let strongSelf = self else { return }
+            guard let data = snapshot.value as? [Any] else { return }
+            var otokuAddressBox: [OtokuAddressModel] = []
+            for element in data {
+                // Check if the element is NSNull
+                if element is NSNull { continue }
+                // Cast the element as [String: Any]
+                guard let i = element as? [String: Any] else { continue }
+                if let content = i["content"] as? String,
+                   let latitude = i["latitude"] as? Double,
+                   let longitude = i["longitude"] as? Double,
+                   let addressId = i["address_id"] as? String {
+                    let otokuAddressModel = OtokuAddressModel(address_id: addressId, content: content, latitude: latitude, longitude: longitude)
+                    otokuAddressBox.append(otokuAddressModel)
+                    let realmModel = OtokuAddressRealmModel.from(otokuAddressModel)
+                    let realm = try! Realm()
+                    try! realm.write {
+                        realm.add(realmModel, update: .modified)
+                    }
+                }
+            }
+            strongSelf.addressDataRelay.accept(otokuAddressBox)
         })
     }
+    
     //オススメデータ
     func fetchOtokuSpecialtyData(){
         var slideArray = [SlideShowModel]()
@@ -124,6 +152,21 @@ extension MapModel:MapModelInput{
             self.otokuSpecialtyRelay.accept(slideArray)
         }
     }
+    
+    func isConnectedToNetwork(completion: @escaping (Bool) -> Void) {
+        let monitor = NWPathMonitor()
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                completion(true)
+            } else {
+                completion(false)
+            }
+            monitor.cancel()
+        }
+        monitor.start(queue: queue)
+    }
+    
 }
 //MARK: -extension　Output
 extension MapModel:MapModelOutput{

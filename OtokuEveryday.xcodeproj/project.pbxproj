@@ -3,18 +3,30 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		062083292912648C00CECF13 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 062083282912648C00CECF13 /* Alert.swift */; };
+		060888082B33062D0032F43A /* FirestoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888072B33062D0032F43A /* FirestoreProtocol.swift */; };
+		0608880A2B33063C0032F43A /* AddressGeocoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888092B33063C0032F43A /* AddressGeocoderProtocol.swift */; };
+		0608880C2B3306A00032F43A /* CoreModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608880B2B3306A00032F43A /* CoreModels.swift */; };
+		0608880E2B3307BF0032F43A /* MVC Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608880D2B3307BF0032F43A /* MVC Alert.swift */; };
+		060888142B330E840032F43A /* MockFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888132B330E840032F43A /* MockFirestore.swift */; };
+		060888162B330ED00032F43A /* MockGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888152B330ED00032F43A /* MockGeocoder.swift */; };
+		060888182B330F000032F43A /* MockSetAdMobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888172B330F000032F43A /* MockSetAdMobModel.swift */; };
+		0608881A2B330F2D0032F43A /* MockMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888192B330F2D0032F43A /* MockMapModel.swift */; };
+		0608881C2B330FFA0032F43A /* MockGADBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608881B2B330FFA0032F43A /* MockGADBannerView.swift */; };
+		0608881E2B3310250032F43A /* MockFetchCommonDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608881D2B3310250032F43A /* MockFetchCommonDataModel.swift */; };
+		060888202B3310860032F43A /* MockFetchTodayDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608881F2B3310860032F43A /* MockFetchTodayDateModel.swift */; };
+		060888222B3310A90032F43A /* MockCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888212B3310A90032F43A /* MockCalendarModel.swift */; };
+		060888242B3310D20032F43A /* MockAutoScrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888232B3310D20032F43A /* MockAutoScrollModel.swift */; };
+		060888262B3311250032F43A /* CalenderViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888252B3311250032F43A /* CalenderViewModelTests.swift */; };
+		060888282B3311360032F43A /* MapViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888272B3311360032F43A /* MapViewModelTests.swift */; };
 		06242F2C2A9E3E9D00C399C6 /* FetchCommonDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */; };
 		0639AE07275E3A280058DDAE /* AutoScrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0639AE06275E3A280058DDAE /* AutoScrollModel.swift */; };
 		063EB85927468A0500BA2C7E /* OtherOtoku.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */; };
 		063EB85D27468AEC00BA2C7E /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */; };
 		063F46DD2762048200F6B818 /* OtherOtokuCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */; };
-		063F46DF2763429F00F6B818 /* LaunchScreenAnimation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063F46DE2763429F00F6B818 /* LaunchScreenAnimation.storyboard */; };
-		063F46E1276342DD00F6B818 /* LaunchScreenAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F46E0276342DD00F6B818 /* LaunchScreenAnimationViewController.swift */; };
 		0640D958298BB4E800E28E87 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D957298BB4E800E28E87 /* CalendarModel.swift */; };
 		0640D95C2992299000E28E87 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D95B2992299000E28E87 /* MapModel.swift */; };
 		064518A327AE6887000E66DE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064518A227AE6887000E66DE /* SplashViewController.swift */; };
@@ -34,7 +46,6 @@
 		069BB01526E9F6A800F4E00D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */; };
 		06B868DB292FB97300A3800C /* RecommendationArticle.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */; };
 		06B868DD292FBA2C00A3800C /* RecommendationArticleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */; };
-		06BDD460280292FF00775830 /* DataConstructionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BDD45F280292FF00775830 /* DataConstructionModel.swift */; };
 		06BFD29829644677002DCF84 /* SetAdMobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29729644677002DCF84 /* SetAdMobModel.swift */; };
 		06BFD29D296D4060002DCF84 /* RecommendationArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */; };
 		06BFD29F296D40DD002DCF84 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */; };
@@ -52,15 +63,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		062083282912648C00CECF13 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
+		060888072B33062D0032F43A /* FirestoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreProtocol.swift; sourceTree = "<group>"; };
+		060888092B33063C0032F43A /* AddressGeocoderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressGeocoderProtocol.swift; sourceTree = "<group>"; };
+		0608880B2B3306A00032F43A /* CoreModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreModels.swift; sourceTree = "<group>"; };
+		0608880D2B3307BF0032F43A /* MVC Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVC Alert.swift"; sourceTree = "<group>"; };
+		060888132B330E840032F43A /* MockFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirestore.swift; sourceTree = "<group>"; };
+		060888152B330ED00032F43A /* MockGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGeocoder.swift; sourceTree = "<group>"; };
+		060888172B330F000032F43A /* MockSetAdMobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSetAdMobModel.swift; sourceTree = "<group>"; };
+		060888192B330F2D0032F43A /* MockMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMapModel.swift; sourceTree = "<group>"; };
+		0608881B2B330FFA0032F43A /* MockGADBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGADBannerView.swift; sourceTree = "<group>"; };
+		0608881D2B3310250032F43A /* MockFetchCommonDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFetchCommonDataModel.swift; sourceTree = "<group>"; };
+		0608881F2B3310860032F43A /* MockFetchTodayDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFetchTodayDateModel.swift; sourceTree = "<group>"; };
+		060888212B3310A90032F43A /* MockCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCalendarModel.swift; sourceTree = "<group>"; };
+		060888232B3310D20032F43A /* MockAutoScrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAutoScrollModel.swift; sourceTree = "<group>"; };
+		060888252B3311250032F43A /* CalenderViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewModelTests.swift; sourceTree = "<group>"; };
+		060888272B3311360032F43A /* MapViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModelTests.swift; sourceTree = "<group>"; };
 		06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCommonDataModel.swift; sourceTree = "<group>"; };
 		062F81F7292FDB7B002C00F4 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0639AE06275E3A280058DDAE /* AutoScrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollModel.swift; sourceTree = "<group>"; };
 		063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OtherOtoku.storyboard; sourceTree = "<group>"; };
 		063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherOtokuCustomCell.swift; sourceTree = "<group>"; };
-		063F46DE2763429F00F6B818 /* LaunchScreenAnimation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreenAnimation.storyboard; sourceTree = "<group>"; };
-		063F46E0276342DD00F6B818 /* LaunchScreenAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenAnimationViewController.swift; sourceTree = "<group>"; };
 		0640D957298BB4E800E28E87 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
 		0640D95B2992299000E28E87 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		064518A127A19968000E66DE /* OtokuEveryday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OtokuEveryday.entitlements; sourceTree = "<group>"; };
@@ -82,7 +105,6 @@
 		069BB01426E9F6A800F4E00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecommendationArticle.storyboard; sourceTree = "<group>"; };
 		06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleController.swift; sourceTree = "<group>"; };
-		06BDD45F280292FF00775830 /* DataConstructionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstructionModel.swift; sourceTree = "<group>"; };
 		06BFD29729644677002DCF84 /* SetAdMobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAdMobModel.swift; sourceTree = "<group>"; };
 		06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleViewModel.swift; sourceTree = "<group>"; };
 		06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
@@ -113,6 +135,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		060888052B31E2260032F43A /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				060888072B33062D0032F43A /* FirestoreProtocol.swift */,
+				060888092B33063C0032F43A /* AddressGeocoderProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		0608880F2B330D850032F43A /* OtokuEveryDayTests */ = {
+			isa = PBXGroup;
+			children = (
+				060888102B330E240032F43A /* TestsMocks */,
+				060888112B330E2B0032F43A /* CalenderViewModelTests */,
+				060888122B330E3D0032F43A /* MapViewModelsTests */,
+			);
+			path = OtokuEveryDayTests;
+			sourceTree = "<group>";
+		};
+		060888102B330E240032F43A /* TestsMocks */ = {
+			isa = PBXGroup;
+			children = (
+				060888132B330E840032F43A /* MockFirestore.swift */,
+				060888152B330ED00032F43A /* MockGeocoder.swift */,
+				060888172B330F000032F43A /* MockSetAdMobModel.swift */,
+				060888192B330F2D0032F43A /* MockMapModel.swift */,
+				0608881B2B330FFA0032F43A /* MockGADBannerView.swift */,
+				0608881D2B3310250032F43A /* MockFetchCommonDataModel.swift */,
+				0608881F2B3310860032F43A /* MockFetchTodayDateModel.swift */,
+				060888212B3310A90032F43A /* MockCalendarModel.swift */,
+				060888232B3310D20032F43A /* MockAutoScrollModel.swift */,
+			);
+			path = TestsMocks;
+			sourceTree = "<group>";
+		};
+		060888112B330E2B0032F43A /* CalenderViewModelTests */ = {
+			isa = PBXGroup;
+			children = (
+				060888252B3311250032F43A /* CalenderViewModelTests.swift */,
+			);
+			path = CalenderViewModelTests;
+			sourceTree = "<group>";
+		};
+		060888122B330E3D0032F43A /* MapViewModelsTests */ = {
+			isa = PBXGroup;
+			children = (
+				060888272B3311360032F43A /* MapViewModelTests.swift */,
+			);
+			path = MapViewModelsTests;
+			sourceTree = "<group>";
+		};
 		065A2EEA26F71A3E00966665 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,17 +216,18 @@
 			isa = PBXGroup;
 			children = (
 				064518A127A19968000E66DE /* OtokuEveryday.entitlements */,
+				060888052B31E2260032F43A /* Protocol */,
 				06D2C3AC26EF4EE000EECA89 /* Model */,
 				06D2C3B126EF7C8900EECA89 /* ViewController */,
 				06D2C3B826F448E500EECA89 /* ViewModel */,
 				06D2C3A926EDFBEA00EECA89 /* Cells */,
-				06D2C3A426EDE19900EECA89 /* Xibs */,
 				06D2C3B526F1D7C200EECA89 /* Storyboards */,
+				06D2C3A426EDE19900EECA89 /* Xibs */,
 				065A2EEA26F71A3E00966665 /* Extensions */,
-				069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */,
+				069BB00826E9F6A700F4E00D /* AppDelegate.swift */,
 				069BB00A26E9F6A700F4E00D /* SceneDelegate.swift */,
 				069BB01126E9F6A800F4E00D /* Assets.xcassets */,
-				069BB00826E9F6A700F4E00D /* AppDelegate.swift */,
+				0608880F2B330D850032F43A /* OtokuEveryDayTests */,
 			);
 			path = OtokuEveryday;
 			sourceTree = "<group>";
@@ -185,14 +259,15 @@
 		06D2C3AC26EF4EE000EECA89 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0608880B2B3306A00032F43A /* CoreModels.swift */,
 				06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */,
 				0640D957298BB4E800E28E87 /* CalendarModel.swift */,
+				0639AE06275E3A280058DDAE /* AutoScrollModel.swift */,
 				0640D95B2992299000E28E87 /* MapModel.swift */,
 				06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */,
-				0639AE06275E3A280058DDAE /* AutoScrollModel.swift */,
+				06BFD29729644677002DCF84 /* SetAdMobModel.swift */,
 				06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */,
 				06858991274243EC00CB4AA8 /* AppStore.swift */,
-				06BFD29729644677002DCF84 /* SetAdMobModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -203,9 +278,9 @@
 				06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */,
 				06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */,
 				06F5EAA927005F9E00B62316 /* MapViewController.swift */,
+				0608880D2B3307BF0032F43A /* MVC Alert.swift */,
 				06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */,
 				063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */,
-				063F46E0276342DD00F6B818 /* LaunchScreenAnimationViewController.swift */,
 				064518A227AE6887000E66DE /* SplashViewController.swift */,
 			);
 			path = ViewController;
@@ -214,7 +289,7 @@
 		06D2C3B526F1D7C200EECA89 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				063F46DE2763429F00F6B818 /* LaunchScreenAnimation.storyboard */,
+				069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */,
 				06D2C3AF26EF77D100EECA89 /* BaseTabBar.storyboard */,
 				069BB00E26E9F6A700F4E00D /* Main.storyboard */,
 				06F5EAA727005DAE00B62316 /* map.storyboard */,
@@ -230,8 +305,6 @@
 				06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */,
 				067ACF1328D3F506006EF4C9 /* MapViewModel.swift */,
 				06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */,
-				06BDD45F280292FF00775830 /* DataConstructionModel.swift */,
-				062083282912648C00CECF13 /* Alert.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -321,7 +394,6 @@
 				069BB01526E9F6A800F4E00D /* LaunchScreen.storyboard in Resources */,
 				069BB01226E9F6A800F4E00D /* Assets.xcassets in Resources */,
 				069BB01026E9F6A700F4E00D /* Main.storyboard in Resources */,
-				063F46DF2763429F00F6B818 /* LaunchScreenAnimation.storyboard in Resources */,
 				06B868DB292FB97300A3800C /* RecommendationArticle.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,6 +449,7 @@
 			files = (
 				063F46DD2762048200F6B818 /* OtherOtokuCustomCell.swift in Sources */,
 				0639AE07275E3A280058DDAE /* AutoScrollModel.swift in Sources */,
+				0608881A2B330F2D0032F43A /* MockMapModel.swift in Sources */,
 				06BFD29F296D40DD002DCF84 /* CalendarViewModel.swift in Sources */,
 				06BFD29829644677002DCF84 /* SetAdMobModel.swift in Sources */,
 				065A2EEC26F71A9A00966665 /* Uiimage-Extention.swift in Sources */,
@@ -384,27 +457,38 @@
 				069BB00926E9F6A700F4E00D /* AppDelegate.swift in Sources */,
 				067ACF1428D3F506006EF4C9 /* MapViewModel.swift in Sources */,
 				06F2659F274F922A009E55DD /* SliderCell.swift in Sources */,
+				060888242B3310D20032F43A /* MockAutoScrollModel.swift in Sources */,
+				060888202B3310860032F43A /* MockFetchTodayDateModel.swift in Sources */,
+				060888262B3311250032F43A /* CalenderViewModelTests.swift in Sources */,
 				0697180D2934F7560035B982 /* RecommendTitleText.swift in Sources */,
 				06F5EAAA27005F9E00B62316 /* MapViewController.swift in Sources */,
+				060888282B3311360032F43A /* MapViewModelTests.swift in Sources */,
 				06D2C3AE26EF4F0300EECA89 /* RecommendationArticleModel.swift in Sources */,
 				0640D95C2992299000E28E87 /* MapModel.swift in Sources */,
-				06BDD460280292FF00775830 /* DataConstructionModel.swift in Sources */,
+				0608880A2B33063C0032F43A /* AddressGeocoderProtocol.swift in Sources */,
 				06C4139026EB47CA004A3A1B /* CalendarViewController.swift in Sources */,
-				062083292912648C00CECF13 /* Alert.swift in Sources */,
 				06242F2C2A9E3E9D00C399C6 /* FetchCommonDataModel.swift in Sources */,
+				0608881C2B330FFA0032F43A /* MockGADBannerView.swift in Sources */,
 				06B868DD292FBA2C00A3800C /* RecommendationArticleController.swift in Sources */,
 				069BB00B26E9F6A700F4E00D /* SceneDelegate.swift in Sources */,
 				06858986273414A300CB4AA8 /* FetchTodayDateModel.swift in Sources */,
+				060888182B330F000032F43A /* MockSetAdMobModel.swift in Sources */,
 				064518A327AE6887000E66DE /* SplashViewController.swift in Sources */,
-				063F46E1276342DD00F6B818 /* LaunchScreenAnimationViewController.swift in Sources */,
+				0608880E2B3307BF0032F43A /* MVC Alert.swift in Sources */,
+				060888162B330ED00032F43A /* MockGeocoder.swift in Sources */,
+				0608881E2B3310250032F43A /* MockFetchCommonDataModel.swift in Sources */,
 				063EB85D27468AEC00BA2C7E /* CategoryViewController.swift in Sources */,
+				060888082B33062D0032F43A /* FirestoreProtocol.swift in Sources */,
 				06858992274243EC00CB4AA8 /* AppStore.swift in Sources */,
 				06D2C3AB26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift in Sources */,
+				060888222B3310A90032F43A /* MockCalendarModel.swift in Sources */,
 				069718132934F8130035B982 /* CellBuilder.swift in Sources */,
+				0608880C2B3306A00032F43A /* CoreModels.swift in Sources */,
 				069718112934F7880035B982 /* LargeRecommendCell.swift in Sources */,
 				0640D958298BB4E800E28E87 /* CalendarModel.swift in Sources */,
 				06BFD29D296D4060002DCF84 /* RecommendationArticleViewModel.swift in Sources */,
 				069718152934F8380035B982 /* LayoutBuilder.swift in Sources */,
+				060888142B330E840032F43A /* MockFirestore.swift in Sources */,
 				0697180F2934F76C0035B982 /* SmallRecommendCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

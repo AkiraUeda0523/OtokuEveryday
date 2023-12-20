@@ -1,31 +1,59 @@
-//
-//  SplashViewController.swift
-//  RedMoon2021
-//
-//  Created by 上田晃 on 2022/02/05.
-//
-
 import UIKit
+
 class SplashViewController: UIViewController {
-    @IBOutlet weak var splashImageLogo: UIImageView!
-    @IBOutlet weak var splashImageTitle: UIImageView!
-    // MARK: -
+    var splashImageLogo: UIImageView!
+    var splashImageTitle: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        splashImageLogo = UIImageView()
+        splashImageTitle = UIImageView()
         self.view.backgroundColor = UIColor.white
-        UIView.animate(withDuration: 2.0, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: .curveEaseInOut, animations: { [self] in
-            setUpSplashImageLogo()
-        })
+        setupSplashImageLogo()
+        setupSplashImageTitle()
+        
+        UIView.animate(withDuration: 2.0, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 3.0, options: .curveEaseInOut, animations: {
+            self.animateSplashImageLogo()
+        }) { _ in
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                let storyboard = UIStoryboard(name: "BaseTabBar", bundle: nil)
+                let baseTabBarController = storyboard.instantiateViewController(withIdentifier: "map") as! BaseTabBarController
+                if let window = UIApplication.shared.windows.first {
+                    window.rootViewController = baseTabBarController
+                    UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+                }
+            }
+        }
     }
-    override func viewDidAppear(_ animated: Bool) {
-        sleep(2)
-        let baseVC = self.storyboard?.instantiateViewController(identifier: "map") as! BaseTabBarController
-        self.navigationController!.navigationBar.isHidden = true
-        self.navigationController?.pushViewController(baseVC, animated: true)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    
+    private func setupSplashImageLogo() {
+        splashImageLogo.translatesAutoresizingMaskIntoConstraints = false
+        splashImageLogo.image = UIImage(named: "kidou1")
+        view.addSubview(splashImageLogo)
+        
+        NSLayoutConstraint.activate([
+            splashImageLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            splashImageLogo.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 166),
+            splashImageLogo.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+            splashImageLogo.heightAnchor.constraint(equalTo: splashImageLogo.widthAnchor)
+        ])
     }
-    // MARK: -
-    private func setUpSplashImageLogo(){
+    
+    private func setupSplashImageTitle() {
+        splashImageTitle.translatesAutoresizingMaskIntoConstraints = false
+        splashImageTitle.image = UIImage(named: "kidou2")
+        splashImageTitle.contentMode = .scaleAspectFit
+        view.addSubview(splashImageTitle)
+        NSLayoutConstraint.activate([
+            splashImageTitle.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -57),
+            splashImageTitle.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 57),
+            splashImageTitle.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -45),
+            splashImageTitle.widthAnchor.constraint(equalToConstant: 300),
+            splashImageTitle.heightAnchor.constraint(equalToConstant: 77)
+        ])
+    }
+    private func animateSplashImageLogo() {
         splashImageLogo.center.y += 50.0
         splashImageLogo.bounds.size.height += 90.0
         splashImageLogo.bounds.size.width += 90.0

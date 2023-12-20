@@ -14,10 +14,11 @@ import CalculateCalendarLogic
 import SafariServices
 
 final class CalendarViewController: UIViewController, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance, UITabBarDelegate, UITabBarControllerDelegate {
+    
     private let disposeBag = DisposeBag()
     private let cellId = "cellId"
     private let layout = UICollectionViewFlowLayout()
-    private let calendarViewModel: CalendarViewModelType
+    internal var calendarViewModel: CalendarViewModelType
     private let defaultImageUrl = "https://harigamiya.jp/2x/in-preparetion-1@2x-100.jpg"
     
     @IBOutlet weak var otokuLogo: UIStackView!
@@ -34,12 +35,16 @@ final class CalendarViewController: UIViewController, FSCalendarDelegate, FSCale
         }
         self.calendarViewModel = calendarViewModel
         super.init(coder: coder)
+        print("Constructor called: \(self)")  // ログの追加
+        print("⭐️",Thread.callStackSymbols)  // スタックトレースの出力
         checkVersion()
         authStateCheck()
     }
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        bannerView.backgroundColor = .white
         setup()
         self.tabBarController?.delegate = self
         otokuLogo.isUserInteractionEnabled = true
@@ -57,10 +62,16 @@ final class CalendarViewController: UIViewController, FSCalendarDelegate, FSCale
         calendarViewModel
             .output
             .autoScrollModelObservable
-            .subscribe { scrollView in
-                self.scrollBaseView.addSubview(scrollView)
+            .subscribe { event in
+                switch event {
+                case .next(let scrollView as UIView):
+                    self.scrollBaseView.addSubview(scrollView)
+                default:
+                    break
+                }
             }
             .disposed(by: disposeBag)
+        
         calendarViewModel.input.scrollBaseViewsBoundsObservable.onNext(self.scrollBaseView.bounds)
     }
     private func setAdMobBanner(){
@@ -72,11 +83,13 @@ final class CalendarViewController: UIViewController, FSCalendarDelegate, FSCale
                 self?.bannerView.addSubview(setAdMob)
             })
             .disposed(by: disposeBag)
+        
         calendarViewModel
             .input
             .viewWidthSizeObserver
-            .onNext(SetAdMobModelData(size: self.view.frame.width, VC: self))
+            .onNext(SetAdMobModelData(bannerWidth: self.view.frame.width, bannerHight: self.bannerView.frame.height, VC: self))
     }
+    
     private func collectionViewObserveList() {
         otokuCollectionView.delegate = nil
         otokuCollectionView.dataSource = nil
@@ -106,6 +119,7 @@ final class CalendarViewController: UIViewController, FSCalendarDelegate, FSCale
                 calendarViewModel.input.collectionViewSelectedIndexPathObserver.onNext(indexPath)
             })
             .disposed(by: disposeBag)
+        
         calendarViewModel
             .output
             .collectionViewSelectedUrlObservable
@@ -148,8 +162,11 @@ final class CalendarViewController: UIViewController, FSCalendarDelegate, FSCale
     }
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         print("tab was tapped!")
-        if viewController == self {
-            titleLabelTapped()
+        if let navController = viewController as? UINavigationController {
+            if let topVC = navController.topViewController, topVC is CalendarViewController {
+                // タップされたタブのルートが SomeSpecificViewController だった場合の処理
+                titleLabelTapped()
+            }
         }
         return true
     }

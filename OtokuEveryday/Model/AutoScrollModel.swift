@@ -1,6 +1,8 @@
 
 
 import UIKit
+import RxSwift
+import RxCocoa
 import Firebase
 
 struct ScrollModel {
@@ -347,25 +349,31 @@ extension Appliable {
 }
 extension NSObject: Appliable {}
 
-//---------------------------------------------------------------------------------------------------------
-protocol AutoScrollModelInput{
-    func autoScrollLabelLayoutArrange(scrollLabel:AutoScrollModel,scrollBaseViewsBounds:CGRect)->AutoScrollModel
+protocol AutoScrollModelInput {
+    func autoScrollLabelLayoutArrange(scrollBaseViewsBounds: CGRect) -> AutoScrollModelType
 }
-protocol AutoScrollModelType {
+
+protocol AutoScrollModelType: UIView {
     var input: AutoScrollModelInput { get }
+    var text: String? { get set }
+    var frame: CGRect { get set }
+    
 }
-extension AutoScrollModel:AutoScrollModelInput{
-    func autoScrollLabelLayoutArrange(scrollLabel:AutoScrollModel,scrollBaseViewsBounds:CGRect)->AutoScrollModel{
-        scrollLabel.frame = scrollBaseViewsBounds
-        scrollLabel.backgroundColor = .white
-        scrollLabel.textColor = .black
-        scrollLabel.font = .systemFont(ofSize: 25)
-        scrollLabel.observeApplicationNotifications()
-        return scrollLabel
+
+extension AutoScrollModel: AutoScrollModelInput {
+    func autoScrollLabelLayoutArrange(scrollBaseViewsBounds: CGRect) -> AutoScrollModelType {
+        self.frame = scrollBaseViewsBounds
+        self.backgroundColor = .white
+        self.textColor = .black
+        self.font = .systemFont(ofSize: 25)
+        self.observeApplicationNotifications()
+        return self
     }
 }
-extension AutoScrollModel:AutoScrollModelType{
+
+extension AutoScrollModel: AutoScrollModelType {
     var input: AutoScrollModelInput {
         return self
     }
 }
+

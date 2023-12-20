@@ -11,6 +11,7 @@ import RxSwift
 import RxRelay
 
 
+
 struct TabBarItemProperties {
     let selectedImageName: String
     let imageName: String
@@ -22,6 +23,7 @@ class BaseTabBarController: UITabBarController,UITabBarControllerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.delegate = self
         
         UITabBar.appearance().backgroundImage = UIImage()
@@ -44,5 +46,3 @@ class BaseTabBarController: UITabBarController,UITabBarControllerDelegate {
         AudioServicesPlaySystemSound(1519)
     }
 }
-
-

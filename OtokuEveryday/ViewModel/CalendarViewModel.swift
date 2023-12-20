@@ -7,12 +7,10 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 import RxRelay
 import Firebase
 import FirebaseAuth
 import GoogleMobileAds
-
 
 protocol CalendarViewModelInput {
     var calendarSelectedDateObserver: AnyObserver<Date> { get }
@@ -26,7 +24,7 @@ protocol CalendarViewModelOutput {
     var isLoadingObservable:Observable<Bool> { get }
     var setAdMobBannerObservable: Observable<GADBannerView> { get }
     var collectionViewSelectedUrlObservable: Observable<String> { get }
-    var autoScrollModelObservable: Observable<AutoScrollModel> { get }
+    var autoScrollModelObservable: Observable<AutoScrollModelType> { get }
 }
 protocol CalendarViewModelType {
     var input: CalendarViewModelInput { get }
@@ -35,58 +33,54 @@ protocol CalendarViewModelType {
 // MARK: -
 final class CalendarViewModel{
     //input
-    private let calendarSelectedDateSubject = BehaviorSubject<Date>(value: Date())
-    private let viewWidthSizeSubject = PublishSubject<SetAdMobModelData>()
-    private let collectionViewSelectedIndexPathSubject = PublishSubject<IndexPath>()
-    private let articlesSubject = BehaviorSubject<[OtokuDataModel]>(value: [])
-    private let scrollBaseViewBoundsSubject = PublishSubject<CGRect>()
-    private let autoScrollModelsLayoutSubject = PublishSubject<AutoScrollModel>()
-    private let autoScrollViewSubject = PublishSubject<AutoScrollModel>()
+    internal let calendarSelectedDateSubject = BehaviorSubject<Date>(value: Date())
+    internal let viewWidthSizeSubject = PublishSubject<SetAdMobModelData>()
+    internal let collectionViewSelectedIndexPathSubject = PublishSubject<IndexPath>()
+    internal let articlesSubject = BehaviorSubject<[OtokuDataModel]>(value: [])
+    internal let scrollBaseViewBoundsSubject = PublishSubject<CGRect>()
+    internal let autoScrollModelsLayoutSubject = PublishSubject<AutoScrollModelType>()
+    internal let autoScrollViewSubject = PublishSubject<AutoScrollModelType>()
     //output
-    private let showableInfosRelay = BehaviorRelay<[OtokuDataModel]>(value: [])
-    private let authStateSubject = PublishSubject<AuthStatus>()
+    internal let showableInfosRelay = BehaviorRelay<[OtokuDataModel]>(value: [])
+    internal let authStateSubject = PublishSubject<AuthStatus>()
     private let scrollViewsTitleSubject = BehaviorSubject<[ScrollModel]>(value: [])
     private let isLoadingSubject = PublishSubject<Bool>()
     private let setAdMobBannerlRelay = PublishRelay<GADBannerView>()
-    private let collectionViewSelectedUrlRelay = BehaviorRelay<String>(value: "")
+    internal let collectionViewSelectedUrlRelay = PublishSubject<String>()
     
-    let todayDateModel: FetchTodayDateModelType
     let calendarModel: CalendarModelType
-    let setAdMobModel: SetAdMobModelType
-    let autoScroll: AutoScrollModelType
-    let CommonDataModel: FetchCommonDataModelType
+    let adMobModel: SetAdMobModelType
+    let todayDateModel: FetchTodayDateModelType
+    let autoScrollModel: AutoScrollModelType
+    let commonDataModel: FetchCommonDataModelType
     let disposeBag = DisposeBag()
     
-    // Initializer
-    init?(calendarViewModel: CalendarModelType,adMobModel: SetAdMobModelType,fetchTodayDateModel: FetchTodayDateModelType,autoScrollModel: AutoScrollModelType,fetchCommonDataModel: FetchCommonDataModelType) {
+    
+    init?(calendarModel: CalendarModelType, adMobModel: SetAdMobModelType, todayDateModel: FetchTodayDateModelType, autoScrollModel: AutoScrollModelType, commonDataModel: FetchCommonDataModelType) {
         
-        self.calendarModel = calendarViewModel
-        self.setAdMobModel = adMobModel
-        self.todayDateModel = fetchTodayDateModel
-        self.autoScroll = autoScrollModel
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let commonDataModel = appDelegate.container.resolve(FetchCommonDataModelType.self) else {
-            return nil
-        }
-        CommonDataModel = commonDataModel
+        self.calendarModel = calendarModel
+        self.adMobModel = adMobModel
+        self.todayDateModel = todayDateModel
+        self.autoScrollModel = autoScrollModel
+        self.commonDataModel = commonDataModel
         
-        calendarModel.input.authState()
         
         viewWidthSizeSubject
-            .subscribe { [self] size in
-                setAdMobModel.setAdMob(viewWidthSize: size.element?.size ?? 0, Self: size.element!.VC)
+            .subscribe {  size in
+                adMobModel.setAdMob(bannerWidthSize: size.element?.bannerWidth ?? 0,bannerHight: size.element?.bannerHight ?? 0, viewController: size.element!.VC)
             }
             .disposed(by: disposeBag)
         
-        setAdMobModel
+        adMobModel
             .output
             .SetAdMobModelObservable
-            .subscribe { [self] setAdMob in
-                setAdMobBannerlRelay.accept(setAdMob)
+            .subscribe { [self] (setAdMob: AdBannerView) in
+                setAdMobBannerlRelay.accept(setAdMob as! GADBannerView)
             }
             .disposed(by: disposeBag)
         
-        CommonDataModel
+        
+        commonDataModel
             .output
             .fetchCommonDataModelObservable
             .subscribe { [self] data in
@@ -97,31 +91,45 @@ final class CalendarViewModel{
         calendarModel
             .output
             ._authStatusObserbable
-            .subscribe { [self] auth in
-                switch auth {
-                case .anonymous:
-                    CommonDataModel.input.bindFetchData()
-                    authStateSubject.onNext(auth)
-                case .error(let message):
-                    print(message)
-                    CommonDataModel.input.bindFetchData()
-                    CommonDataModel.input.updateUIFromRealmData()
-                default:
-                    break
+            .do(onNext: { print("⚠️",$0) })
+            .flatMap { [weak self] authStatus -> Observable<AuthStatus> in
+                guard let self = self else { return .empty() }
+                return Observable.create { observer in
+                    Task {
+                        switch authStatus {
+                        case .anonymous:
+                            await self.commonDataModel.input.bindFetchData()
+                            observer.onNext(authStatus)
+                        case .error:
+                            await
+                            self.commonDataModel.input.bindFetchData()
+                            
+                            await self.commonDataModel.input.updateUIFromRealmData()
+                            
+                            observer.onNext(authStatus)
+                        case .retrying:
+                            observer.onNext(authStatus)
+                            
+                        }
+                    }
+                    return Disposables.create()
                 }
+            }
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] authStatus in
+                print("Current Thread: \(Thread.current)")
+                self?.authStateSubject.onNext(authStatus)
             }
             .disposed(by: disposeBag)
         
-        func showAlert(message: String) {
-        }
         scrollBaseViewBoundsSubject
-            .map({ [self] viewsBounds in
-                autoScroll
-                    .input
-                    .autoScrollLabelLayoutArrange(scrollLabel: autoScroll as! AutoScrollModel , scrollBaseViewsBounds: viewsBounds)
+            .map({ viewsBounds in
+                return self.autoScrollModel.input.autoScrollLabelLayoutArrange(scrollBaseViewsBounds: viewsBounds)
             })
             .bind(to: autoScrollModelsLayoutSubject)
             .disposed(by: disposeBag)
+        
+        
         
         collectionViewSelectedIndexPathSubject
             .withLatestFrom(showableInfosRelay) { indexPath, data in
@@ -131,9 +139,14 @@ final class CalendarViewModel{
                 !data.isEmpty
             }
             .map { indexPath, data in
+                assert(Thread.isMainThread)
                 let selectedUrl = data[indexPath.row].blog_web_url
                 return selectedUrl
             }
+            .do(onNext: { url in
+                print("URL before binding: \(url)")
+            })
+            .observe(on: MainScheduler.instance)
             .bind(to: collectionViewSelectedUrlRelay)
             .disposed(by: disposeBag)
         
@@ -142,8 +155,9 @@ final class CalendarViewModel{
             .map { [self]selectedDate, title, layout  in
                 let selected = formatDate(date: selectedDate)
                 let scrollWord = "【\(selected)のお得情報】" + title.map { $0.article_title }.joined(separator: "　　　")
-                layout.text = scrollWord
-                return layout
+                var mutableLayout = layout
+                mutableLayout.text = scrollWord
+                return mutableLayout
             }
             .bind(to: autoScrollViewSubject)
             .disposed(by: disposeBag)
@@ -168,6 +182,9 @@ final class CalendarViewModel{
             }
             .bind(to: showableInfosRelay)
             .disposed(by: disposeBag)
+        
+        
+        calendarModel.input.authState()
     }
     //MARK: -
     ///スクロールラベル用　"M月d日"変換関数
@@ -218,7 +235,7 @@ extension CalendarViewModel:CalendarViewModelInput{
     }
 }
 extension CalendarViewModel:CalendarViewModelOutput{
-    var autoScrollModelObservable: RxSwift.Observable<AutoScrollModel> {
+    var autoScrollModelObservable: RxSwift.Observable<AutoScrollModelType> {
         return autoScrollViewSubject.asObservable()
     }
     var collectionViewSelectedUrlObservable: Observable<String> {
@@ -241,3 +258,4 @@ extension CalendarViewModel: CalendarViewModelType {
     var input: CalendarViewModelInput { return self }
     var output: CalendarViewModelOutput { return self }
 }
+

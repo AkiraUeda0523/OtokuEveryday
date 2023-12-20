@@ -29,12 +29,13 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
     @IBOutlet weak var mapBannerView: GADBannerView!
     @IBOutlet weak var currentLocationButton: UIButton!
     // MARK: -プロパティ
+    private var isScrubbing: Bool = false
     private var slideShowIndex = 0
     private var cellId = "SliderCell"
     private var slideShowTimer : Timer?
     private var selectSegmentIndexType:Int = 0
     private var slideShowArray = [SlideShowModel]()
-    private var adMobBannerView = GADBannerView()
+    //    private var adMobBannerView = GADBannerView()
     private var status = CLLocationManager.authorizationStatus()
     private let addressGeocoder = CLGeocoder()
     private let disposeBag = DisposeBag()
@@ -59,8 +60,8 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        mapBannerView.backgroundColor = .clear
         HUD.show(.progress)
-        mapViewModel.input.fetchMapAllDataTriggerObserver.onNext(())
         slideShowCollectionView.dataSource = nil
         observeList()
         slideShowCollectionViewDidTap()
@@ -130,7 +131,7 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
         mapViewModel
             .input
             .viewWidthSizeObserver
-            .onNext(SetAdMobModelData(size: self.view.frame.width, VC: self))
+            .onNext(SetAdMobModelData(bannerWidth: self.view.frame.width, bannerHight: self.mapBannerView.frame.height, VC: self))
         // MARK: -
         mapView.delegate = self
         allAnnotationMapView.delegate = self
@@ -159,7 +160,6 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
         bindInput()
         
         mapViewModel.input.userLocationStatusRelay.onNext(status)
-        
         
         let locationManager = CLLocationManager()
         if self.locationManager.authorizationStatus == .notDetermined {
@@ -225,7 +225,6 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
     // MARK: -CLLocationManagerのデリゲートメソッド
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         print("ststus変更",status.rawValue)
-        print("どないなもんじゃい",locationManager.authorizationStatus)
         var region: MKCoordinateRegion
         switch locationManager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
@@ -303,14 +302,20 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
     // MARK: - @IBAction
     @IBAction func segmentSelect(_ sender: UISegmentedControl) {
         AudioServicesPlaySystemSound(1519)
-        
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         switch sender.selectedSegmentIndex {
         case 0:
             mapView.isHidden = false
             allAnnotationMapView.isHidden = true
+            mapView.userTrackingMode = .followWithHeading
+            let region = MKCoordinateRegion(center: mapView.userLocation.coordinate, span: span)
+            mapView.setRegion(region, animated: true)
         case 1:
             mapView.isHidden = true
             allAnnotationMapView.isHidden = false
+            allAnnotationMapView.userTrackingMode = .followWithHeading
+            let region = MKCoordinateRegion(center: allAnnotationMapView.userLocation.coordinate, span: span)
+            allAnnotationMapView.setRegion(region, animated: true)
         default:
             break
         }
@@ -385,22 +390,49 @@ class MapViewController: UIViewController,CLLocationManagerDelegate,MKMapViewDel
 // MARK: -　スライドショー　extension　 UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 
 extension MapViewController: UICollectionViewDelegateFlowLayout {
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: slideShowCollectionView.frame.width, height: slideShowCollectionView.frame.height-20)
     }
     private func slideShowCollectionViewSetUp(){
         slideShowCollectionView.register(UINib(nibName: "SliderCell", bundle: nil), forCellWithReuseIdentifier: "SliderCell")
         slideShowCollectionView.showsHorizontalScrollIndicator = false
+        
+        pageControl.addTarget(self, action: #selector(pageControlValueChanged(sender:)), for: .valueChanged)
+        pageControl.addTarget(self, action: #selector(pageControlDragEnded(sender:)), for: [.touchUpInside, .touchUpOutside])
+        pageControl.addTarget(self, action: #selector(pageControlTouchDown(sender:)), for: .touchDown)
     }
     private func startTimer() {
-        slideShowTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        if slideShowTimer == nil {
+            slideShowTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(timerAction), userInfo: nil, repeats: true)
+        }
+    }
+    private func stopTimer() {
+        slideShowTimer?.invalidate()
+        slideShowTimer = nil
     }
     @objc func timerAction(){
         let ScrollPosition = (slideShowIndex < slideShowArray.count - 1) ? slideShowIndex + 1 : 0
         if ScrollPosition < slideShowArray.count {
             slideShowCollectionView.scrollToItem(at: IndexPath(item: ScrollPosition, section: 0), at: .centeredHorizontally, animated: true)
         }
+    }
+    @objc func pageControlValueChanged(sender: UIPageControl) {
+        stopTimer() // タップ時にタイマーを停止
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            self.startTimer() // 3秒後に再開
+        }
+        let scrollPosition = sender.currentPage
+        if scrollPosition < slideShowArray.count {
+            slideShowCollectionView.scrollToItem(at: IndexPath(item: scrollPosition, section: 0), at: .centeredHorizontally, animated: !isScrubbing)
+        }
+    }
+    @objc func pageControlTouchDown(sender: UIPageControl) {
+        isScrubbing = true
+        stopTimer() // スクラブ開始時にタイマーを停止
+    }
+    @objc func pageControlDragEnded(sender: UIPageControl) {
+        isScrubbing = false
+        startTimer() // スクラブ終了時にタイマーを再開
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         slideShowIndex = Int(scrollView.contentOffset.x / slideShowCollectionView.frame.size.width)

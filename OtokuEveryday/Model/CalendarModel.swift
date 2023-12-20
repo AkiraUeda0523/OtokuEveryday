@@ -4,6 +4,7 @@
 //
 //  Created by 上田晃 on 2023/02/02.
 //
+
 import Foundation
 import RxSwift
 import Firebase
@@ -11,6 +12,7 @@ import RxCocoa
 import RealmSwift
 import AlamofireImage
 import PKHUD
+
 
 protocol CalendarModelInput {
     func authState()
@@ -74,7 +76,6 @@ extension CalendarModel:CalendarModelInput{
             DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
         }
     }
-    
 }
 extension CalendarModel:CalendarModelOutput{
     var _authStatusObserbable: RxSwift.Observable<AuthStatus> {
