@@ -2,6 +2,7 @@
 ![名称未設定 (1)](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/b7616f77-8787-4b88-b497-f81fdcc14120)
 
 
+
 ![お得表](https://github.com/AkiraUeda0523/OtokuEveryday/assets/78495222/82c5f1b8-3998-469c-9751-21ada15d24b5)
 ## 志望理由<br><br>
 ### ・これまで学習してきた事を実践投入して社会のサービスの向上に貢献したい為<br><br>
@@ -77,18 +78,8 @@
 - Architecture：MVVM
 
 
-## 使用技術
-- RxSwift
-- bitrise
-- Swift Concurrency
-- Swinject
-- UICollectionViewCompositionalLayout
-- Unit Test
-- Firebase/Firestore
-- Firebase/Realtime Database
-- Firebase/InAppMessaging
-- RealmSwift
-- AdMob
+
+<img width="456" alt="技術スタック完成版" src="https://github.com/user-attachments/assets/e3eac938-573a-47bd-a2da-bdcafff7ba70">
 
 ---
  ## このプロジェクトの開発において、工夫した点など
