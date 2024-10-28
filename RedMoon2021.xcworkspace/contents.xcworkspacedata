@@ -2,10 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/uedaakira/Documents/OtokuEveryday/OtokuEveryday.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:File.swift">
+      location = "group:RedMoon2021.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
