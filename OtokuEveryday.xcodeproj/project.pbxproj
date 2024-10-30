@@ -7,117 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		060888082B33062D0032F43A /* FirestoreProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888072B33062D0032F43A /* FirestoreProtocol.swift */; };
-		0608880A2B33063C0032F43A /* AddressGeocoderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888092B33063C0032F43A /* AddressGeocoderProtocol.swift */; };
-		0608880C2B3306A00032F43A /* CoreModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608880B2B3306A00032F43A /* CoreModels.swift */; };
-		0608880E2B3307BF0032F43A /* MVC Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608880D2B3307BF0032F43A /* MVC Alert.swift */; };
-		060888142B330E840032F43A /* MockFirestore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888132B330E840032F43A /* MockFirestore.swift */; };
-		060888162B330ED00032F43A /* MockGeocoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888152B330ED00032F43A /* MockGeocoder.swift */; };
-		060888182B330F000032F43A /* MockSetAdMobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888172B330F000032F43A /* MockSetAdMobModel.swift */; };
-		0608881A2B330F2D0032F43A /* MockMapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888192B330F2D0032F43A /* MockMapModel.swift */; };
-		0608881C2B330FFA0032F43A /* MockGADBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608881B2B330FFA0032F43A /* MockGADBannerView.swift */; };
-		0608881E2B3310250032F43A /* MockFetchCommonDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608881D2B3310250032F43A /* MockFetchCommonDataModel.swift */; };
-		060888202B3310860032F43A /* MockFetchTodayDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0608881F2B3310860032F43A /* MockFetchTodayDateModel.swift */; };
-		060888222B3310A90032F43A /* MockCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888212B3310A90032F43A /* MockCalendarModel.swift */; };
-		060888242B3310D20032F43A /* MockAutoScrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888232B3310D20032F43A /* MockAutoScrollModel.swift */; };
-		060888262B3311250032F43A /* CalenderViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888252B3311250032F43A /* CalenderViewModelTests.swift */; };
-		060888282B3311360032F43A /* MapViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 060888272B3311360032F43A /* MapViewModelTests.swift */; };
-		06242F2C2A9E3E9D00C399C6 /* FetchCommonDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */; };
-		0639AE07275E3A280058DDAE /* AutoScrollModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0639AE06275E3A280058DDAE /* AutoScrollModel.swift */; };
-		063EB85927468A0500BA2C7E /* OtherOtoku.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */; };
-		063EB85D27468AEC00BA2C7E /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */; };
-		063F46DD2762048200F6B818 /* OtherOtokuCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */; };
-		0640D958298BB4E800E28E87 /* CalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D957298BB4E800E28E87 /* CalendarModel.swift */; };
-		0640D95C2992299000E28E87 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0640D95B2992299000E28E87 /* MapModel.swift */; };
-		064518A327AE6887000E66DE /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 064518A227AE6887000E66DE /* SplashViewController.swift */; };
-		065A2EEC26F71A9A00966665 /* Uiimage-Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 065A2EEB26F71A9A00966665 /* Uiimage-Extention.swift */; };
-		067ACF1428D3F506006EF4C9 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067ACF1328D3F506006EF4C9 /* MapViewModel.swift */; };
-		06858986273414A300CB4AA8 /* FetchTodayDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */; };
-		06858992274243EC00CB4AA8 /* AppStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06858991274243EC00CB4AA8 /* AppStore.swift */; };
-		0697180D2934F7560035B982 /* RecommendTitleText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0697180C2934F7560035B982 /* RecommendTitleText.swift */; };
-		0697180F2934F76C0035B982 /* SmallRecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0697180E2934F76C0035B982 /* SmallRecommendCell.swift */; };
-		069718112934F7880035B982 /* LargeRecommendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069718102934F7880035B982 /* LargeRecommendCell.swift */; };
-		069718132934F8130035B982 /* CellBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069718122934F8130035B982 /* CellBuilder.swift */; };
-		069718152934F8380035B982 /* LayoutBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069718142934F8380035B982 /* LayoutBuilder.swift */; };
-		069BB00926E9F6A700F4E00D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069BB00826E9F6A700F4E00D /* AppDelegate.swift */; };
-		069BB00B26E9F6A700F4E00D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069BB00A26E9F6A700F4E00D /* SceneDelegate.swift */; };
-		069BB01026E9F6A700F4E00D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069BB00E26E9F6A700F4E00D /* Main.storyboard */; };
-		069BB01226E9F6A800F4E00D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 069BB01126E9F6A800F4E00D /* Assets.xcassets */; };
-		069BB01526E9F6A800F4E00D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */; };
-		06B868DB292FB97300A3800C /* RecommendationArticle.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */; };
-		06B868DD292FBA2C00A3800C /* RecommendationArticleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */; };
-		06BFD29829644677002DCF84 /* SetAdMobModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29729644677002DCF84 /* SetAdMobModel.swift */; };
-		06BFD29D296D4060002DCF84 /* RecommendationArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */; };
-		06BFD29F296D40DD002DCF84 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */; };
-		06C4139026EB47CA004A3A1B /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */; };
-		06D2C3A826EDEFD700EECA89 /* OtokuCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06D2C3A726EDEFD700EECA89 /* OtokuCollectionViewCell.xib */; };
-		06D2C3AB26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3AA26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift */; };
-		06D2C3AE26EF4F0300EECA89 /* RecommendationArticleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */; };
-		06D2C3B026EF77D100EECA89 /* BaseTabBar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06D2C3AF26EF77D100EECA89 /* BaseTabBar.storyboard */; };
-		06D2C3B426EF7CE500EECA89 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */; };
-		06F2659F274F922A009E55DD /* SliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F2659D274F922A009E55DD /* SliderCell.swift */; };
-		06F265A0274F922A009E55DD /* SliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06F2659E274F922A009E55DD /* SliderCell.xib */; };
-		06F5EAA827005DAE00B62316 /* map.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 06F5EAA727005DAE00B62316 /* map.storyboard */; };
-		06F5EAAA27005F9E00B62316 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F5EAA927005F9E00B62316 /* MapViewController.swift */; };
 		4A795C6279E16AF2733199A6 /* Pods_RedMoon2021.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BCBBFDE6DADC00ABCE930B /* Pods_RedMoon2021.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		06CDF07F2CCFE62D00624948 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06CDF0772CCFE62C00624948 /* RedMoon2021.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 069BB00526E9F6A700F4E00D;
+			remoteInfo = RedMoon2021;
+		};
+		06CDF0812CCFE62D00624948 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06CDF0772CCFE62C00624948 /* RedMoon2021.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06FE45FE29C5E819005558DB;
+			remoteInfo = RedMoon2021Tests;
+		};
+		06CDF0832CCFE62D00624948 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 06CDF0772CCFE62C00624948 /* RedMoon2021.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06FE460B29C5E908005558DB;
+			remoteInfo = RedMoon2021UITests;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-		060888072B33062D0032F43A /* FirestoreProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreProtocol.swift; sourceTree = "<group>"; };
-		060888092B33063C0032F43A /* AddressGeocoderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressGeocoderProtocol.swift; sourceTree = "<group>"; };
-		0608880B2B3306A00032F43A /* CoreModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreModels.swift; sourceTree = "<group>"; };
-		0608880D2B3307BF0032F43A /* MVC Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MVC Alert.swift"; sourceTree = "<group>"; };
-		060888132B330E840032F43A /* MockFirestore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFirestore.swift; sourceTree = "<group>"; };
-		060888152B330ED00032F43A /* MockGeocoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGeocoder.swift; sourceTree = "<group>"; };
-		060888172B330F000032F43A /* MockSetAdMobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSetAdMobModel.swift; sourceTree = "<group>"; };
-		060888192B330F2D0032F43A /* MockMapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMapModel.swift; sourceTree = "<group>"; };
-		0608881B2B330FFA0032F43A /* MockGADBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGADBannerView.swift; sourceTree = "<group>"; };
-		0608881D2B3310250032F43A /* MockFetchCommonDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFetchCommonDataModel.swift; sourceTree = "<group>"; };
-		0608881F2B3310860032F43A /* MockFetchTodayDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFetchTodayDateModel.swift; sourceTree = "<group>"; };
-		060888212B3310A90032F43A /* MockCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCalendarModel.swift; sourceTree = "<group>"; };
-		060888232B3310D20032F43A /* MockAutoScrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAutoScrollModel.swift; sourceTree = "<group>"; };
-		060888252B3311250032F43A /* CalenderViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderViewModelTests.swift; sourceTree = "<group>"; };
-		060888272B3311360032F43A /* MapViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModelTests.swift; sourceTree = "<group>"; };
-		06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchCommonDataModel.swift; sourceTree = "<group>"; };
 		062F81F7292FDB7B002C00F4 /* RxSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RxSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0639AE06275E3A280058DDAE /* AutoScrollModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoScrollModel.swift; sourceTree = "<group>"; };
-		063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OtherOtoku.storyboard; sourceTree = "<group>"; };
-		063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
-		063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherOtokuCustomCell.swift; sourceTree = "<group>"; };
-		0640D957298BB4E800E28E87 /* CalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarModel.swift; sourceTree = "<group>"; };
-		0640D95B2992299000E28E87 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
-		064518A127A19968000E66DE /* OtokuEveryday.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OtokuEveryday.entitlements; sourceTree = "<group>"; };
-		064518A227AE6887000E66DE /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		065A2EEB26F71A9A00966665 /* Uiimage-Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Uiimage-Extention.swift"; sourceTree = "<group>"; };
-		067ACF1328D3F506006EF4C9 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTodayDateModel.swift; sourceTree = "<group>"; };
-		06858991274243EC00CB4AA8 /* AppStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStore.swift; sourceTree = "<group>"; };
-		0697180C2934F7560035B982 /* RecommendTitleText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendTitleText.swift; sourceTree = "<group>"; };
-		0697180E2934F76C0035B982 /* SmallRecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallRecommendCell.swift; sourceTree = "<group>"; };
-		069718102934F7880035B982 /* LargeRecommendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeRecommendCell.swift; sourceTree = "<group>"; };
-		069718122934F8130035B982 /* CellBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellBuilder.swift; sourceTree = "<group>"; };
-		069718142934F8380035B982 /* LayoutBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutBuilder.swift; sourceTree = "<group>"; };
 		069BB00526E9F6A700F4E00D /* OtokuEveryday.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OtokuEveryday.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		069BB00826E9F6A700F4E00D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		069BB00A26E9F6A700F4E00D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		069BB00F26E9F6A700F4E00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		069BB01126E9F6A800F4E00D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		069BB01426E9F6A800F4E00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecommendationArticle.storyboard; sourceTree = "<group>"; };
-		06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleController.swift; sourceTree = "<group>"; };
-		06BFD29729644677002DCF84 /* SetAdMobModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetAdMobModel.swift; sourceTree = "<group>"; };
-		06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleViewModel.swift; sourceTree = "<group>"; };
-		06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		06D2C3A726EDEFD700EECA89 /* OtokuCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OtokuCollectionViewCell.xib; sourceTree = "<group>"; };
-		06D2C3AA26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtokuCollectionViewCell.swift; sourceTree = "<group>"; };
-		06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendationArticleModel.swift; sourceTree = "<group>"; };
-		06D2C3AF26EF77D100EECA89 /* BaseTabBar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BaseTabBar.storyboard; sourceTree = "<group>"; };
-		06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
-		06F2659D274F922A009E55DD /* SliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderCell.swift; sourceTree = "<group>"; };
-		06F2659E274F922A009E55DD /* SliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SliderCell.xib; sourceTree = "<group>"; };
-		06F5EAA727005DAE00B62316 /* map.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = map.storyboard; sourceTree = "<group>"; };
-		06F5EAA927005F9E00B62316 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		06CDF0772CCFE62C00624948 /* RedMoon2021.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = RedMoon2021.xcodeproj; sourceTree = "<group>"; };
 		69BCBBFDE6DADC00ABCE930B /* Pods_RedMoon2021.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RedMoon2021.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98F755B2A63F2185C6476F8B /* Pods-RedMoon2021.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedMoon2021.debug.xcconfig"; path = "Target Support Files/Pods-RedMoon2021/Pods-RedMoon2021.debug.xcconfig"; sourceTree = "<group>"; };
 		E3416715B6B02577B8D1E2AC /* Pods-RedMoon2021.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedMoon2021.release.xcconfig"; path = "Target Support Files/Pods-RedMoon2021/Pods-RedMoon2021.release.xcconfig"; sourceTree = "<group>"; };
@@ -135,69 +55,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		060888052B31E2260032F43A /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				060888072B33062D0032F43A /* FirestoreProtocol.swift */,
-				060888092B33063C0032F43A /* AddressGeocoderProtocol.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		0608880F2B330D850032F43A /* OtokuEveryDayTests */ = {
-			isa = PBXGroup;
-			children = (
-				060888102B330E240032F43A /* TestsMocks */,
-				060888112B330E2B0032F43A /* CalenderViewModelTests */,
-				060888122B330E3D0032F43A /* MapViewModelsTests */,
-			);
-			path = OtokuEveryDayTests;
-			sourceTree = "<group>";
-		};
-		060888102B330E240032F43A /* TestsMocks */ = {
-			isa = PBXGroup;
-			children = (
-				060888132B330E840032F43A /* MockFirestore.swift */,
-				060888152B330ED00032F43A /* MockGeocoder.swift */,
-				060888172B330F000032F43A /* MockSetAdMobModel.swift */,
-				060888192B330F2D0032F43A /* MockMapModel.swift */,
-				0608881B2B330FFA0032F43A /* MockGADBannerView.swift */,
-				0608881D2B3310250032F43A /* MockFetchCommonDataModel.swift */,
-				0608881F2B3310860032F43A /* MockFetchTodayDateModel.swift */,
-				060888212B3310A90032F43A /* MockCalendarModel.swift */,
-				060888232B3310D20032F43A /* MockAutoScrollModel.swift */,
-			);
-			path = TestsMocks;
-			sourceTree = "<group>";
-		};
-		060888112B330E2B0032F43A /* CalenderViewModelTests */ = {
-			isa = PBXGroup;
-			children = (
-				060888252B3311250032F43A /* CalenderViewModelTests.swift */,
-			);
-			path = CalenderViewModelTests;
-			sourceTree = "<group>";
-		};
-		060888122B330E3D0032F43A /* MapViewModelsTests */ = {
-			isa = PBXGroup;
-			children = (
-				060888272B3311360032F43A /* MapViewModelTests.swift */,
-			);
-			path = MapViewModelsTests;
-			sourceTree = "<group>";
-		};
-		065A2EEA26F71A3E00966665 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				065A2EEB26F71A9A00966665 /* Uiimage-Extention.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		069BAFFC26E9F6A700F4E00D = {
 			isa = PBXGroup;
 			children = (
-				069BB00726E9F6A700F4E00D /* OtokuEveryday */,
+				06CDF0772CCFE62C00624948 /* RedMoon2021.xcodeproj */,
 				069BB00626E9F6A700F4E00D /* Products */,
 				3C9A52F6A751DC41FA5B8F3D /* Pods */,
 				784C42D28CACFA154924FF3D /* Frameworks */,
@@ -212,101 +73,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		069BB00726E9F6A700F4E00D /* OtokuEveryday */ = {
+		06CDF07A2CCFE62C00624948 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				064518A127A19968000E66DE /* OtokuEveryday.entitlements */,
-				060888052B31E2260032F43A /* Protocol */,
-				06D2C3AC26EF4EE000EECA89 /* Model */,
-				06D2C3B126EF7C8900EECA89 /* ViewController */,
-				06D2C3B826F448E500EECA89 /* ViewModel */,
-				06D2C3A926EDFBEA00EECA89 /* Cells */,
-				06D2C3B526F1D7C200EECA89 /* Storyboards */,
-				06D2C3A426EDE19900EECA89 /* Xibs */,
-				065A2EEA26F71A3E00966665 /* Extensions */,
-				069BB00826E9F6A700F4E00D /* AppDelegate.swift */,
-				069BB00A26E9F6A700F4E00D /* SceneDelegate.swift */,
-				069BB01126E9F6A800F4E00D /* Assets.xcassets */,
-				0608880F2B330D850032F43A /* OtokuEveryDayTests */,
+				06CDF0802CCFE62D00624948 /* RedMoon2021.app */,
+				06CDF0822CCFE62D00624948 /* RedMoon2021Tests_1.xctest */,
+				06CDF0842CCFE62D00624948 /* RedMoon2021UITests.xctest */,
 			);
-			path = OtokuEveryday;
-			sourceTree = "<group>";
-		};
-		06D2C3A426EDE19900EECA89 /* Xibs */ = {
-			isa = PBXGroup;
-			children = (
-				06F2659E274F922A009E55DD /* SliderCell.xib */,
-				06D2C3A726EDEFD700EECA89 /* OtokuCollectionViewCell.xib */,
-			);
-			path = Xibs;
-			sourceTree = "<group>";
-		};
-		06D2C3A926EDFBEA00EECA89 /* Cells */ = {
-			isa = PBXGroup;
-			children = (
-				06D2C3AA26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift */,
-				06F2659D274F922A009E55DD /* SliderCell.swift */,
-				069718142934F8380035B982 /* LayoutBuilder.swift */,
-				069718122934F8130035B982 /* CellBuilder.swift */,
-				0697180C2934F7560035B982 /* RecommendTitleText.swift */,
-				0697180E2934F76C0035B982 /* SmallRecommendCell.swift */,
-				069718102934F7880035B982 /* LargeRecommendCell.swift */,
-				063F46DC2762048200F6B818 /* OtherOtokuCustomCell.swift */,
-			);
-			path = Cells;
-			sourceTree = "<group>";
-		};
-		06D2C3AC26EF4EE000EECA89 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				0608880B2B3306A00032F43A /* CoreModels.swift */,
-				06242F2B2A9E3E9D00C399C6 /* FetchCommonDataModel.swift */,
-				0640D957298BB4E800E28E87 /* CalendarModel.swift */,
-				0639AE06275E3A280058DDAE /* AutoScrollModel.swift */,
-				0640D95B2992299000E28E87 /* MapModel.swift */,
-				06D2C3AD26EF4F0300EECA89 /* RecommendationArticleModel.swift */,
-				06BFD29729644677002DCF84 /* SetAdMobModel.swift */,
-				06858985273414A300CB4AA8 /* FetchTodayDateModel.swift */,
-				06858991274243EC00CB4AA8 /* AppStore.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		06D2C3B126EF7C8900EECA89 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				06D2C3B326EF7CE500EECA89 /* BaseTabBarController.swift */,
-				06C4138F26EB47CA004A3A1B /* CalendarViewController.swift */,
-				06F5EAA927005F9E00B62316 /* MapViewController.swift */,
-				0608880D2B3307BF0032F43A /* MVC Alert.swift */,
-				06B868DC292FBA2C00A3800C /* RecommendationArticleController.swift */,
-				063EB85C27468AEC00BA2C7E /* CategoryViewController.swift */,
-				064518A227AE6887000E66DE /* SplashViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		06D2C3B526F1D7C200EECA89 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */,
-				06D2C3AF26EF77D100EECA89 /* BaseTabBar.storyboard */,
-				069BB00E26E9F6A700F4E00D /* Main.storyboard */,
-				06F5EAA727005DAE00B62316 /* map.storyboard */,
-				06B868DA292FB97300A3800C /* RecommendationArticle.storyboard */,
-				063EB85827468A0500BA2C7E /* OtherOtoku.storyboard */,
-			);
-			path = Storyboards;
-			sourceTree = "<group>";
-		};
-		06D2C3B826F448E500EECA89 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				06BFD29E296D40DD002DCF84 /* CalendarViewModel.swift */,
-				067ACF1328D3F506006EF4C9 /* MapViewModel.swift */,
-				06BFD29C296D4060002DCF84 /* RecommendationArticleViewModel.swift */,
-			);
-			path = ViewModel;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		3C9A52F6A751DC41FA5B8F3D /* Pods */ = {
@@ -374,6 +148,12 @@
 			mainGroup = 069BAFFC26E9F6A700F4E00D;
 			productRefGroup = 069BB00626E9F6A700F4E00D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 06CDF07A2CCFE62C00624948 /* Products */;
+					ProjectRef = 06CDF0772CCFE62C00624948 /* RedMoon2021.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				069BB00426E9F6A700F4E00D /* OtokuEveryday */,
@@ -381,20 +161,35 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		06CDF0802CCFE62D00624948 /* RedMoon2021.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = RedMoon2021.app;
+			remoteRef = 06CDF07F2CCFE62D00624948 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		06CDF0822CCFE62D00624948 /* RedMoon2021Tests_1.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RedMoon2021Tests_1.xctest;
+			remoteRef = 06CDF0812CCFE62D00624948 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		06CDF0842CCFE62D00624948 /* RedMoon2021UITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = RedMoon2021UITests.xctest;
+			remoteRef = 06CDF0832CCFE62D00624948 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		069BB00326E9F6A700F4E00D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				063EB85927468A0500BA2C7E /* OtherOtoku.storyboard in Resources */,
-				06D2C3B026EF77D100EECA89 /* BaseTabBar.storyboard in Resources */,
-				06F265A0274F922A009E55DD /* SliderCell.xib in Resources */,
-				06D2C3A826EDEFD700EECA89 /* OtokuCollectionViewCell.xib in Resources */,
-				06F5EAA827005DAE00B62316 /* map.storyboard in Resources */,
-				069BB01526E9F6A800F4E00D /* LaunchScreen.storyboard in Resources */,
-				069BB01226E9F6A800F4E00D /* Assets.xcassets in Resources */,
-				069BB01026E9F6A700F4E00D /* Main.storyboard in Resources */,
-				06B868DB292FB97300A3800C /* RecommendationArticle.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,72 +242,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				063F46DD2762048200F6B818 /* OtherOtokuCustomCell.swift in Sources */,
-				0639AE07275E3A280058DDAE /* AutoScrollModel.swift in Sources */,
-				0608881A2B330F2D0032F43A /* MockMapModel.swift in Sources */,
-				06BFD29F296D40DD002DCF84 /* CalendarViewModel.swift in Sources */,
-				06BFD29829644677002DCF84 /* SetAdMobModel.swift in Sources */,
-				065A2EEC26F71A9A00966665 /* Uiimage-Extention.swift in Sources */,
-				06D2C3B426EF7CE500EECA89 /* BaseTabBarController.swift in Sources */,
-				069BB00926E9F6A700F4E00D /* AppDelegate.swift in Sources */,
-				067ACF1428D3F506006EF4C9 /* MapViewModel.swift in Sources */,
-				06F2659F274F922A009E55DD /* SliderCell.swift in Sources */,
-				060888242B3310D20032F43A /* MockAutoScrollModel.swift in Sources */,
-				060888202B3310860032F43A /* MockFetchTodayDateModel.swift in Sources */,
-				060888262B3311250032F43A /* CalenderViewModelTests.swift in Sources */,
-				0697180D2934F7560035B982 /* RecommendTitleText.swift in Sources */,
-				06F5EAAA27005F9E00B62316 /* MapViewController.swift in Sources */,
-				060888282B3311360032F43A /* MapViewModelTests.swift in Sources */,
-				06D2C3AE26EF4F0300EECA89 /* RecommendationArticleModel.swift in Sources */,
-				0640D95C2992299000E28E87 /* MapModel.swift in Sources */,
-				0608880A2B33063C0032F43A /* AddressGeocoderProtocol.swift in Sources */,
-				06C4139026EB47CA004A3A1B /* CalendarViewController.swift in Sources */,
-				06242F2C2A9E3E9D00C399C6 /* FetchCommonDataModel.swift in Sources */,
-				0608881C2B330FFA0032F43A /* MockGADBannerView.swift in Sources */,
-				06B868DD292FBA2C00A3800C /* RecommendationArticleController.swift in Sources */,
-				069BB00B26E9F6A700F4E00D /* SceneDelegate.swift in Sources */,
-				06858986273414A300CB4AA8 /* FetchTodayDateModel.swift in Sources */,
-				060888182B330F000032F43A /* MockSetAdMobModel.swift in Sources */,
-				064518A327AE6887000E66DE /* SplashViewController.swift in Sources */,
-				0608880E2B3307BF0032F43A /* MVC Alert.swift in Sources */,
-				060888162B330ED00032F43A /* MockGeocoder.swift in Sources */,
-				0608881E2B3310250032F43A /* MockFetchCommonDataModel.swift in Sources */,
-				063EB85D27468AEC00BA2C7E /* CategoryViewController.swift in Sources */,
-				060888082B33062D0032F43A /* FirestoreProtocol.swift in Sources */,
-				06858992274243EC00CB4AA8 /* AppStore.swift in Sources */,
-				06D2C3AB26EDFC7F00EECA89 /* OtokuCollectionViewCell.swift in Sources */,
-				060888222B3310A90032F43A /* MockCalendarModel.swift in Sources */,
-				069718132934F8130035B982 /* CellBuilder.swift in Sources */,
-				0608880C2B3306A00032F43A /* CoreModels.swift in Sources */,
-				069718112934F7880035B982 /* LargeRecommendCell.swift in Sources */,
-				0640D958298BB4E800E28E87 /* CalendarModel.swift in Sources */,
-				06BFD29D296D4060002DCF84 /* RecommendationArticleViewModel.swift in Sources */,
-				069718152934F8380035B982 /* LayoutBuilder.swift in Sources */,
-				060888142B330E840032F43A /* MockFirestore.swift in Sources */,
-				0697180F2934F76C0035B982 /* SmallRecommendCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		069BB00E26E9F6A700F4E00D /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				069BB00F26E9F6A700F4E00D /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		069BB01326E9F6A800F4E00D /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				069BB01426E9F6A800F4E00D /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		069BB01726E9F6A800F4E00D /* Debug */ = {
